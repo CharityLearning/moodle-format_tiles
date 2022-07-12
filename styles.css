@@ -79,10 +79,6 @@
     text-decoration: none;
     padding: 7px 10px 5px 10px;
 }
-.format-tiles .tile a .availabilityinfo,
-.format-tiles .availabilityinfo .badge {
-    color: #fff;
-}
 .format-tiles .progress-indic {
     display: inline-block;
     color: #999;
@@ -338,6 +334,7 @@
     margin-top: 0;
     margin-bottom: 0;
     padding: 0;
+    max-height: 0;
 }
 .format-tiles.jsenabled .course-content ul.tiles .tile.tile-collapsed {
     display: none;
@@ -414,7 +411,9 @@
 .format-tiles ul.tiles .tile.tile-hidden .format-tiles li .section .hidden .tile_bar {
     opacity: 0.5;
 }
-
+.format-tiles ul.tiles .tile:not(.tile-restricted) .tiletopright .fa-lock {
+    display: none;
+}
 .format-tiles ul.tiles .tile.tile-hidden:hover,
 .format-tiles ul.tiles .tile-restricted.tile-clickable:hover {
     opacity: 0.3;
@@ -507,7 +506,7 @@
     /*z-index needs to be behind navigation-arrows as they may overlap*/
 }
 
-.format-tiles #sectionbuttons {
+.format-tiles .sectionbuttons {
     position: relative;
     right: 30px;
     top: 0;
@@ -552,6 +551,8 @@
     top: 45%;
     transform: translate(0, -40%);
     position: absolute;
+    word-wrap: break-word;
+    max-width: 220px;
 }
 
 .format-tiles ul.tiles .tile .tile-textinner.longtitle h3 {
@@ -744,7 +745,8 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     display: inline-block;
     margin-bottom: 3px;
     min-height: 45px;
-    float: left;
+    position: absolute;
+    left: 0;
 }
 
 .format-tiles .overall-prog-radial {
@@ -776,6 +778,11 @@ body.jsenabled.format-tiles #collapsiblesec0 {
 }
 .format-tiles .completion-icon.completion-icon-y {
     background-image: url([[pix:format_tiles|completion-y]]);
+}
+.format-tiles li.activity .completion-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 .format-tiles .completion-icon.completion-icon-fail {
     background-image: url([[pix:format_tiles|completion-fail]]);
@@ -923,12 +930,6 @@ body.format-tiles.jsenabled .course-content .headerabovetiles {
     /* stylelint-disable-next-line declaration-no-important */
     opacity: 1 !important;
 }
-.format-tiles li.section .availabilityinfo {
-    margin-left: 3em;
-}
-.format-tiles .availabilityinfo.isstealth .badge {
-    font-size: 0.6em;
-}
 .format-tiles .hidden #hiddeneye {
     background-image: url([[pix:format_tiles|eye-slash]]);
     margin-left: 10px;
@@ -1001,6 +1002,7 @@ body.format-tiles.jsenabled .course-content .headerabovetiles {
         flex-basis: 160px !important;
         /* stylelint-disable-next-line declaration-no-important */
         min-width: 160px !important;
+        display: none;
     }
     .format-tiles .section .activity.subtile .activityinstance {
         display: block;
@@ -1080,12 +1082,12 @@ allow tiles to be taller and thinner so can fit two side by side in portrait on 
         position: relative;
         /* stylelint-disable-next-line declaration-no-important */
         max-width: 45% !important;
-        /* stylelint-disable-next-line declaration-no-important */
-        padding: 7px 2px 5px 7px !important;
         margin: 5px;
     }
     .format-tiles .course-content ul.tiles .tile:not(.spacer) {
         min-height: 210px;
+        /* stylelint-disable-next-line declaration-no-important */
+        padding: 7px 2px 5px 7px !important;
     }
     .format-tiles .clickable-region {
         /* stylelint-disable-next-line declaration-no-important */
@@ -1113,7 +1115,6 @@ allow tiles to be taller and thinner so can fit two side by side in portrait on 
     }
     .format-tiles li.activity.subtile .activitytitle {
         font-size: 1em;
-        word-break: break-word;
         margin-top: 0;
     }
     .format-tiles .progress-indic {
@@ -1430,6 +1431,8 @@ allow tiles to be taller and thinner so can fit two side by side in portrait on 
     max-height: 160px;
     overflow: hidden;
     margin: 0;
+    word-break: break-word;
+    max-width: 226px;
 }
 .format-tiles li.activity.subtile .activitytitle a {
     display: block;
@@ -1483,11 +1486,6 @@ allow tiles to be taller and thinner so can fit two side by side in portrait on 
     right: 1px;
     top: 8px;
 }
-.format-tiles .nosubtiles .completioncheckbox {
-    width: 30px;
-    height: 30px;
-    padding-top: 3px;
-}
 .format-tiles .nosubtiles .completioncheckbox .btn:hover,
 .format-tiles .nosubtiles .completioncheckbox .btn:active {
     /* Adaptable */
@@ -1497,12 +1495,38 @@ allow tiles to be taller and thinner so can fit two side by side in portrait on 
 .format-tiles .subtiles .completioncheckbox.completion-auto .completion-icon {
     margin-top: 2px;
 }
-.format-tiles .togglecompletion button.btn {
-    border: 0;
-    background: none;
+.format-tiles li.activity button[data-action="change-completion-status"]:hover {
+    border: 3px solid orange;
+    border-radius: 50%;
+    transition: border 300ms ease-in-out;
+}
+.format-tiles button.completioncheckbox,
+.format-tiles .completioncheckbox {
+    border: 3px solid transparent;
+    border-radius: 50%;
+    transition: border 300ms ease-in-out;
+    background-color: transparent;
     height: 30px;
     width: 30px;
-    padding: 0;
+    padding-left: 4px;
+    position: relative;
+}
+.format-tiles .completioncheckbox:focus {
+    outline: none;
+}
+.format-tiles .embed-module-buttons button.completioncheckbox,
+.format-tiles .embed-module-buttons .completioncheckbox {
+    height: 30px;
+    width: 30px;
+    padding-left: 0;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 35px;
+}
+.format-tiles .completioncheckbox.completion-auto {
+    opacity: 0.6;
+    height: 30px;
 }
 .format-tiles .embed_cm_modal .embed_file_button,
 .format-tiles .modal-container .modal .modal-header button.close {
@@ -1519,6 +1543,14 @@ allow tiles to be taller and thinner so can fit two side by side in portrait on 
     text-align: center;
     box-shadow: none;
 }
+.format-tiles .embed_cm_modal .embed_file_button.button_download {
+    position: absolute;
+    right: 70px;
+}
+.format-tiles .embed_cm_modal .embed_file_button.button_expand {
+    position: absolute;
+    right: 105px;
+}
 .format-tiles .modal-container .modal .modal-header button.close {
     font-size: 1.8em;
     background-repeat: no-repeat;
@@ -1534,15 +1566,18 @@ allow tiles to be taller and thinner so can fit two side by side in portrait on 
 .format-tiles .embed-module-buttons {
     min-width: 125px;
     text-align: right;
-    top: 0;
+    top: 5px;
     position: absolute;
-    right: 0;
+    right: 5px;
+    vertical-align: top;
 }
 .format-tiles .embed-module-buttons button.close {
     width: 28px;
     height: 28px;
-    padding-top: 3px;
     float: none;
+    position: absolute;
+    top: 3px;
+    right: 5px;
 }
 .format-tiles .embed-module-buttons .completion-icon {
     opacity: 1;
@@ -1568,11 +1603,6 @@ allow tiles to be taller and thinner so can fit two side by side in portrait on 
 }
 .format-tiles .embed-module-buttons a .icon {
     color: #fff;
-}
-.format-tiles .embed_cm_modal .embed-module-buttons form {
-    width: 28px;
-    height: 28px;
-    display: inline-block;
 }
 .format-tiles .embed_cm_modal .embed-module-buttons .completioncheckbox .icon {
     padding: 0;
@@ -1649,7 +1679,6 @@ allow tiles to be taller and thinner so can fit two side by side in portrait on 
     position: absolute;
     bottom: 5px;
     left: 0;
-    font-size: 0.8em;
 }
 .format-tiles li.tile .availabilityinfo {
     line-height: 15px;
@@ -1680,6 +1709,7 @@ allow tiles to be taller and thinner so can fit two side by side in portrait on 
 }
 .format-tiles .course-content ul.section.nosubtiles .actions {
     margin-top: 0.5em;
+    min-width: 30px;
 }
 .format-tiles #selectedicon .icon,
 #page-course-edit.format-site #selectedicon .icon {
@@ -1713,6 +1743,10 @@ allow tiles to be taller and thinner so can fit two side by side in portrait on 
     margin-left: 30px;
 }
 
+/*Lambda theme*/
+.format-tiles .activity-information {
+    float: none;
+}
 .format-tiles .margin-rt .section-cm-edit-actions {
     margin-right: 35px;
 }

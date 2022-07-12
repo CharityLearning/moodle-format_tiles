@@ -30,18 +30,30 @@
  * @since       Moodle 3.3
  */
 
-define(["jquery", "core/notification", "core/str", "core/templates", "format_tiles/browser_storage"],
-    function ($, Notification, str, Templates, browserStorage) {
+define(["jquery", "core/notification", "core/str", "core/templates"],
+    function ($, Notification, str, Templates) {
         "use strict";
         return {
             init: function (pageType, courseDefaultIcon, courseId, sectionId, section, userId, allowphototiles, documentationUrl) {
                 $(document).ready(function () {
-                    $("select#id_courseusesubtiles").change(function (e) {
-                        if (e.currentTarget.value !== "0") {
+                    const useSubTilesCheckBox = $("input#id_courseusesubtiles");
+                    const useSubTilesSecZeroCheckBox = $("input#id_usesubtilesseczero");
+                    if (!useSubTilesCheckBox.prop('checked')) {
+                        // We cannot use sub tiles in top section if we are not using them at all.
+                        useSubTilesSecZeroCheckBox.prop("checked", false);
+                        useSubTilesSecZeroCheckBox.attr('disabled', true);
+                    }
+                    useSubTilesCheckBox.change(function () {
+                        if (!useSubTilesCheckBox.prop('checked')) {
+                            // We cannot use sub tiles in top section if we are not using them at all.
+                            useSubTilesSecZeroCheckBox.prop("checked", false);
+                            useSubTilesSecZeroCheckBox.attr('disabled', true);
+                        } else {
                             // We are changing to use sub tiles.
                             // For convenience, uncheck the "Emphasise headings with coloured tab" box.
                             // User can change it back if they want.
                             $("input#id_courseusebarforheadings").prop("checked", false);
+                            useSubTilesSecZeroCheckBox.attr('disabled', false);
                         }
                     });
                     $("select#id_courseshowtileprogress").change(function (e) {
@@ -158,14 +170,10 @@ define(["jquery", "core/notification", "core/str", "core/templates", "format_til
 
                     // Add a row to the page with link to plugin documentation.
                     Templates
-                        .render("format_tiles/edit_form_helptext", {documentationurl: documentationUrl + '/teacher'})
+                        .render("format_tiles/edit_form_helptext", {documentationurl: documentationUrl + 'teachers'})
                         .done(function (html) {
                             $(html).appendTo($("#id_courseformathdr .fcontainer"));
                         });
-
-                    // Clean up all browser storage since the settings may have changed so stored content is wrong.
-                    browserStorage.init(courseId, 1, true, 1, 0, true, userId);
-                    browserStorage.cleanUpStorage();
                 });
             }
         };
