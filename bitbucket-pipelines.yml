@@ -1,7 +1,16 @@
-clone:
-  depth: full
 pipelines:
-  default:
-    - step:
-        script:
-          - git push --mirror git@github.com:CharityLearning/moodle-format_tiles.git
+    branches:
+      master:
+        - step:
+           script:
+             - git remote add sync git@github.com:CharityLearning/moodle-format_tiles.git
+             - git checkout master
+             - git pull    
+             - git push sync master
+      moodle40:
+        - step:
+           script:
+             - git remote add sync git@github.com:CharityLearning/moodle-format_tiles.git
+             - git checkout moodle40
+             - git pull    
+             - git push sync moodle40
