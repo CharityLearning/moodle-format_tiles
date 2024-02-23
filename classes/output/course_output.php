@@ -1047,9 +1047,14 @@ class course_output implements \renderable, \templatable {
 
         $treataslabel = $mod->has_custom_cmlist_item();
         if (!$treataslabel && get_config('format_tiles', 'allowphototiles')) {
+            $iconclass = '';
             if ($mod->modname == 'resource' && $this->moodlerelease <= 4.2) {
                 // We may want to use a specific icon instead like PDF.
                 // In Moodle 4.3+ this is not needed as core does it.
+                $unknownicons = ['dat'];
+                if (in_array($moduleobject['modresourceicon'], $unknownicons)) {
+                    $moduleobject['modresourceicon'] = 'unknown';
+                }
                 $filepath = "$CFG->dirroot/course/format/tiles/pix/resource_subtile/"
                     . $moduleobject['modresourceicon'] . ".svg";
                 if (file_exists($filepath)) {
@@ -1058,6 +1063,8 @@ class course_output implements \renderable, \templatable {
                     );
                 } else {
                     $modiconurl = $mod->get_icon_url($output);
+                    // Stop unsupported icons appearing as a white box.
+                    $iconclass = 'nofilter';
                 }
             } else if ($mod->modname == 'customcert') {
                 // Temporary icon for mod_customcert.
@@ -1065,7 +1072,7 @@ class course_output implements \renderable, \templatable {
             } else {
                 $modiconurl = $mod->get_icon_url($output);
             }
-            $moduleobject['icon'] = ['url' => $modiconurl, 'label' => $mod->name];
+            $moduleobject['icon'] = ['url' => $modiconurl, 'label' => $mod->name, 'iconclass' => $iconclass];
             $moduleobject['tileicon'] = false; // Template is shared with top level tile, so avoiding inheriting parent icon.
             $moduleobject['purpose'] = plugin_supports('mod', $mod->modname, FEATURE_MOD_PURPOSE, MOD_PURPOSE_OTHER);
         }
