@@ -266,27 +266,32 @@ class course_output implements \renderable, \templatable {
     public static function get_js_config_data(int $courseid, array $allowedmodals) {
         global $DB;
 
-        // Config values to be added to templates for JS to retrieve.
-        // May move more to this from existing JS init in format.php.
-        $allowedmodalsmerged = array_merge($allowedmodals['modules'], $allowedmodals['resources']);
-        $jsconfigvalues = ['modalAllowedModNames' => json_encode($allowedmodalsmerged), 'modalAllowedCmids' => []];
+        if (!empty($allowedmodals)) {
+            // Config values to be added to templates for JS to retrieve.
+            // May move more to this from existing JS init in format.php.
+            $allowedmodalsmerged = array_merge($allowedmodals['modules'] ?? [], $allowedmodals['resources'] ?? []);
+            $jsconfigvalues = ['modalAllowedModNames' => json_encode($allowedmodalsmerged), 'modalAllowedCmids' => []];
 
-        $modinfo = get_fast_modinfo($courseid);
-        // If we are using the course index, JS needs to know which PDFs and HTML files in course launch in modals.
-        if (get_config('format_tiles', 'usecourseindex') && !empty($allowedmodals['resources'])) {
-            foreach ($allowedmodalsmerged as $modalresource) {
-                $cmids = self::get_modal_allowed_cmids($courseid, $modalresource);
-                if (!empty($cmids)) {
-                    foreach ($cmids as $cmid) {
-                        $cm = $modinfo->get_cm($cmid);
-                        if ($cm->uservisible) {
-                            $jsconfigvalues['modalAllowedCmids'][] = (int)$cmid;
+            $modinfo = get_fast_modinfo($courseid);
+            // If we are using the course index, JS needs to know which PDFs and HTML files in course launch in modals.
+            if (get_config('format_tiles', 'usecourseindex') && !empty($allowedmodals['resources'])) {
+                if (!empty($allowedmodalsmerged)) {
+                    foreach ($allowedmodalsmerged as $modalresource) {
+                        $cmids = self::get_modal_allowed_cmids($courseid, $modalresource);
+                        if (!empty($cmids)) {
+                            foreach ($cmids as $cmid) {
+                                $cm = $modinfo->get_cm($cmid);
+                                if ($cm->uservisible) {
+                                    $jsconfigvalues['modalAllowedCmids'][] = (int)$cmid;
+                                }
+                            }
                         }
                     }
                 }
             }
+            $jsconfigvalues['modalAllowedCmids'] = json_encode($jsconfigvalues['modalAllowedCmids']);
         }
-        $jsconfigvalues['modalAllowedCmids'] = json_encode($jsconfigvalues['modalAllowedCmids']);
+
         $jsconfigvalues['defaultcourseicon'] = $DB->get_field(
             'course_format_options', 'value',
             ['courseid' => $courseid, 'format' => 'tiles', 'sectionid' => 0, 'name' => 'defaulttileicon']
