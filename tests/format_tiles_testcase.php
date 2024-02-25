@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use format_tiles\format_option;
+
 global $CFG;
 require_once($CFG->dirroot . '/course/lib.php');
 
@@ -64,22 +66,23 @@ class format_tiles_testcase extends advanced_testcase {
             ['createsections' => true]);
 
         $sectionscreated = get_fast_modinfo($course)->get_section_info_all();
-        $sections = [];
-        foreach ($sectionscreated as $sec) {
-            $sections[$sec->section] = $sec;
-        }
-        $format = course_get_format($course);
-        $format->update_section_format_options(['id' => $sections[1]->id, 'tileicon' => 'smile-o']);
-        $format->update_section_format_options(['id' => $sections[2]->id, 'tileicon' => 'asterisk']);
 
-        // Get the sections again.
-        $sectionscreated = get_fast_modinfo($course)->get_section_info_all();
-        $sections = [];
-        foreach ($sectionscreated as $sec) {
-            $sections[$sec->section] = $sec;
+        $toseticons = [
+            1 => 'smile-o',
+            2 => 'asterisk',
+        ];
+        foreach ($sectionscreated as $section) {
+            $icon = $toseticons[$section->section] ?? null;
+            if ($icon) {
+                format_option::set(
+                    $course->id, format_option::OPTION_SECTION_ICON, $section->section, $icon
+                );
+                $this->assertEquals(
+                    $icon,
+                    format_option::get($course->id, format_option::OPTION_SECTION_ICON, $section->section)
+                );
+            }
         }
-        $this->assertTrue($sections[1]->tileicon == 'smile-o');
-        $this->assertTrue($sections[2]->tileicon == 'asterisk');
     }
 
     /**
