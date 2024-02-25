@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 
 require_once($CFG->dirroot . '/webservice/tests/helpers.php');
+require_once($CFG->dirroot . '/course/format/tiles/classes/external/external.php');
 
 /**
  * External course functions unit tests
@@ -90,7 +91,7 @@ class format_tiles_externallib_testcase extends externallib_advanced_testcase {
         $result = \format_tiles\external\external::set_image(
             $course->id, $sectionid, 0, $newicon, 'tileicon', 0, 0
         );
-        $result = \core_external\external_api::clean_returnvalue(\format_tiles\external\external::set_image_returns(), $result);
+        $result = external_api::clean_returnvalue(\format_tiles\external\external::set_image_returns(), $result);
         // Check for 0 warnings.
         $this->assertTrue($result['status']);
 
@@ -115,14 +116,14 @@ class format_tiles_externallib_testcase extends externallib_advanced_testcase {
         $this->setUser($student1);
         $this->expectException('required_capability_exception');
         $result = \format_tiles\external\external::set_image($course->id, $sectionid, 0, $newicon, 'tileicon');
-        $result = \core_external\external_api::clean_returnvalue(\format_tiles\external\external::set_image_returns(), $result);
+        $result = external_api::clean_returnvalue(\format_tiles\external\external::set_image_returns(), $result);
 
         // Fail when the user is not allow to access the course (enrolled) or is not teacher.
         $this->setGuestUser();
         $this->expectException('required_capability_exception');
 
         $result = \format_tiles\external\external::set_image($course->id, $sectionid, 0, $newicon, 'tileicon');
-        $result = \core_external\external_api::clean_returnvalue(\format_tiles\external\external::set_image_returns(), $result);
+        $result = external_api::clean_returnvalue(\format_tiles\external\external::set_image_returns(), $result);
     }
 
 
@@ -149,7 +150,7 @@ class format_tiles_externallib_testcase extends externallib_advanced_testcase {
         $roleid = $this->assignUserCapability('moodle/course:update', $contextid);
 
         $result = \format_tiles\external\external::set_session_width($course->id, 1366);
-        $result = \core_external\external_api::clean_returnvalue(
+        $result = external_api::clean_returnvalue(
             \format_tiles\external\external::set_session_width_returns(), $result
         );
         // Check for 0 warnings.
@@ -168,7 +169,7 @@ class format_tiles_externallib_testcase extends externallib_advanced_testcase {
         $this->setUser($student1);
 
         $result = \format_tiles\external\external::set_session_width($course->id, 1366);
-        $result = \core_external\external_api::clean_returnvalue(
+        $result = external_api::clean_returnvalue(
             \format_tiles\external\external::set_session_width_returns(), $result
         );
         // Check for 0 warnings.
@@ -183,7 +184,7 @@ class format_tiles_externallib_testcase extends externallib_advanced_testcase {
         $this->expectException('require_login_exception');
 
         $result = \format_tiles\external\external::set_session_width($course->id, 1366);
-        $result = \core_external\external_api::clean_returnvalue(
+        $result = external_api::clean_returnvalue(
             \format_tiles\external\external::set_session_width_returns(), $result
         );
     }

@@ -36,6 +36,8 @@ use context_course;
 use format_tiles\tile_photo;
 use context;
 
+require_once($CFG->dirroot . '/lib/externallib.php');
+
 /**
  * Format tiles external functions
  *
