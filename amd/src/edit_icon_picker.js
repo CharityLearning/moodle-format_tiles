@@ -167,9 +167,6 @@ define(["jquery", "core/templates", "core/ajax", "core/str", "core/notification"
                                 .animate({opacity: 1}, 500);
                         });
                 });
-                if (pageType === "course-editsection" && imageType === "tilephoto") {
-                        $('input[name=tilephoto]').val(icon);
-                }
             };
             $(".tooltip").tooltip("hide");
             const extrasEnabled = $('#icon-picker-modal-body').data('extra') === 1;
@@ -212,35 +209,18 @@ define(["jquery", "core/templates", "core/ajax", "core/str", "core/notification"
                             // We are changing an icon for a specific section from within the course.
                             // We are doing this by clicking an existing icon.
                             changeUiTilePhoto($("#tileicon_" + sectionNum), response.imageurl, imageType);
-                        } else if (pageType === "course-edit" || pageType === "course-editsection") {
+                        } else if (pageType === "course-edit") {
                             // We are changing the icon using a drop down menu not the icon picker modal.
-                            // Either for the whole course or for one section.
+                            // For the whole course.
                             // Select new icon in drop down.
                             var selectBox = $("#id_defaulttileicon"); // Valid if page type is course-edit.
-                            if (pageType === "course-editsection") {
-                                selectBox = $("#id_tileicon");
-                            }
                             selectBox.val(icon);
                             // Then change the image shown next to it.
                             if (imageType === "tileicon") {
                                 Templates.renderPix("tileicon/" + icon, "format_tiles", displayname)
                                     .done(function (newIcon) {
                                         selectedIcon.html(newIcon);
-                                        if (pageType === "course-editsection") {
-                                            str.get_strings([
-                                                {key: "tip", component: "format_tiles"},
-                                                {key: "tileselecttip", component: "format_tiles"}
-                                            ]).done(function (strings) {
-                                                Notification.alert(
-                                                    strings[0],
-                                                    strings[1]
-                                                );
-                                            });
-                                        }
                                     });
-                                if (pageType === "course-editsection") {
-                                    $('input[name=tilephoto]').val("");
-                                }
                             } else if (imageType === "tilephoto") {
                                 changeUiTilePhoto($("#tileicon_" + sectionNum), response.imageurl, imageType);
                             }
