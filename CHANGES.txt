@@ -376,7 +376,7 @@ Other
 - Fixes issue #152 filter buttons
 - Fixes issue #153 glossary multiple windows
 
-4.2.1.x BETA (2024020200+)
+4.1.1.x BETA (2024020200+)
 =========================
 - This version is almost a clone of the latest 4.3.0.x release.
 - It has just a few adaptations for Moodle 4.0/4.1 external_api class).
