@@ -1111,7 +1111,8 @@ function format_tiles_before_footer() {
                 $launchmodalcmid = ($oncourseviewpage && !$editing) ? optional_param('cmid', null, PARAM_INT) : null;
                 if ($launchmodalcmid) {
                     // Need to check if this cm allowed a modal.
-                    $modalallowed = format_tiles\util::get_course_mod_info($PAGE->course->id, $launchmodalcmid)->modalallowed ?? false;
+                    $modalallowed =
+                        format_tiles\util::get_course_mod_info($PAGE->course->id, $launchmodalcmid)->modalallowed ?? false;
                     if (!$modalallowed) {
                         $launchmodalcmid = null;
                     }

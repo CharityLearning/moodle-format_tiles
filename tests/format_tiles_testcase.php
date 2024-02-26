@@ -168,7 +168,6 @@ class format_tiles_testcase extends advanced_testcase {
     public function test_update_inplace_editable() {
         global $CFG, $DB;
         require_once($CFG->dirroot . '/lib/external/externallib.php');
-//        require_once($CFG->dirroot . '/lib/external/classes/external_api.php');
 
         $this->resetAfterTest();
         $user = $this->getDataGenerator()->create_user();

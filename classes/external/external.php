@@ -16,6 +16,8 @@
 
 namespace format_tiles\external;
 
+defined('MOODLE_INTERNAL') || die();
+
 use external_api;
 use external_function_parameters;
 use external_multiple_structure;

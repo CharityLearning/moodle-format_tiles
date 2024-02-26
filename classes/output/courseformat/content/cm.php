@@ -48,6 +48,7 @@ class cm extends core_cm {
         $moodlerelease = \format_tiles\util::get_moodle_release();
         $data->ismoodle42minus = $moodlerelease <= 4.2;
         $data->ismoodle41minus = $moodlerelease <= 4.1;
+        $data->ismoodle40 = $moodlerelease === 4.0;
         $data->modcontextid = $this->mod->context->id;
         return parent::add_format_data($data, $haspartials, $output);
     }
