@@ -1,0 +1,17 @@
+pipelines:
+    branches:
+      master:
+        - step:
+           script:
+             - git remote add sync git@github.com:CharityLearning/moodle-format_tiles.git
+             - git checkout master
+             - git pull    
+             - git push --force sync master
+      moodle43:
+        - step:
+           script:
+             - git remote add sync git@github.com:CharityLearning/moodle-format_tiles.git
+             - git fetch --unshallow
+             - git checkout moodle43
+             - git pull
+             - git push sync moodle43
