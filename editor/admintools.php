@@ -35,7 +35,7 @@ if (!has_capability('moodle/site:config', $systemcontext)) {
 }
 
 $action = required_param('action', PARAM_TEXT);
-$pageurl = new moodle_url('/course/format/tiles/admintools.php', ['action' => $action]);
+$pageurl = new moodle_url('/course/format/tiles/editor/admintools.php', ['action' => $action]);
 $settingsurl = new moodle_url('/admin/settings.php', ['section' => 'formatsettingtiles']);
 
 $PAGE->set_url($pageurl);
