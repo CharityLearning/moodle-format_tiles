@@ -378,6 +378,7 @@ Other
 
 4.3.0.24 (2024031800) (and preceding 4.3.0.x betas)
 ===================================================
+(Versions 4.1.1.2 and 4.2.1.1 also implement almost all of the below changes for their respective Moodle versions).
 - Moodle 4.3 compatibility (including completion control and editing mode fixes)
 - Add new database table mdl_format_tiles_tile_options to store photo/icon information
 - Migrate tile icon and tile photo data from mdl_course_format_options into new table (upgrade script uses cron)

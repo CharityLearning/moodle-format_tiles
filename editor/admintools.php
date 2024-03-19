@@ -87,7 +87,7 @@ function permitted_colours() {
     );
     $permittedcolours = [];
     foreach ($records as $record) {
-        if (hexdec($record->value) !== 0) {
+        if (hexdec(str_replace('#', '', $record->value)) !== 0) {
             // If the colour is #000 or #000000 we ignore as this means admin has disabled the colour.
             $permittedcolours[] = $record->value;
         }
