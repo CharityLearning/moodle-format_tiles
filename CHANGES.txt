@@ -376,8 +376,8 @@ Other
 - Fixes issue #152 filter buttons
 - Fixes issue #153 glossary multiple windows
 
-4.3.0.x BETA (2024020200+)
-=========================
+4.3.0.24 (2024031800) (and preceding 4.3.0.x betas)
+===================================================
 - Moodle 4.3 compatibility (including completion control and editing mode fixes)
 - Add new database table mdl_format_tiles_tile_options to store photo/icon information
 - Migrate tile icon and tile photo data from mdl_course_format_options into new table (upgrade script uses cron)
@@ -391,9 +391,12 @@ Other
 - Fix issue 35: Unable to close tile detail with keyboard only
 - Fix issue 87: Full screen video failed
 - Fix issue 94: URL Resource pop-up also opens new tab/window
+- Fix issue 122: Option to enable course index drawer in Moodle 4
+- Fix issue 149: Tiles does not show 0-section heading
 - Fix issue 153: Glossary opens multiple windows
 - Fix issue 155: course scroll bar issue in Moodle 41
 - Fix issue 160: bullets disappear
+- Fix issue 162: Can't drag page from scrollbar in Edge when a tile is opened.
 - Fix issue 165: referencefileid backup/restore repository issue
 - Fix issue 166: bullet points disappear in edit mode
 - Fix issue 175: url params

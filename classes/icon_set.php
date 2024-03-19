@@ -47,6 +47,7 @@ class icon_set {
         'fa-bell-o',
         'fa-binoculars',
         'fa-bitcoin',
+        'fa-book',
         'fa-bookmark-o',
         'fa-briefcase',
         'fa-building',

@@ -562,7 +562,7 @@ class behat_format_tiles extends behat_base {
             : "//li[@id='tile-" . $sectionnumber . "']//div[contains(@class, 'photo-overlay')]";
         $node = $this->get_selected_node("xpath_element", $xpath);
         $nodestyle = $node->getAttribute('style');
-        if (!$nodestyle || !str_contains($nodestyle, $imageurl)) {
+        if (!$nodestyle || strpos($nodestyle, $imageurl) === false) {
             throw new \Behat\Mink\Exception\ExpectationException(
                 "Tile $sectionnumber :Photo not displaying as background tile $sectionnumber course $coursename"
                 . " could not find $imageurl in style string '$nodestyle' for tile style '$tilestyle'",
