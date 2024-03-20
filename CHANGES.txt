@@ -376,8 +376,8 @@ Other
 - Fixes issue #152 filter buttons
 - Fixes issue #153 glossary multiple windows
 
-4.3.0.24 (2024031800) (and preceding 4.3.0.x betas)
-===================================================
+4.3.0.x (202403xxxx and preceding 4.3.0.x betas)
+================================================
 (Versions 4.1.1.2 and 4.2.1.1 also implement almost all of the below changes for their respective Moodle versions).
 - Moodle 4.3 compatibility (including completion control and editing mode fixes)
 - Add new database table mdl_format_tiles_tile_options to store photo/icon information

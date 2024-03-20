@@ -105,7 +105,7 @@
         {{^is_label}}
             {{#clickable}}
                 <a href="{{url}}" {{#isEmbeddedResource}} data-action="launch-tiles-resource-modal"{{/isEmbeddedResource}}{{#isEmbeddedModule}}
-                   data-action="launch-tiles-module-modal"{{/isEmbeddedModule}}{{#onclick}} onclick="{{onclick}}"{{/onclick}}
+                   data-action="launch-tiles-module-modal"{{/isEmbeddedModule}}{{#onclick}} onclick="{{{onclick}}}"{{/onclick}}
                    data-title="{{{activityname}}}" class="cm-link {{{extraclasses}}}"  data-action="launch-tiles-{{launchtype}}">
                     {{> format_tiles/course_module_subtile_inner}}
                 </a>
@@ -138,7 +138,7 @@
                 <a href="{{url}}" class="dim-overlay cm-link"
                     {{#isEmbeddedResource}} data-action="launch-tiles-resource-modal"{{/isEmbeddedResource}}
                     {{#isEmbeddedModule}} data-action="launch-tiles-module-modal"{{/isEmbeddedModule}}
-                    {{#onclick}} onclick="{{onclick}}"{{/onclick}}>
+                    {{#onclick}} onclick="{{{onclick}}}"{{/onclick}}>
                 </a>
             {{/clickable}}
             {{^clickable}}
