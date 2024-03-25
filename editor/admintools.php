@@ -35,7 +35,7 @@ if (!has_capability('moodle/site:config', $systemcontext)) {
 }
 
 $action = required_param('action', PARAM_TEXT);
-$pageurl = new moodle_url('/course/format/tiles/admintools.php', ['action' => $action]);
+$pageurl = new moodle_url('/course/format/tiles/editor/admintools.php', ['action' => $action]);
 $settingsurl = new moodle_url('/admin/settings.php', ['section' => 'formatsettingtiles']);
 
 $PAGE->set_url($pageurl);
@@ -87,7 +87,7 @@ function permitted_colours() {
     );
     $permittedcolours = [];
     foreach ($records as $record) {
-        if (hexdec($record->value) !== 0) {
+        if (hexdec(str_replace('#', '', $record->value)) !== 0) {
             // If the colour is #000 or #000000 we ignore as this means admin has disabled the colour.
             $permittedcolours[] = $record->value;
         }
@@ -97,6 +97,7 @@ function permitted_colours() {
 
 /**
  * Function to allow site admin to reset course colours to allowed settings from Site Admin > Plugins page.
+ * @package format_tiles
  * @param moodle_url $settingsurl
  * @param moodle_url $pageurl
  * @return string
@@ -169,6 +170,7 @@ function reset_colours($settingsurl, $pageurl) {
  * @throws coding_exception
  * @throws dml_exception
  * @throws moodle_exception
+ * @package format_tiles
  */
 function schedule_delete_empty_sections() {
     require_sesskey();
@@ -185,9 +187,10 @@ function schedule_delete_empty_sections() {
 
 /**
  * Allow site admin to cancel scheduled deletion
- * @see schedule_delete_empty_sections()
  * @throws coding_exception
  * @throws moodle_exception
+ * @see schedule_delete_empty_sections()
+ * @package format_tiles
  */
 function cancel_delete_empty_sections() {
     $courseid = required_param('courseid', PARAM_INT);
@@ -206,6 +209,7 @@ function cancel_delete_empty_sections() {
  * @throws coding_exception
  * @throws dml_exception
  * @throws moodle_exception
+ * @package format_tiles
  */
 function list_problem_courses() {
     $maxsections = \format_tiles\course_section_manager::get_max_sections();
@@ -275,6 +279,7 @@ function list_problem_courses() {
  * Allow site admin to fix a section with mis-numbering.
  * @throws coding_exception
  * @throws moodle_exception
+ * @package format_tiles
  */
 function resolve_section_misnumbering() {
     $courseid = required_param('courseid', PARAM_INT);

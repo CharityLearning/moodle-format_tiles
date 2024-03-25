@@ -535,6 +535,7 @@ class course_output implements \renderable, \templatable {
      */
     private function append_multi_section_page_data($data) {
         $data['is_multi_section'] = true;
+        $data['tiles'] = [];
 
         // If using completion tracking, get the data.
         if ($this->completionenabled) {
@@ -782,7 +783,7 @@ class course_output implements \renderable, \templatable {
      * @param array $tiles the tiles which relate to filters
      * @return array the button details
      */
-    private function get_filter_numbered_buttons_data($tiles) {
+    private function get_filter_numbered_buttons_data(array $tiles) {
         $numberoftiles = count($tiles);
         if ($numberoftiles == 0) {
             return [];
