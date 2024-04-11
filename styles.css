@@ -1623,7 +1623,7 @@ body.format-tiles.jsenabled .course-content .headerabovetiles {
 .format-tiles .tilebarphoto {
     width: 75px;
     height: 48px;
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
     float: left;
 }

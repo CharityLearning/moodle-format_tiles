@@ -20,7 +20,7 @@
  * @package format_tiles
  * @copyright 2023 David Watson {@link http://evolutioncode.uk}
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- **/
+ */
 
 // Included because course formats cannot use the callback {mod}_reset_course_form_definition().
 
