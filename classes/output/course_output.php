@@ -1288,6 +1288,9 @@ class course_output implements \renderable, \templatable {
                 }
             }
 
+            // Sort to ease debugging.
+            sort($cmids);
+
             // Now we can set the cached value for all users, before going on to check visibility for this user only.
             $cache->set($courseid, $cmids);
 
