@@ -94,7 +94,7 @@ final class format_tiles_externallib_test extends \externallib_advanced_testcase
         $result = \format_tiles\external\external::set_image(
             $course->id, $sectionid, 0, $newicon, 'tileicon', 0, 0
         );
-        $result = external_api::clean_returnvalue(\format_tiles\external\external::set_image_returns(), $result);
+        $result = \external_api::clean_returnvalue(\format_tiles\external\external::set_image_returns(), $result);
         // Check for 0 warnings.
         $this->assertTrue($result['status']);
 
@@ -119,14 +119,14 @@ final class format_tiles_externallib_test extends \externallib_advanced_testcase
         $this->setUser($student1);
         $this->expectException('required_capability_exception');
         $result = \format_tiles\external\external::set_image($course->id, $sectionid, 0, $newicon, 'tileicon');
-        $result = external_api::clean_returnvalue(\format_tiles\external\external::set_image_returns(), $result);
+        $result = \external_api::clean_returnvalue(\format_tiles\external\external::set_image_returns(), $result);
 
         // Fail when the user is not allow to access the course (enrolled) or is not teacher.
         $this->setGuestUser();
         $this->expectException('required_capability_exception');
 
         $result = \format_tiles\external\external::set_image($course->id, $sectionid, 0, $newicon, 'tileicon');
-        $result = external_api::clean_returnvalue(\format_tiles\external\external::set_image_returns(), $result);
+        $result = \external_api::clean_returnvalue(\format_tiles\external\external::set_image_returns(), $result);
     }
 
 
@@ -154,7 +154,7 @@ final class format_tiles_externallib_test extends \externallib_advanced_testcase
         $roleid = $this->assignUserCapability('moodle/course:update', $contextid);
 
         $result = \format_tiles\external\external::set_session_width($course->id, 1366);
-        $result = external_api::clean_returnvalue(
+        $result = \external_api::clean_returnvalue(
             \format_tiles\external\external::set_session_width_returns(), $result
         );
         // Check for 0 warnings.
@@ -173,7 +173,7 @@ final class format_tiles_externallib_test extends \externallib_advanced_testcase
         $this->setUser($student1);
 
         $result = \format_tiles\external\external::set_session_width($course->id, 1366);
-        $result = external_api::clean_returnvalue(
+        $result = \external_api::clean_returnvalue(
             \format_tiles\external\external::set_session_width_returns(), $result
         );
         // Check for 0 warnings.
@@ -188,7 +188,7 @@ final class format_tiles_externallib_test extends \externallib_advanced_testcase
         $this->expectException('require_login_exception');
 
         $result = \format_tiles\external\external::set_session_width($course->id, 1366);
-        $result = external_api::clean_returnvalue(
+        $result = \external_api::clean_returnvalue(
             \format_tiles\external\external::set_session_width_returns(), $result
         );
     }

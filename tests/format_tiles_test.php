@@ -169,7 +169,6 @@ final class format_tiles_test extends \advanced_testcase {
     public function test_update_inplace_editable(): void {
         global $CFG, $DB;
         require_once($CFG->dirroot . '/lib/external/externallib.php');
-        require_once($CFG->dirroot . '/lib/external/classes/external_api.php');
 
         $this->resetAfterTest();
         $user = $this->getDataGenerator()->create_user();
@@ -191,7 +190,7 @@ final class format_tiles_test extends \advanced_testcase {
         $this->getDataGenerator()->enrol_user($user->id, $course->id, $teacherrole->id);
 
         $res = \core_external::update_inplace_editable('format_tiles', 'sectionname', $section->id, 'New section name');
-        $res = \core_external\external_api::clean_returnvalue(\core_external::update_inplace_editable_returns(), $res);
+        $res = \external_api::clean_returnvalue(\core_external::update_inplace_editable_returns(), $res);
         $this->assertEquals('New section name', $res['value']);
         $this->assertEquals('New section name', $DB->get_field('course_sections', 'name', ['id' => $section->id]));
     }

@@ -1316,7 +1316,7 @@ final class format_tiles_courselib_test extends \advanced_testcase {
         // Change to admin user and make sure that cm name can be updated using web service update_inplace_editable().
         $this->setAdminUser();
         $res = \core_external::update_inplace_editable('core_course', 'activityname', $forum->cmid, 'New forum name');
-        $res = \core_external\external_api::clean_returnvalue(\core_external::update_inplace_editable_returns(), $res);
+        $res = \external_api::clean_returnvalue(\core_external::update_inplace_editable_returns(), $res);
         $this->assertEquals('New forum name', $res['value']);
         $this->assertEquals('New forum name', $DB->get_field('forum', 'name', ['id' => $forum->id]));
     }
