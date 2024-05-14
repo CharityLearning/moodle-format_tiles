@@ -24,6 +24,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace format_tiles;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -37,7 +39,7 @@ require_once($CFG->dirroot . '/enrol/imsenterprise/tests/imsenterprise_test.php'
  * @copyright 2018 David Watson {@link http://evolutioncode.uk} based on core version 2012 Petr Skoda {@link http://skodak.org}
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class format_tiles_courselib_testcase extends advanced_testcase {
+final class format_tiles_courselib_test extends \advanced_testcase {
 
     /**
      * Test the create_course function
@@ -47,7 +49,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $this->resetAfterTest(true);
         $defaultcategory = $DB->get_field_select('course_categories', "MIN(id)", "parent=0");
 
-        $course = new stdClass();
+        $course = new \stdClass();
         $course->fullname = 'Apu loves Unit Təsts';
         $course->shortname = 'Spread the lŭve';
         $course->idnumber = '123';
@@ -59,7 +61,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $original = (array) $course;
 
         $created = create_course($course);
-        $context = context_course::instance($created->id);
+        $context = \context_course::instance($created->id);
 
         // Compare original and created.
         $this->assertEquals($original, array_intersect_key((array) $created, $original));
@@ -72,7 +74,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         try {
             $created = create_course($course);
             $this->fail('Exception expected');
-        } catch (moodle_exception $e) {
+        } catch  (\moodle_exception $e) {
             $this->assertSame(get_string('shortnametaken', 'error', $course->shortname), $e->getMessage());
         }
 
@@ -81,14 +83,14 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         try {
             $created = create_course($course);
             $this->fail('Exception expected');
-        } catch (moodle_exception $e) {
+        } catch (\moodle_exception $e) {
             $this->assertSame(get_string('courseidnumbertaken', 'error', $course->idnumber), $e->getMessage());
         }
     }
 
     /**
      * Test_create_course_with_generator.
-     * @throws dml_exception
+     * @throws \dml_exception
      */
     public function test_create_course_with_generator() {
         global $DB;
@@ -102,7 +104,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
     /**
      * Test_create_course_sections.
-     * @throws moodle_exception
+     * @throws \moodle_exception
      */
     public function test_create_course_sections() {
         global $DB;
@@ -133,9 +135,9 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
     /**
      * Test_update_course.
-     * @throws coding_exception
-     * @throws dml_exception
-     * @throws moodle_exception
+     * @throws \coding_exception
+     * @throws \dml_exception
+     * @throws \moodle_exception
      */
     public function test_update_course() {
         global $DB;
@@ -144,7 +146,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
         $defaultcategory = $DB->get_field_select('course_categories', 'MIN(id)', 'parent = 0');
 
-        $course = new stdClass();
+        $course = new \stdClass();
         $course->fullname = 'Apu loves Unit Təsts';
         $course->shortname = 'test1';
         $course->idnumber = '1';
@@ -169,7 +171,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         try {
             update_course($created2);
             $this->fail('Expected exception when trying to update a course with duplicate idnumber');
-        } catch (moodle_exception $e) {
+        } catch  (\moodle_exception $e) {
             $this->assertEquals(get_string('courseidnumbertaken', 'error', $created2->idnumber), $e->getMessage());
         }
 
@@ -179,15 +181,15 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         try {
             update_course($created2);
             $this->fail('Expected exception when trying to update a course with a duplicate shortname');
-        } catch (moodle_exception $e) {
+        } catch  (\moodle_exception $e) {
             $this->assertEquals(get_string('shortnametaken', 'error', $created2->shortname), $e->getMessage());
         }
     }
 
     /**
      * Test_update_course_section_time_modified.
-     * @throws dml_exception
-     * @throws moodle_exception
+     * @throws \dml_exception
+     * @throws \moodle_exception
      */
     public function test_update_course_section_time_modified() {
         global $DB;
@@ -214,8 +216,8 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
     /**
      * Test_course_add_cm_to_section.
-     * @throws coding_exception
-     * @throws dml_exception
+     * @throws \coding_exception
+     * @throws \dml_exception
      */
     public function test_course_add_cm_to_section() {
         global $DB;
@@ -253,7 +255,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
         // Check that modinfo cache was reset but not rebuilt (important for performance if calling repeatedly).
         $this->assertGreaterThan($coursecacherev, $DB->get_field('course', 'cacherev', ['id' => $course->id]));
-        $this->assertEmpty(cache::make('core', 'coursemodinfo')->get($course->id));
+        $this->assertEmpty(\cache::make('core', 'coursemodinfo')->get($course->id));
 
         // Add one to section that doesn't exist (this might rebuild modinfo).
         course_add_cm_to_section($course, $cmids[2], 2);
@@ -270,7 +272,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
     /**
      * Test_reorder_sections.
-     * @throws dml_exception
+     * @throws \dml_exception
      */
     public function test_reorder_sections() {
         global $DB;
@@ -312,7 +314,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
     /**
      * Test_move_section_down.
-     * @throws dml_exception
+     * @throws \dml_exception
      */
     public function test_move_section_down() {
         global $DB;
@@ -345,7 +347,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
     /**
      * Test_move_section_up.
-     * @throws dml_exception
+     * @throws \dml_exception
      */
     public function test_move_section_up() {
         global $DB;
@@ -378,7 +380,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
     /**
      * Test_move_section_marker.
-     * @throws dml_exception
+     * @throws \dml_exception
      */
     public function test_move_section_marker() {
         global $DB;
@@ -424,8 +426,8 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
     /**
      * Test_course_can_delete_section.
-     * @throws coding_exception
-     * @throws dml_exception
+     * @throws \coding_exception
+     * @throws \dml_exception
      */
     public function test_course_can_delete_section() {
         global $DB;
@@ -456,7 +458,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $this->assertTrue(course_can_delete_section($coursetiles, 1));
 
         // Now let's revoke a capability from teacher to manage activity in section 1.
-        $modulecontext = context_module::instance($assign1->cmid);
+        $modulecontext = \context_module::instance($assign1->cmid);
         assign_capability('moodle/course:manageactivities', CAP_PROHIBIT, $roleids['editingteacher'],
             $modulecontext);
         $modulecontext->mark_dirty();
@@ -470,8 +472,8 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
     /**
      * Test_course_delete_section.
-     * @throws dml_exception
-     * @throws moodle_exception
+     * @throws \dml_exception
+     * @throws \moodle_exception
      */
     public function test_course_delete_section() {
         global $DB;
@@ -528,8 +530,8 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
     /**
      * Test_move_module_in_course.
-     * @throws dml_exception
-     * @throws moodle_exception
+     * @throws \dml_exception
+     * @throws \moodle_exception
      */
     public function test_move_module_in_course() {
         global $DB;
@@ -655,8 +657,8 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $this->assertInstanceOf('\core\event\course_updated', $event);
         $this->assertEquals('course', $event->objecttable);
         $this->assertEquals($updatedcourse->id, $event->objectid);
-        $this->assertEquals(context_course::instance($course->id), $event->get_context());
-        $url = new moodle_url('/course/edit.php', ['id' => $event->objectid]);
+        $this->assertEquals(\context_course::instance($course->id), $event->get_context());
+        $url = new \moodle_url('/course/edit.php', ['id' => $event->objectid]);
         $this->assertEquals($url, $event->get_url());
         $this->assertEquals($updatedcourse, $event->get_record_snapshot('course', $event->objectid));
 
@@ -673,7 +675,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $this->assertInstanceOf('\core\event\course_updated', $event);
         $this->assertEquals('course', $event->objecttable);
         $this->assertEquals($movedcourse->id, $event->objectid);
-        $this->assertEquals(context_course::instance($course->id), $event->get_context());
+        $this->assertEquals(\context_course::instance($course->id), $event->get_context());
         $this->assertEquals($movedcourse, $event->get_record_snapshot('course', $movedcourse->id));
 
         // Move course to hidden category and catch course_updated event.
@@ -689,7 +691,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $this->assertInstanceOf('\core\event\course_updated', $event);
         $this->assertEquals('course', $event->objecttable);
         $this->assertEquals($movedcoursehidden->id, $event->objectid);
-        $this->assertEquals(context_course::instance($course->id), $event->get_context());
+        $this->assertEquals(\context_course::instance($course->id), $event->get_context());
         $this->assertEquals($movedcoursehidden, $event->get_record_snapshot('course', $movedcoursehidden->id));
     }
 
@@ -709,7 +711,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $course = $DB->get_record('course', ['id' => $course->id], '*', MUST_EXIST);
 
         // Save the course context before we delete the course.
-        $coursecontext = context_course::instance($course->id);
+        $coursecontext = \context_course::instance($course->id);
 
         // Catch the update event.
         $sink = $this->redirectEvents();
@@ -736,7 +738,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
     public function test_course_backup_created_event() {
         global $CFG;
 
-        // Get the necessary files to perform backup and restore.
+        // Get the necessary files to perform \backup and restore.
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
         require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
 
@@ -751,9 +753,9 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         // Create a course.
         $course = $this->getDataGenerator()->create_course(['format' => 'tiles']);
 
-        // Create backup file and save it to the backup location.
-        $bc = new backup_controller(backup::TYPE_1COURSE, $course->id, backup::FORMAT_MOODLE,
-            backup::INTERACTIVE_NO, backup::MODE_GENERAL, $userid);
+        // Create \backup file and save it to the \backup location.
+        $bc = new \backup_controller(\backup::TYPE_1COURSE, $course->id, \backup::FORMAT_MOODLE,
+            \backup::INTERACTIVE_NO, \backup::MODE_GENERAL, $userid);
         $sink = $this->redirectEvents();
         $bc->execute_plan();
 
@@ -766,9 +768,9 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $this->assertInstanceOf('\core\event\course_backup_created', $event);
         $this->assertEquals('course', $event->objecttable);
         $this->assertEquals($bc->get_courseid(), $event->objectid);
-        $this->assertEquals(context_course::instance($bc->get_courseid())->id, $event->contextid);
+        $this->assertEquals(\context_course::instance($bc->get_courseid())->id, $event->contextid);
 
-        $url = new moodle_url('/course/view.php', ['id' => $event->objectid]);
+        $url = new \moodle_url('/course/view.php', ['id' => $event->objectid]);
         $this->assertEquals($url, $event->get_url());
         $this->assertEventContextNotUsed($event);
 
@@ -782,7 +784,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
     public function test_course_restored_event() {
         global $CFG;
 
-        // Get the necessary files to perform backup and restore.
+        // Get the necessary files to perform \backup and restore.
         require_once($CFG->dirroot . '/backup/util/includes/backup_includes.php');
         require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
 
@@ -797,9 +799,9 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         // Create a course.
         $course = $this->getDataGenerator()->create_course(['format' => 'tiles']);
 
-        // Create backup file and save it to the backup location.
-        $bc = new backup_controller(backup::TYPE_1COURSE, $course->id, backup::FORMAT_MOODLE,
-            backup::INTERACTIVE_NO, backup::MODE_GENERAL, $userid);
+        // Create \backup file and save it to the \backup location.
+        $bc = new \backup_controller(\backup::TYPE_1COURSE, $course->id, \backup::FORMAT_MOODLE,
+            \backup::INTERACTIVE_NO, \backup::MODE_GENERAL, $userid);
         $bc->execute_plan();
         $results = $bc->get_results();
         $file = $results['backup_destination'];
@@ -812,8 +814,8 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $sink = $this->redirectEvents();
 
         // Now restore the course to trigger the event.
-        $rc = new restore_controller('test-restore-course-event', $course->id, backup::INTERACTIVE_NO,
-            backup::MODE_GENERAL, $userid, backup::TARGET_NEW_COURSE);
+        $rc = new \restore_controller('test-restore-course-event', $course->id, \backup::INTERACTIVE_NO,
+            \backup::MODE_GENERAL, $userid, \backup::TARGET_NEW_COURSE);
         $rc->execute_precheck();
         $rc->execute_plan();
 
@@ -826,8 +828,8 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $this->assertInstanceOf('\core\event\course_restored', $event);
         $this->assertEquals('course', $event->objecttable);
         $this->assertEquals($rc->get_courseid(), $event->objectid);
-        $this->assertEquals(context_course::instance($rc->get_courseid())->id, $event->contextid);
-        $url = new moodle_url('/course/view.php', ['id' => $event->objectid]);
+        $this->assertEquals(\context_course::instance($rc->get_courseid())->id, $event->contextid);
+        $url = new \moodle_url('/course/view.php', ['id' => $event->objectid]);
         $this->assertEquals($url, $event->get_url());
         $this->assertEventContextNotUsed($event);
 
@@ -847,7 +849,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $course = $this->getDataGenerator()->create_course(['numsections' => 10, 'format' => 'tiles'], ['createsections' => true]);
         $sections = $DB->get_records('course_sections', ['course' => $course->id]);
 
-        $coursecontext = context_course::instance($course->id);
+        $coursecontext = \context_course::instance($course->id);
 
         $section = array_pop($sections);
         $section->name = 'Test section';
@@ -859,7 +861,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
             [
                 'objectid' => $section->id,
                 'courseid' => $course->id,
-                'context' => context_course::instance($course->id),
+                'context' => \context_course::instance($course->id),
                 'other' => [
                     'sectionnum' => $section->section
                 ]
@@ -882,7 +884,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $this->assertEquals($section->section, $event->other['sectionnum']);
         $expecteddesc = "The user with id '{$event->userid}' updated section number '{$event->other['sectionnum']}' for the course with id '{$event->courseid}'";
         $this->assertEquals($expecteddesc, $event->get_description());
-        $url = new moodle_url('/course/editsection.php', ['id' => $event->objectid]);
+        $url = new \moodle_url('/course/editsection.php', ['id' => $event->objectid]);
         $this->assertEquals($url, $event->get_url());
         $this->assertEquals($section, $event->get_record_snapshot('course_sections', $event->objectid));
     }
@@ -898,7 +900,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         // Create the course with sections.
         $course = $this->getDataGenerator()->create_course(['numsections' => 10, 'format' => 'tiles'], ['createsections' => true]);
         $sections = $DB->get_records('course_sections', ['course' => $course->id], 'section');
-        $coursecontext = context_course::instance($course->id);
+        $coursecontext = \context_course::instance($course->id);
         $section = array_pop($sections);
         course_delete_section($course, $section);
         $events = $sink->get_events();
@@ -921,7 +923,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
     /**
      * Test_course_integrity_check.
-     * @throws dml_exception
+     * @throws \dml_exception
      */
     public function test_course_integrity_check() {
         global $DB;
@@ -1067,7 +1069,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
                 $this->assertEquals($module->cmid, $event->objectid);
                 $this->assertEquals($USER->id, $event->userid);
                 $this->assertEquals('course_modules', $event->objecttable);
-                $url = new moodle_url('/mod/assign/view.php', ['id' => $module->cmid]);
+                $url = new \moodle_url('/mod/assign/view.php', ['id' => $module->cmid]);
                 $this->assertEquals($url, $event->get_url());
                 $this->assertEventContextNotUsed($event);
             }
@@ -1092,7 +1094,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
                 $this->assertEquals($newcm->id, $event->objectid);
                 $this->assertEquals($USER->id, $event->userid);
                 $this->assertEquals($course->id, $event->courseid);
-                $url = new moodle_url('/mod/assign/view.php', ['id' => $newcm->id]);
+                $url = new \moodle_url('/mod/assign/view.php', ['id' => $newcm->id]);
                 $this->assertEquals($url, $event->get_url());
             }
         }
@@ -1115,7 +1117,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $assign = $this->getDataGenerator()->create_module('assign', ['course' => $course->id]);
 
         // Get the module context.
-        $modcontext = context_module::instance($assign->cmid);
+        $modcontext = \context_module::instance($assign->cmid);
 
         // Get course module.
         $cm = get_coursemodule_from_id(null, $assign->cmid, $course->id, false, MUST_EXIST);
@@ -1278,7 +1280,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $formdata->modulename = 'label';
         $formdata->coursemodule = $label->cmid;
         $draftid = 0;
-        file_prepare_draft_area($draftid, context_module::instance($label->cmid)->id,
+        file_prepare_draft_area($draftid, \context_module::instance($label->cmid)->id,
             'mod_label', 'intro', 0);
         $formdata->introeditor = [
             'itemid' => $draftid,
@@ -1304,17 +1306,17 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
         // Call service for core_course component without necessary permissions.
         try {
-            core_external::update_inplace_editable('core_course', 'activityname', $forum->cmid, 'New forum name');
+            \core_external::update_inplace_editable('core_course', 'activityname', $forum->cmid, 'New forum name');
             $this->fail('Exception expected');
-        } catch (moodle_exception $e) {
+        } catch  (\moodle_exception $e) {
             $this->assertEquals('Course or activity not accessible. (Not enrolled)',
                 $e->getMessage());
         }
 
         // Change to admin user and make sure that cm name can be updated using web service update_inplace_editable().
         $this->setAdminUser();
-        $res = core_external::update_inplace_editable('core_course', 'activityname', $forum->cmid, 'New forum name');
-        $res = \core_external\external_api::clean_returnvalue(core_external::update_inplace_editable_returns(), $res);
+        $res = \core_external::update_inplace_editable('core_course', 'activityname', $forum->cmid, 'New forum name');
+        $res = \core_external\external_api::clean_returnvalue(\core_external::update_inplace_editable_returns(), $res);
         $this->assertEquals('New forum name', $res['value']);
         $this->assertEquals('New forum name', $DB->get_field('forum', 'name', ['id' => $forum->id]));
     }
@@ -1326,7 +1328,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         global $CFG;
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course(['format' => 'tiles']);
-        $context = context_course::instance($course->id);
+        $context = \context_course::instance($course->id);
         $this->setAdminUser();
 
         $navoptions = course_get_user_navigation_options($context);
@@ -1343,7 +1345,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         global $CFG;
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course(['format' => 'tiles']);
-        $context = context_course::instance($course->id);
+        $context = \context_course::instance($course->id);
         $this->setAdminUser();
 
         $adminoptions = course_get_user_administration_options($course, $context);
@@ -1369,7 +1371,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         global $DB, $CFG;
         $this->resetAfterTest();
         $course = $this->getDataGenerator()->create_course(['format' => 'tiles']);
-        $context = context_course::instance($course->id);
+        $context = \context_course::instance($course->id);
 
         $user = $this->getDataGenerator()->create_user();
         $roleid = $DB->get_field('role', 'id', ['shortname' => 'student']);
@@ -1445,14 +1447,14 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
         // Test case with reset_roles_overrides enabled.
         // Override course so it does NOT allow students 'mod/forum:viewdiscussion'.
-        $coursecontext = context_course::instance($course->id);
+        $coursecontext = \context_course::instance($course->id);
         assign_capability('mod/forum:viewdiscussion', CAP_PREVENT, $roleid, $coursecontext->id);
 
         // Check expected capabilities so far.
         $this->assertFalse(has_capability('mod/forum:viewdiscussion', $coursecontext, $user));
 
         // Oops, preventing student from viewing forums was a mistake, let's reset the course.
-        $resetdata = new stdClass();
+        $resetdata = new \stdClass();
         $resetdata->id = $course->id;
         $resetdata->reset_roles_overrides = true;
         reset_course_userdata($resetdata);
@@ -1470,7 +1472,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $generator->enrol_user($user->id, $course->id, $roles['teacher']);
 
         // When we reset only student role, we expect to keep teacher role.
-        $resetdata = new stdClass();
+        $resetdata = new \stdClass();
         $resetdata->id = $course->id;
         $resetdata->unenrol_users = [$roles['student']];
         reset_course_userdata($resetdata);
@@ -1485,7 +1487,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $generator->enrol_user($user->id, $course->id, $roles['student']);
 
         // When we reset student and teacher roles, we expect no roles left.
-        $resetdata = new stdClass();
+        $resetdata = new \stdClass();
         $resetdata->id = $course->id;
         $resetdata->unenrol_users = [$roles['student'], $roles['teacher']];
         reset_course_userdata($resetdata);
@@ -1496,10 +1498,10 @@ class format_tiles_courselib_testcase extends advanced_testcase {
 
     /**
      * Test_course_check_module_updates_since.
-     * @throws coding_exception
-     * @throws comment_exception
-     * @throws dml_exception
-     * @throws moodle_exception
+     * @throws \coding_exception
+     * @throws \comment_exception
+     * @throws \dml_exception
+     * @throws \moodle_exception
      */
     public function test_course_check_module_updates_since() {
         global $CFG, $DB, $USER;
@@ -1520,7 +1522,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
             'scale' => 100
         ]);
         $glossarygenerator = $this->getDataGenerator()->get_plugin_generator('mod_glossary');
-        $context = context_module::instance($glossary->cmid);
+        $context = \context_module::instance($glossary->cmid);
         $modinfo = get_fast_modinfo($course);
         $cm = $modinfo->get_cm($glossary->cmid);
         $user = $this->getDataGenerator()->create_user();
@@ -1555,7 +1557,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         set_coursemodule_name($glossary->cmid, 'New name');
 
         // Add some ratings.
-        $rm = new rating_manager();
+        $rm = new \rating_manager();
         $result = $rm->add_rating($cm, $context, 'mod_glossary', 'entry', $entry->id, 100, 50, $user->id, RATING_AGGREGATE_AVERAGE);
 
         // Change grades.
@@ -1567,7 +1569,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         glossary_view($glossary, $course, $cm, $context, 'letter');
 
         // Add one comment.
-        $args = new stdClass;
+        $args = new \stdClass;
         $args->context   = $context;
         $args->course    = $course;
         $args->cm        = $cm;
@@ -1575,7 +1577,7 @@ class format_tiles_courselib_testcase extends advanced_testcase {
         $args->itemid    = $entry->id;
         $args->client_id = 1;
         $args->component = 'mod_glossary';
-        $manager = new comment($args);
+        $manager = new \comment($args);
         $manager->add('blah blah blah');
 
         // Check upgrade status.

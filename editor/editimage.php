@@ -20,7 +20,7 @@
  * @package format_tiles
  * @copyright 2019 David Watson {@link http://evolutioncode.uk}
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- **/
+ */
 
 require_once('../../../../config.php');
 require_once($CFG->dirroot . '/repository/lib.php');
