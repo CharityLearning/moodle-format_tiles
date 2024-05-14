@@ -41,7 +41,6 @@ class header extends \core_courseformat\output\local\content\section\header {
      */
     public function export_for_template(\renderer_base $output): \stdClass {
 
-        // TODO optimise this.
         $format = $this->format;
         $course = $format->get_course();
 

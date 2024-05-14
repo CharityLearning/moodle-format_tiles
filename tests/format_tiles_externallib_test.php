@@ -23,6 +23,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace format_tiles;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -38,7 +40,7 @@ require_once($CFG->dirroot . '/course/format/tiles/classes/external/external.php
  * @copyright  2018 David Watson {@link http://evolutioncode.uk}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class format_tiles_externallib_testcase extends externallib_advanced_testcase {
+final class format_tiles_externallib_test extends \externallib_advanced_testcase {
 
     /**
      * The format options to use when setting up a course in tiles format.
@@ -60,15 +62,16 @@ class format_tiles_externallib_testcase extends externallib_advanced_testcase {
 
     /**
      * Test the setting of a course/tile icon using the web service.
-     * @throws coding_exception
-     * @throws dml_exception
-     * @throws invalid_parameter_exception
-     * @throws invalid_response_exception
-     * @throws moodle_exception
-     * @throws required_capability_exception
-     * @throws restricted_context_exception
+     * @covers \format_tiles\external\external::set_image
+     * @throws \coding_exception
+     * @throws \dml_exception
+     * @throws \invalid_parameter_exception
+     * @throws \invalid_response_exception
+     * @throws \moodle_exception
+     * @throws \required_capability_exception
+     * @throws \restricted_context_exception
      */
-    public function test_set_image() {
+    public function test_set_image(): void {
         global $DB;
 
         $this->resetAfterTest(true);
@@ -82,7 +85,7 @@ class format_tiles_externallib_testcase extends externallib_advanced_testcase {
             $course->id,
             $teacherrole->id);
         $this->setUser($teacher);
-        $contextid = context_course::instance($course->id)->id;
+        $contextid = \context_course::instance($course->id)->id;
         $roleid = $this->assignUserCapability('moodle/course:update', $contextid);
 
         $newicon = 'number_1';
@@ -129,11 +132,12 @@ class format_tiles_externallib_testcase extends externallib_advanced_testcase {
 
     /**
      * Test the setting of a session screen width variable using the web service.
-     * @throws dml_exception
-     * @throws invalid_response_exception
-     * @throws moodle_exception
+     * @covers \format_tiles\external\external::set_session_width
+     * @throws \dml_exception
+     * @throws \invalid_response_exception
+     * @throws \moodle_exception
      */
-    public function test_set_session_width() {
+    public function test_set_session_width(): void {
         global $DB, $SESSION, $CFG;
         $this->resetAfterTest(true);
 
@@ -146,7 +150,7 @@ class format_tiles_externallib_testcase extends externallib_advanced_testcase {
             $course->id,
             $teacherrole->id);
         $this->setUser($teacher);
-        $contextid = context_course::instance($course->id)->id;
+        $contextid = \context_course::instance($course->id)->id;
         $roleid = $this->assignUserCapability('moodle/course:update', $contextid);
 
         $result = \format_tiles\external\external::set_session_width($course->id, 1366);

@@ -1124,7 +1124,7 @@ function format_tiles_before_footer() {
             );
         }
 
-        $jsconfig = format_tiles\output\course_output::get_js_config_data($PAGE->course->id, $allowedmodals ?? []);
+        $jsconfig = format_tiles\output\course_output::get_js_config_data($PAGE->course->id);
         $renderer = $PAGE->get_renderer('format_tiles');
         $html .= $renderer->render_from_template('format_tiles/js-config', ['tiles_js_config' => $jsconfig]);
 
