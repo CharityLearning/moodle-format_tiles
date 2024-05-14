@@ -406,3 +406,13 @@ Other
 - Fix issue 187: blocks drawer
 - Fix issue 189: show more
 - Fix issue 192: Beta issue with duplicated section 0 content on the top of individual weeks
+
+4.2.1.4 (2024051500)
+====================
+- Fix issue 204 upgrade path error
+- Fix issue 205 Embedded URL activity video stop
+- Fix issue 206 overall progress missing if JS nav disabled
+- Improve overall progress indicator
+- Various PHPUnit fixes, PHP docs typos
+- YouTube embedded in label max width fix
+- Simplify function to get modal allowed CM IDs
