@@ -376,7 +376,7 @@ Other
 - Fixes issue #152 filter buttons
 - Fixes issue #153 glossary multiple windows
 
-4.3.0.x (202403xxxx and preceding 4.3.0.x betas)
+4.3.0.1 - 4.3.0.24 (202403xxxx and preceding 4.3.0.x betas)
 ================================================
 (Versions 4.1.1.2 and 4.2.1.1 also implement almost all of the below changes for their respective Moodle versions).
 - Moodle 4.3 compatibility (including completion control and editing mode fixes)
@@ -416,3 +416,8 @@ Other
 - Various PHPUnit fixes, PHP docs typos
 - YouTube embedded in label max width fix
 - Simplify function to get modal allowed CM IDs
+
+4.2.1.5 (2024060300)
+=====================
+- Fix issue #208 overlap on tile when using style 2
+- Registration bug and other minor bug fixes

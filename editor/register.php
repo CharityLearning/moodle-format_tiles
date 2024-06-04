@@ -65,7 +65,7 @@ if ($mform->is_cancelled()) {
     redirect($settingsurl);
 } else if ($data = $mform->get_data()) { // Form has been submitted.
     $registrationmanager = new registration_manager();
-    $serverresponse = $registrationmanager::make_curl_request($data, 3);
+    $serverresponse = $registrationmanager::make_curl_request($data, $registrationmanager::registration_server_url(), 3);
     $result = $registrationmanager::parse_server_response($registrationmanager::process_data($serverresponse));
     if ($result && $result['status'] && registration_manager::validate_key($result['key'])) {
         $registrationmanager->set_registered();
