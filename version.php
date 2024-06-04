@@ -24,9 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2024051500;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version = 2024060300;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires = 2022112800.00;    // Moodle 4.1 (Build: 20221128).
 $plugin->component = 'format_tiles';  // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = "4.2.1.4";
+$plugin->release = "4.2.1.5";
 $plugin->supported = [402, 402];
