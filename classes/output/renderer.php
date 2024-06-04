@@ -115,13 +115,12 @@ class renderer extends section_renderer {
      * Should we display a multiple section page or not?
      * I.e. do we display all tiles on screen or just one open section?
      * @param int $displaysection the param to say if we are displaying one sec and if so which.
-     * @param bool $usejsnav are we using JS nav or not.
      * @param bool $isediting are we editing or not.
      * @return bool
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    private function display_multiple_section_page($displaysection, $isediting) {
+    private function display_multiple_section_page(int $displaysection, bool $isediting): bool {
         global $SESSION;
         // We display the multi section page if the user is not requesting a specific single section.
         // We also display it if user is requesting a specific section (URL &section=xx) with JS enabled.

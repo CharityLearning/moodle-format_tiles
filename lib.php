@@ -1087,6 +1087,8 @@ function format_tiles_before_footer() {
 
         $editing = $PAGE->user_is_editing();
         $oncourseviewpage = $PAGE->pagetype == 'course-view-tiles';
+
+        // On a mod/view.php page we may need JS to ensure that any clicks on course index menu launch modals where appropriate.
         $modviewpageneedsjs = false;
         $allowedmodals = null;
 
@@ -1124,10 +1126,14 @@ function format_tiles_before_footer() {
             );
         }
 
-        $jsconfig = format_tiles\output\course_output::get_js_config_data($PAGE->course->id);
-        $renderer = $PAGE->get_renderer('format_tiles');
-        $html .= $renderer->render_from_template('format_tiles/js-config', ['tiles_js_config' => $jsconfig]);
-
+        // Add our JS config HTML.
+        // Avoid doing so if the header has not been printed.
+        // (The caveat is because some plugins e.g. mod/customcert/view.php when sending a PDF file may trigger this function).
+        if ($PAGE->state === moodle_page::STATE_IN_BODY) {
+            $jsconfig = format_tiles\output\course_output::get_js_config_data($PAGE->course->id);
+            $renderer = $PAGE->get_renderer('format_tiles');
+            $html .= $renderer->render_from_template('format_tiles/js-config', ['tiles_js_config' => $jsconfig]);
+        }
     } catch (\Exception $e) {
         debugging("Could not prepare format_tiles footer data: " . $e->getMessage(), DEBUG_DEVELOPER);
     }
