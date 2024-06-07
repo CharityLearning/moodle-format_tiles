@@ -48,7 +48,7 @@ class section extends section_base {
         $data->hasphoto = 0;
         // If photo tile backgrounds are allowed by site admin, prepare the image for this section.
         if (get_config('format_tiles', 'allowphototiles')) {
-            $coursecontext = $this->format->get_context();
+            $coursecontext = \context_course::instance($this->section->course);
             // Is getting course context the most efficient way?
             $tilephoto = new tile_photo($coursecontext, $this->section->id);
             $tilephotourl = $tilephoto->get_image_url();
