@@ -1,5 +1,6 @@
 /*CSS including colour variables for colours set at course level*/
 /*Formerly included in dynamic styles via mustache*/
+/*The variable --format-tiles-colour is defined in \format_tiles\local\dynamic_styles*/
 
 .format-tiles .course-content ul.tiles .tile.tilestyle-1,
 .format-tiles .course-content ul.tiles .tile.tilestyle-2,
@@ -31,11 +32,6 @@
 .format-tiles ul.tiles .current .sectiontitle::after {
     background-color: red;
 }
-.format-tiles ul.tiles .headerabovetiles button.selected,
-.headerabovetiles button:active, .headerabovetiles button:focus,
-.format-tiles .embed_cm_modal .modal-header {
-    background-color: var(--format-tiles-colour);
-}
 .format-tiles .embed_cm_modal .modal-header h5,
 .format-tiles .embed_cm_modal .modal-header h4 {
     color: #fff;
@@ -48,10 +44,6 @@
 .format-tiles .badge-info {
     background-color: var(--format-tiles-colour);
 }
-.format-tiles ul.tiles .headerabovetiles button:hover {
-    border-color: var(--format-tiles-colour-5);
-}
-
 .format-tiles .course-content .single-section .navigation-arrows .navigation-arrow:not(.dimmed):hover,
 .format-tiles .embed_cm_modal .embed_file_button:hover {
     background-color: var(--format-tiles-colour-1);
@@ -852,13 +844,6 @@ body.jsenabled.format-tiles #collapsiblesec0 {
 }
 .format-tiles #abovetiles.section-zero-empty {
     width: calc(100% - 40px);
-}
-
-body.format-tiles.jsenabled .course-content .headerabovetiles {
-    display: block;
-}
-.format-tiles .headerabovetiles .progress-indic {
-    height: 42px;
 }
 .format-tiles .phototile .progress-indic {
     color: rgba(255, 255, 255, 0.85);

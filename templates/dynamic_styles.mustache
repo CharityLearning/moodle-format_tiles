@@ -69,7 +69,11 @@
         border-left-width: 10px;
     }
 {{/shade_heading_bar}}
-
+{{! We need to include this here and not in styles.css }}
+{{! Modals sit outside of #format-tiles-multi-section-page so have no access to var(--format-tiles-colour) }}
+.format-tiles .embed_cm_modal .modal-header {
+    background-color: rgb({{base_colour_rgb}});
+}
 {{#isstyle1or2}}
     {{#allowphototiles}}
         .format-tiles .course-content ul.tiles .tile.phototile .photo-tile-text h3 {
