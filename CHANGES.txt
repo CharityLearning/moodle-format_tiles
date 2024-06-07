@@ -422,7 +422,7 @@ Other
 - Fix issue #208 overlap on tile when using style 2
 - Registration bug and other minor bug fixes
 
-4.1.1.7 (2024060702)
+4.1.1.8 (2024060703)
 ====================
 - Fix issue 210 progress indicator contrast
 - Fix issue 203 drawer scroll (Moodle 4.0 - 4.2)
