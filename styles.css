@@ -55,7 +55,7 @@
     transition: all 0.1s ease-in-out;
 }
 
-.format-tiles .filterbutton.selected{
+.format-tiles .filterbutton.selected {
     background-color: var(--format-tiles-colour-1);
 }
 
