@@ -22,7 +22,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace format_tiles;
+namespace format_tiles\local;
 
 /**
  * Class registration_manager
@@ -136,8 +136,8 @@ class registration_manager {
             ]
         );
         $curloutput = json_decode($curl->post($url, json_encode($data)), true);
-        $curloutput['http_code'] = $curl->get_info()['http_code'];
-        $curloutput['errno'] = $curl->get_errno();
+        $curloutput['http_code'] = $curl->get_info()['http_code'] ?? 'unknown';
+        $curloutput['errno'] = $curl->get_errno() ?? 'unknown';
         return $curloutput;
     }
 
