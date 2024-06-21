@@ -181,7 +181,7 @@ class course_output implements \renderable, \templatable {
                 $PAGE->requires->set_one_time_item_created('filter_glossary_autolinker');
 
             } catch (\Exception $e) {
-                debugging('Could not set glossary autolink created');
+                debugging('Could not set glossary autolink created', DEBUG_DEVELOPER);
             }
         }
         $data = $this->get_basic_data();
