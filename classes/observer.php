@@ -58,11 +58,11 @@ class observer {
     }
 
     /**
-     * When a course module is deleted, delete its photo if it has one.
+     * When a course module is deleted, invalidate modalcmids cache for course.
      * @param \core\event\course_module_deleted $event
      */
     public static function course_module_deleted(\core\event\course_module_deleted $event) {
-        if (in_array($event->other['modulename'], ['resource', 'page'])) {
+        if (self::mod_uses_cm_modal_cache($event->other['modulename'])) {
             self::clear_cache_modal_cmids($event->courseid);
         }
 
@@ -73,7 +73,7 @@ class observer {
      * @param \core\event\course_module_created $event
      */
     public static function course_module_created(\core\event\course_module_created $event) {
-        if (in_array($event->other['modulename'], ['resource', 'page'])) {
+        if (self::mod_uses_cm_modal_cache($event->other['modulename'])) {
             self::clear_cache_modal_cmids($event->courseid);
         }
     }
@@ -83,7 +83,7 @@ class observer {
      * @param \core\event\course_module_updated $event
      */
     public static function course_module_updated(\core\event\course_module_updated $event) {
-        if (in_array($event->other['modulename'], ['resource', 'page', 'url'])) {
+        if (self::mod_uses_cm_modal_cache($event->other['modulename'])) {
             self::clear_cache_modal_cmids($event->courseid);
         }
     }
@@ -100,6 +100,24 @@ class observer {
                 \format_tiles\local\format_option::delete_legacy_format_options($event->objectid);
             }
         }
+    }
+
+    /**
+     * When a course is restored, the existing course content may be selected to be deleted.
+     * @param \core\event\course_restored $event
+     * @return void
+     */
+    public static function course_restored(\core\event\course_restored $event) {
+        self::clear_cache_modal_cmids($event->courseid);
+    }
+
+    /**
+     * Is this module one which uses the cache to store modal cm data?
+     * @param string $modname
+     * @return bool
+     */
+    private static function mod_uses_cm_modal_cache(string $modname): bool {
+        return in_array($modname, ['resource', 'page', 'url']);
     }
 
     /**

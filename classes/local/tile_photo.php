@@ -80,7 +80,10 @@ class tile_photo {
             $this->sectionid = $sectionid;
             $this->tilesoptiontype = format_option::OPTION_SECTION_PHOTO;
         } else {
-            debugging('Invalid photo context level: ' . $this->context->contextlevel . ' section ID ' . $sectionid);
+            debugging(
+                'Invalid photo context level: ' . $this->context->contextlevel . ' section ID ' . $sectionid,
+                DEBUG_DEVELOPER
+            );
         }
         // Init filename.
         $this->get_filename();
@@ -258,7 +261,7 @@ class tile_photo {
                 $this->context,
                 $this->get_element_id(),
                 $newwidth,
-                $sourceimageinfo['height'] * $newwidth / $sourceimageinfo['width']
+                floor($sourceimageinfo['height'] * $newwidth / $sourceimageinfo['width'])
             );
             if ($newfile) {
                 if ($this->get_filename() && $this->get_filename() != $sourcefile->get_filename()) {

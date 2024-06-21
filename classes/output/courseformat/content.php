@@ -55,9 +55,6 @@ class content extends content_base {
         $data->ismoodle42minus = $moodlerelease <= 4.2;
         $data->ismoodle41minus = $moodlerelease <= 4.1;
 
-        $data->basecolourrgb = dynamic_styles::rgbcolour($course->basecolour ?? '');
-        $data->cssvarsstring = dynamic_styles::make_course_colour_styles_string($data->basecolourrgb);
-
         // For now this class is only used if user is editing but check anyway as one day it will be used when not editing.
         if ($isediting) {
             $isadmin = is_siteadmin($USER->id);
