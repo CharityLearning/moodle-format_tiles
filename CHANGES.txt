@@ -429,3 +429,21 @@ Other
 - Refactor move tiles local classes to \format_tiles\local\
 - Refactor dynamic styles to use CSS vars and less inline CSS
 - Other minor changes: tile fitter JS, registration, book icon & Adaptable theme CSS
+
+4.1.1.10 (2024062101)
+====================
+- Respect section permalinks https://docs.moodle.org/403/en/Course_homepage#Get_a_permalink_to_a_course_section
+- Remove CSS error
+- Dynamic styles improve
+- Non JS mode - fix Moodle 4.4 section.php page incl colours, fix dimmed nav arrow colour.
+- Refactor JS init and remove some redundant editor JS
+- Avoid imprecision warning on image upload
+- Support for section.php on Moodle 4.4
+- Move some helper methods and minor refactor
+- Fix modals non JS navigation mode
+- Course index admin setting defaults to on for Tiles
+- After save an activity, return to course main page, with # scroll to section edited
+- Remove set icon menu control for section zero
+- Avoid footer cache issue when course is restored deleting existing content.
+- Fix URL activity modal when launched from course index.
+- Add a quick behat test that course edit settings page still works when Tiles in use.
