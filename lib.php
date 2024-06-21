@@ -166,13 +166,15 @@ class format_tiles extends core_courseformat\base {
         } else {
             $sectionno = $section;
         }
+
         if ($sectionno !== null) {
-            if ($sr) {
+            if ($sr !== null) {
+                $url->set_anchor('section-' . $sectionno);
                 $sectionno = $sr;
             }
             if ($sectionno != 0) {
                 $url->param('section', $sectionno);
-            } else {
+            } else if ($sr === null) {
                 if (!empty($options['navigation'])) {
                     return null;
                 }
@@ -997,22 +999,23 @@ function format_tiles_output_fragment_get_cm_content(array $args): string {
     require_capability('mod/' . $mod->modname . ':view', $context);
 
     if ($mod) {
-        if (!in_array($mod->modname, explode(",", get_config('format_tiles', 'modalmodules')))) {
+        $allowedmodules = explode(",", get_config('format_tiles', 'modalmodules'));
+        $treataslabel = $mod->has_custom_cmlist_item();
+        if (!in_array($mod->modname, $allowedmodules) && !$treataslabel) {
             throw new invalid_parameter_exception('Not allowed to call this mod type - disabled by site admin');
         }
         if (!$mod->uservisible) {
             require_capability('moodle/course:viewhiddenactivities', $context);
         }
-        if (!in_array($mod->modname, explode(",", get_config('format_tiles', 'modalmodules')))) {
-            throw new invalid_parameter_exception('Not allowed to call this mod type - disabled by site admin');
-        }
         if ($mod->modname == 'page') {
             // Record from the page table.
             $record = $DB->get_record($mod->modname, ['id' => $mod->instance], 'intro, content, revision, contentformat');
             return \format_tiles\local\util::format_cm_content_text($mod->modname, $record, $context);
-        } else {
-            throw new invalid_parameter_exception('Only page modules allowed through this service');
         }
+        if ($treataslabel) {
+            return $mod->get_formatted_content(['overflowdiv' => true, 'noclean' => true]);
+        }
+        throw new invalid_parameter_exception('Only page modules or label like activities are allowed through this service');
     }
     throw new invalid_parameter_exception('Module not found with context ID ' . $args['contextid']);
 }
@@ -1025,20 +1028,11 @@ function format_tiles_output_fragment_get_cm_content(array $args): string {
  * @throws moodle_exception
  */
 function format_tiles_before_standard_html_head(): string {
-    global $PAGE;
     $html = '';
-
     try {
-        $courseid = optional_param('id', 0, PARAM_INT);
-
-        $istilescoursefrontpage = $PAGE->pagetype == 'course-view-tiles' && $courseid
-            && $PAGE->url->compare(new moodle_url('/course/view.php'), URL_MATCH_BASE);
-        if (!$istilescoursefrontpage || !$courseid) {
-            // We have to be careful in this function as it's called on every page (not just tiles course pages).
-            return '';
-        }
-
-        $dynamiccss = \format_tiles\local\dynamic_styles::get_tiles_dynamic_css($courseid);
+        // We have to be careful in this function as it's called on every page (not just tiles course pages).
+        // The method get_tiles_dynamic_css() will check that we are on a page that really needs it.
+        $dynamiccss = \format_tiles\local\dynamic_styles::get_tiles_dynamic_css();
         if ($dynamiccss) {
             $html .= "<style id=\"format-tiles-dynamic-css\">$dynamiccss</style>";
         }
@@ -1065,14 +1059,15 @@ function format_tiles_before_footer() {
         $html = '';
 
         $editing = $PAGE->user_is_editing();
-        $oncourseviewpage = $PAGE->pagetype == 'course-view-tiles';
+
+        $allowedpagetypes = ['course-view-tiles', 'section-view-tiles'];
+        $oncourseviewpage = in_array($PAGE->pagetype, $allowedpagetypes);
 
         // On a mod/view.php page we may need JS to ensure that any clicks on course index menu launch modals where appropriate.
         $modviewpageneedsjs = false;
-        $allowedmodals = null;
+        $allowedmodals = format_tiles\local\modal_helper::allowed_modal_modules();
 
         if (get_config('format_tiles', 'usecourseindex')) {
-            $allowedmodals = format_tiles\local\util::allowed_modal_modules();
             if (!empty($allowedmodals['resources'] || !empty($allowedmodals['modules']))) {
                 // On /mod/xxx/view.php or course/view.php page passing in cmid, may need to launch modal JS.
                 // This is because the course index needs the JS.  So get details.
@@ -1083,8 +1078,6 @@ function format_tiles_before_footer() {
         }
 
         if (($oncourseviewpage && !$editing) || $modviewpageneedsjs) {
-            $allowedmodals = $allowedmodals === null ? format_tiles\local\util::allowed_modal_modules() : $allowedmodals;
-
             // Course module modals.
             $launchmodalcmid = null;
             if (!empty($allowedmodals['resources'] || !empty($allowedmodals['modules']))) {
@@ -1101,7 +1094,7 @@ function format_tiles_before_footer() {
             }
             $PAGE->requires->js_call_amd(
                 'format_tiles/course_mod_modal', 'init',
-                [$PAGE->course->id, false, $PAGE->pagetype, $launchmodalcmid]
+                [$PAGE->course->id, false, $PAGE->pagetype, $launchmodalcmid, \format_tiles\local\util::using_js_nav()]
             );
         }
 
@@ -1109,7 +1102,7 @@ function format_tiles_before_footer() {
         // Avoid doing so if the header has not been printed.
         // (The caveat is because some plugins e.g. mod/customcert/view.php when sending a PDF file may trigger this function).
         if ($PAGE->state === moodle_page::STATE_IN_BODY) {
-            $jsconfig = format_tiles\output\course_output::get_js_config_data($PAGE->course->id);
+            $jsconfig = format_tiles\local\util::get_js_config_data($PAGE->course->id);
             $renderer = $PAGE->get_renderer('format_tiles');
             $html .= $renderer->render_from_template('format_tiles/js-config', ['tiles_js_config' => $jsconfig]);
         }

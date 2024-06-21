@@ -1,6 +1,6 @@
 /*CSS including colour variables for colours set at course level*/
 /*Formerly included in dynamic styles via mustache*/
-/*The variable --format-tiles-colour is defined in \format_tiles\local\dynamic_styles*/
+/*The variables e.g. --format-tiles-colour are defined in dynamic_styles mustache template*/
 
 .format-tiles .course-content ul.tiles .tile.tilestyle-1,
 .format-tiles .course-content ul.tiles .tile.tilestyle-2,
@@ -28,6 +28,9 @@
 }
 .format-tiles ul.tiles .tile.selected {
     border-top-color: var(--format-tiles-colour-5);
+}
+.format-tiles .embed_cm_modal .modal-header {
+    background-color: var(--format-tiles-colour);
 }
 .format-tiles ul.tiles .current .sectiontitle::after {
     background-color: red;
@@ -615,7 +618,7 @@ li.activity .tileiconcontainer .tile-icon .icon.fa {
 .format-tiles .navigation-arrows .navigation-arrow.dimmed:hover {
     background-color: inherit;
 }
-.format-tiles .single-section a.navigation-arrow {
+.format-tiles .single-section .navigation-arrow {
     color: grey;
 }
 
@@ -853,6 +856,11 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     left: 0;
     font-size: 0.9em;
 }
+.format-tiles .phototile .progress-indic,
+.format-tiles .subtile.hasphoto .activitytype,
+.format-tiles.editing .subtile.hasphoto .editable-title {
+    background-color: rgba(var(--format-tiles-colour-elems), var(--format-tiles-photo-tile-text-bg-opacity));
+}
 .format-tiles .tilestyle-2.phototile .progress-indic {
     top: 5px;
     right: 0;
@@ -861,6 +869,9 @@ body.jsenabled.format-tiles #collapsiblesec0 {
 }
 .format-tiles .phototile .progress-complete-alt img {
     margin-top: 4px;
+}
+.format-tiles li.activity.subtile.hasphoto {
+    border-top-color: var(--format-tiles-colour);
 }
 .format-tiles .filterbutton {
     cursor: pointer;
@@ -1638,12 +1649,12 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     text-align: left;
     position: absolute;
 }
-
 .format-tiles .course-content ul.tiles .tile.phototile.tilestyle-1 .photo-tile-text h3,
 .format-tiles .course-content ul.tiles .tile.phototile.tilestyle-2 .photo-tile-text h3 {
     display: inline;
-    line-height: 30px;
-    padding: 4px 7px;
+    background-color: rgba(var(--format-tiles-colour-elems), var(--format-tiles-photo-tile-text-bg-opacity));
+    line-height: var(--format-tiles-photo-tile-text-line-height);
+    padding: var(--format-tiles-photo-tile-text-padding) 7px;
     text-align: center;
     color: #fff;
 }
