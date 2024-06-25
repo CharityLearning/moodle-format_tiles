@@ -447,3 +447,7 @@ Other
 - Avoid footer cache issue when course is restored deleting existing content.
 - Fix URL activity modal when launched from course index.
 - Add a quick behat test that course edit settings page still works when Tiles in use.
+
+4.2.1.8 (2024062501)
+=====================
+- Correct behat test feature name (avoid dupe of core)
