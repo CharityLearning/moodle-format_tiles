@@ -1,5 +1,5 @@
-@core @format_tiles @format_tiles_course_settings
-Feature: Edit course settings
+@format_tiles @format_tiles_course_settings
+Feature: Edit course settings page format tiles
   In order to set the course according to my teaching needs
   As a teacher
   I need to edit the course settings
