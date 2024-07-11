@@ -452,7 +452,7 @@ Other
 =====================
 - Correct behat test feature name (avoid dupe of core)
 
-4.3.0.37 (2024070803)
+4.2.1.8 (2024071105)
 =====================
 - Fix issue #131 image overwrite
 - Fix issue #207 course modules indent (non-subtiles only)
@@ -463,11 +463,5 @@ Other
 - Remove duplicate lock icon
 - Add test to check course/edit.php works when tiles is on
 - Debugging messages set to DEBUG_DEVELOPER
-
-4.3.0.38 (2024070903)
-=====================
 - Remove photo options from icon picker modal when user is on course edit form (avoid course_sections error)
-
-4.3.0.40 (2024071106)
-=====================
 - Add tip to section edit form for how to edit tile icon/photo
