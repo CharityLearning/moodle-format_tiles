@@ -32,7 +32,7 @@ define(["jquery", "core/notification", "core/str", "core/templates"],
     function ($, Notification, str, Templates) {
         "use strict";
         return {
-            init: function (pageType, courseDefaultIcon, courseId, userId, allowphototiles, documentationUrl) {
+            init: function (pageType, courseDefaultIcon, courseId, allowphototiles, documentationUrl) {
                 $(document).ready(function () {
                     const useSubTilesCheckBox = $("input#id_courseusesubtiles");
                     const useSubTilesSecZeroCheckBox = $("input#id_usesubtilesseczero");
@@ -147,14 +147,14 @@ define(["jquery", "core/notification", "core/str", "core/templates"],
                             initialicon: currentIcon,
                             initialname: selectedIconName,
                             sectionId: 0,
-                            allowphototiles: allowphototiles
+                            allowphototiles: false // We do not allow a photo to be set as the default at course level.
                         }).done(function (html) {
                             $(html).insertAfter(selectBox);
 
                             // We can hide the original select box now as users will use the button instead.
                             selectBox.hide();
                             require(["format_tiles/edit_icon_picker"], function(iconPicker) {
-                                iconPicker.init(courseId, pageType, allowphototiles, documentationUrl);
+                                iconPicker.init(courseId, pageType, false, documentationUrl);
                             });
                         });
                     }
