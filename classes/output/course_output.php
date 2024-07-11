@@ -439,7 +439,7 @@ class course_output implements \renderable, \templatable {
                 $data['phototileurl'] = $tilephotourl;
                 $data['phototileediturl'] = new \moodle_url(
                     '/course/format/tiles/editor/editimage.php',
-                    ['courseid' => $this->course->id, 'sectionid' => $thissection->id]
+                    ['sectionid' => $thissection->id]
                 );
             }
         }
@@ -581,7 +581,7 @@ class course_output implements \renderable, \templatable {
                     'current' => course_get_format($this->course)->is_section_current($section),
                     'hidden' => !$section->visible,
                     'visible' => $section->visible,
-                    'restricted' => !($section->available),
+                    'restrictionlock' => !($section->available),
                     'userclickable' => $section->available || $section->uservisible,
                     'activity_summary' => self::temp_section_activity_summary($section),
                     'titleclass' => strlen($title) >= $longtitlelength ? ' longtitle' : '',
@@ -601,7 +601,7 @@ class course_output implements \renderable, \templatable {
                     $newtile['phototileurl'] = $tilephotourl;
                     $newtile['phototileediturl'] = new \moodle_url(
                         '/course/format/tiles/editor/editimage.php',
-                        ['courseid' => $this->course->id, 'sectionid' => $section->id]
+                        ['sectionid' => $section->id]
                     );
                 }
 
