@@ -111,6 +111,26 @@ class util {
     }
 
     /**
+     * Is this Moodle environment 4.0, 4.0.1 or 4.0.2?
+     * @return bool
+     */
+    public static function isMoodle402Minus(): bool {
+        global $CFG;
+        $matches = [];
+        preg_match('/^(\d+)\.(\d+)(\.(\d+))?.*$/', $CFG->release, $matches);
+        $ismoodle40 = ($matches[1] ?? null) == 4 && ($matches[2] ?? null) == 0;
+        if ($ismoodle40 && !isset($matches[3])) {
+            // Is Moodle 4.0.
+            return true;
+        }
+        if ($ismoodle40 && in_array($matches[4], [0, 1, 2])) {
+            // Is Moodle 4.0.0, 4.0.1 or 4.0.2.
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Get the release details of this version of Tiles.
      * @return string
      */

@@ -45,7 +45,6 @@ class cm extends core_cm {
      * @return bool if the cm has format data
      */
     protected function add_format_data(\stdClass &$data, array $haspartials, \renderer_base $output): bool {
-
         $parentadded = parent::add_format_data($data, $haspartials, $output);
 
         // See also the higher level section where moodle release info is added e.g. ismoodle42minus.
@@ -56,6 +55,7 @@ class cm extends core_cm {
         $data->ismoodle42minus = $moodlerelease <= 4.2;
         $data->ismoodle41minus = $moodlerelease <= 4.1;
         $data->ismoodle40 = $moodlerelease === 4.0;
+        $data->ismoodle402minus = \format_tiles\local\util::isMoodle402Minus();
         $data->modcontextid = $this->mod->context->id;
 
         $childadded = true; // We did add some data above.
