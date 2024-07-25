@@ -55,7 +55,7 @@ class cm extends core_cm {
         $data->ismoodle42minus = $moodlerelease <= 4.2;
         $data->ismoodle41minus = $moodlerelease <= 4.1;
         $data->ismoodle40 = $moodlerelease === 4.0;
-        $data->ismoodle402minus = \format_tiles\local\util::isMoodle402Minus();
+        $data->ismoodle402minus = \format_tiles\local\util::is_moodle_402_minus();
         $data->modcontextid = $this->mod->context->id;
 
         $childadded = true; // We did add some data above.

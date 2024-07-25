@@ -114,7 +114,7 @@ class util {
      * Is this Moodle environment 4.0, 4.0.1 or 4.0.2?
      * @return bool
      */
-    public static function isMoodle402Minus(): bool {
+    public static function is_moodle_402_minus(): bool {
         global $CFG;
         $matches = [];
         preg_match('/^(\d+)\.(\d+)(\.(\d+))?.*$/', $CFG->release, $matches);
