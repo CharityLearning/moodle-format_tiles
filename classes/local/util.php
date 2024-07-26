@@ -229,6 +229,41 @@ class util {
     }
 
     /**
+     * Is the current user using tile fitter?
+     * @return bool
+     * @throws \coding_exception
+     * @throws \dml_exception
+     */
+    public static function using_tile_fitter(): bool {
+        global $SESSION;
+
+        if (optional_param('skipcheck', 0, PARAM_INT)) {
+            // The skipcheck param is for anyone stuck at loading icon who clicks it - they escape it for session.
+            $SESSION->format_tiles_skip_width_check = 1;
+            return false;
+        }
+
+        return get_config('format_tiles', 'fittilestowidth')
+            && \core_useragent::get_device_type() != \core_useragent::DEVICETYPE_MOBILE
+            && ($SESSION->format_tiles_skip_width_check ?? null) != 1;
+    }
+
+
+    /**
+     * If tile fitter has already set a max width for page, what is it?
+     * @param int $courseid
+     * @return int
+     */
+    public static function get_tile_fitter_max_width(int $courseid): int {
+        global $SESSION;
+        if (!$courseid) {
+            return 0;
+        }
+        $var = 'format_tiles_width_' . $courseid;
+        return $SESSION->$var ?? 0;
+    }
+
+    /**
      * Iterates through all the colours entered by the administrator under the plugin settings page
      * @return array list of all the colours and their names for use in the settings forms
      * @throws \dml_exception
@@ -274,10 +309,7 @@ class util {
                 'assumeDataStoreContent' => get_config('format_tiles', 'assumedatastoreconsent'),
                 'reOpenLastSection' => get_config('format_tiles', 'reopenlastsection'),
                 'userId' => $USER->id,
-                'fitTilesToWidth' => get_config('format_tiles', 'fittilestowidth')
-                    && !optional_param("skipcheck", 0, PARAM_INT)
-                    && !isset($SESSION->format_tiles_skip_width_check)
-                    && $usejsnav,
+                'fitTilesToWidth' => self::using_tile_fitter(),
                 'enablecompletion' => $course->enablecompletion,
                 'usesubtiles' => get_config('format_tiles', 'allowsubtilesview') && $course->courseusesubtiles,
             ];

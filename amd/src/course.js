@@ -744,6 +744,8 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                         // Remove section and cmid URL params is present as we are using JS nav.
                         removeUrlParam(/(&|\\?)cmid=\d+/gi);
                         removeUrlParam(/(&|\\?)section=\d+/gi);
+                    } else if (fitTilesToWidth) {
+                        tileFitter.resizeTilesDivWidth(courseId);
                     }
 
                     // If this event is triggered, user has updated a completion check box.

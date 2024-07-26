@@ -120,8 +120,9 @@ class dynamic_styles {
         }
 
         // Tile fitter if used.
-        $outputdata['usingtilefitter'] = self::using_tile_fitter();
-        $outputdata['tilefittermaxwidth'] = $outputdata['usingtilefitter'] ? self::get_tile_fitter_max_width($courseid) : 0;
+        $outputdata['usingtilefitter'] = \format_tiles\local\util::using_tile_fitter();
+        $outputdata['tilefittermaxwidth'] = $outputdata['usingtilefitter']
+            ? \format_tiles\local\util::get_tile_fitter_max_width($courseid) : 0;
 
         return $outputdata;
     }
@@ -182,44 +183,9 @@ class dynamic_styles {
      * @throws \dml_exception
      */
     public static function page_needs_loading_icon(int $courseid): bool {
-        if (!self::using_tile_fitter()) {
+        if (!\format_tiles\local\util::using_tile_fitter()) {
             return false;
         }
-        return !self::get_tile_fitter_max_width($courseid);
-    }
-
-    /**
-     * If tile fitter has already set a max width for page, what is it?
-     * @param int $courseid
-     * @return int
-     */
-    public static function get_tile_fitter_max_width(int $courseid): int {
-        global $SESSION;
-        if (!$courseid) {
-            return 0;
-        }
-        $var = 'format_tiles_width_' . $courseid;
-        return $SESSION->$var ?? 0;
-    }
-
-    /**
-     * Is the current user using tile fitter?
-     * @return bool
-     * @throws \coding_exception
-     * @throws \dml_exception
-     */
-    public static function using_tile_fitter(): bool {
-        global $SESSION;
-
-        if (optional_param('skipcheck', 0, PARAM_INT)) {
-            // The skipcheck param is for anyone stuck at loading icon who clicks it - they escape it for session.
-            $SESSION->format_tiles_skip_width_check = 1;
-            return false;
-        }
-
-        return \format_tiles\local\util::using_js_nav()
-            && get_config('format_tiles', 'fittilestowidth')
-            && \core_useragent::get_device_type() != \core_useragent::DEVICETYPE_MOBILE
-            && ($SESSION->format_tiles_skip_width_check ?? null) != 1;
+        return !\format_tiles\local\util::get_tile_fitter_max_width($courseid);
     }
 }
