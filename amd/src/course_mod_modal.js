@@ -97,16 +97,14 @@ define(["jquery", "core/modal_factory", "core/config", "core/templates", "core/n
          * @param {number} sectionNum
          * @param {string} title
          * @param {string} objectType
-         * @param {string} pluginfileUrl
          * @param {boolean} completionEnabled
          * @param {number} existingCompletionState
          * @param {boolean} isManualCompletion
-         * @param {string} secondaryUrl URL to be shown to user as a fallback if embedded URL does not laod.
          * @returns {boolean}
          */
         const launchCmModal = function (
-                cmId, moduleContextId, sectionNum, title, objectType, pluginfileUrl,
-                completionEnabled, existingCompletionState, isManualCompletion, secondaryUrl
+                cmId, moduleContextId, sectionNum, title, objectType,
+                completionEnabled, existingCompletionState, isManualCompletion
             ) {
             modalFactory.create({
                 type: modalFactory.types.DEFAULT,
@@ -139,7 +137,6 @@ define(["jquery", "core/modal_factory", "core/config", "core/templates", "core/n
                     // First a blank template data object.
                     var templateData = {
                         id: cmId,
-                        pluginfileUrl: pluginfileUrl,
                         objectType: null,
                         width: "100%",
                         height: Math.round(win.height() - 60), // Embedded object height in modal - make as high as poss.
@@ -149,12 +146,11 @@ define(["jquery", "core/modal_factory", "core/config", "core/templates", "core/n
                         sesskey: config.sesskey,
                         activityname: title,
                         config: {wwwroot: config.wwwroot},
-                        completionstring: '',
-                        secondaryurl: secondaryUrl
+                        completionstring: ''
                     };
 
                     var template = null;
-                    if (objectType === "resource_html") {
+                    if (["resource_html", 'resource_markup'].includes(objectType)) {
                         templateData.objectType = "text/html";
                         template = 'format_tiles/embed_file_modal_body';
                     } else if (objectType === "resource_pdf") {
@@ -195,9 +191,8 @@ define(["jquery", "core/modal_factory", "core/config", "core/templates", "core/n
                     tileid: sectionNum,
                     showDownload: objectType === "resource_pdf" ? 1 : 0,
                     showNewWindow: ["resource_pdf", 'url'].includes(objectType) ? 1 : 0,
-                    pluginfileUrl: pluginfileUrl,
                     forModal: true,
-                    secondaryurl: secondaryUrl
+                    config: {wwwroot: config.wwwroot}
                 };
                 if (completionEnabled) {
                     headerTemplateData.istrackeduser = 1;
@@ -333,15 +328,6 @@ define(["jquery", "core/modal_factory", "core/config", "core/templates", "core/n
             }
         };
 
-        const logCmView = function(cmId) {
-            ajax.call([{
-                methodname: "format_tiles_log_mod_view", args: {
-                    courseid: courseId,
-                    cmid: cmId
-                }
-            }])[0].fail(Notification.exception);
-        };
-
         /**
          * Do we need a modal for this cm?
          * @param {number} cmId course module ID
@@ -411,12 +397,9 @@ define(["jquery", "core/modal_factory", "core/config", "core/templates", "core/n
                                                         data.name,
                                                         data.modname === 'resource'
                                                             ? `resource_${data.resourcetype}` : data.modname,
-                                                        data.modname === 'url' || data.resourcetype === 'html'
-                                                            ? data.pluginfileurl : linkUrl,
                                                         data.completionenabled ? 1 : 0,
                                                         data.iscomplete ? 1 : 0,
-                                                        data.ismanualcompletion,
-                                                        data.pluginfileurl
+                                                        data.ismanualcompletion
                                                     );
                                                 } else {
                                                     window.location.href = config.wwwroot
@@ -461,28 +444,34 @@ define(["jquery", "core/modal_factory", "core/config", "core/templates", "core/n
                                         data.sectionnumber,
                                         data.name,
                                         data.modname === 'resource' ? `resource_${data.resourcetype}` : data.modname,
-                                        ['url', 'resource'].includes(data.modname) ? data.pluginfileurl : '',
                                         data.completionenabled ? 1 : 0,
                                         data.iscomplete ? 1 : 0,
                                         data.ismanualcompletion,
-                                        data.secondaryurl
                                     );
                                 }
                             });
                         }
-
-                        const launchModalDataActions =
-                            ["launch-tiles-resource-modal", "launch-tiles-module-modal", "launch-tiles-url-modal"];
-                        var modalSelectors = launchModalDataActions.map(function (action) {
-                            return `[data-action="${action}"]`;
-                        }).join(", ");
 
                         var pageContent = $(Selector.pageContent);
                         if (pageContent.length === 0) {
                             // Some themes e.g. RemUI do not have a #page-content div, so use #region-main.
                             pageContent = $(Selector.regionMain);
                         }
-                        pageContent.on("click", modalSelectors, function (e) {
+
+                        pageContent.on("keydown", `[data-action="launch-tiles-cm-modal"]`, function (e) {
+                            const ENTER_KEY = 13;
+                            if (e.keyCode === ENTER_KEY) {
+                                // User has tabbed to a modal capable activity and pressed enter.
+                                // To improve accessibility, do not launch a modal but show them standard activity screen.
+                                e.preventDefault();
+                                const url = $(e.target).attr('href');
+                                if (url) {
+                                    window.location.href = url;
+                                }
+                            }
+                        });
+
+                        pageContent.on("click", `[data-action="launch-tiles-cm-modal"]`, function (e) {
                             // If click is on a completion checkbox within activity, ignore here as handled elsewhere.
                             const tgt = $(e.target);
                             const isExcludedControl = tgt.hasClass(CLASS.COMPLETION_CHECK_BOX)
@@ -507,8 +496,6 @@ define(["jquery", "core/modal_factory", "core/config", "core/templates", "core/n
                             if (typeof existingModal === "object") {
                                 existingModal.show();
                             } else {
-                                // Log the fact we viewed it (only do this once not every time the modal launches).
-                                logCmView(cmId);
 
                                 // We don't already have it, so make it.
                                 launchCmModal(
@@ -517,12 +504,10 @@ define(["jquery", "core/modal_factory", "core/config", "core/templates", "core/n
                                     sectionNum,
                                     clickedCmObject.data('title'),
                                     clickedCmObject.data('modtype'),
-                                    clickedCmObject.data('url'),
                                     clickedCmObject.hasClass(CLASS.COMPLETION_ENABLED),
                                     clickedCmObject.data('completion-state')
                                         ? parseInt(clickedCmObject.data('completion-state')) : null,
                                     clickedCmObject.hasClass(CLASS.COMPLETION_MANUAL),
-                                    clickedCmObject.data("url-secondary")
                                 );
                             }
                         });
