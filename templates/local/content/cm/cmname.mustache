@@ -46,11 +46,18 @@
     }
 }}
 {{#ismoodle402minus}}
-{{! In moodle 4.0.0 the template course/format/templates/local/content/cm/cmname.mustache was very short as follows }}
+{{! In moodle 4.0.0 the template course/format/templates/local/content/cm/cmname.mustache was very short }}
     {{! This changed in commit dc63d643b837be2bb0723c654ca88edcfe55bf44 version 4.0.3}}
-    {{$ core/inplace_editable }}
-        {{> core/inplace_editable }}
-    {{/ core/inplace_editable }}
+    {{#editing}}
+    {{! We use the core template for non subtiles if user is editing, so modals will not be launched}}
+        {{$ core/inplace_editable }}
+            {{> core/inplace_editable }}
+        {{/ core/inplace_editable }}
+    {{/editing}}
+    {{^editing}}
+    {{! If user is not editing, we use this for non subtiles as we need to add data-action for modal launch}}
+        <a href="{{url}}"{{#hasModal}} data-action="launch-tiles-cm-modal"{{/hasModal}} class="aalink stretched-link" onclick="{{onclick}}"><span class="instancename">{{cmtitle}}</span></a>
+    {{/editing}}
 {{/ismoodle402minus}}
 {{^ismoodle402minus}}
     {{#url}}
@@ -71,9 +78,16 @@
                         {{/showpluginname}}
                         <div class="activityname">
                             {{#activityname}}
-                                {{$ core/inplace_editable }}
-                                    {{> core/inplace_editable }}
-                                {{/ core/inplace_editable }}
+                                {{#editing}}
+                                {{! We use the core template for non subtiles if user is editing, so modals will not be launched}}
+                                    {{$ core/inplace_editable }}
+                                        {{> core/inplace_editable }}
+                                    {{/ core/inplace_editable }}
+                                {{/editing}}
+                                {{^editing}}
+                                {{! If user is not editing, we use this for non subtiles as we need to add data-action for modal launch}}
+                                    <a href="{{url}}"{{#hasModal}} data-action="launch-tiles-cm-modal"{{/hasModal}} class="aalink stretched-link" onclick="{{onclick}}"><span class="instancename">{{cmtitle}}</span></a>
+                                {{/editing}}
                             {{/activityname}}
                         </div>
                     </div>

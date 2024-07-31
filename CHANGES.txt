@@ -466,16 +466,12 @@ Other
 - Remove photo options from icon picker modal when user is on course edit form (avoid course_sections error)
 - Add tip to section edit form for how to edit tile icon/photo
 
-4.3.0.43 (2024072503)
+4.1.1.13 (2024073110)
 =====================
 - Delete unused tile photos files when they are unset
 - Fix issue #211 icon fallbacks (previous fix incomplete)
 - Remove tile 1 focus on page load
 - Fix issue #214 Tile misalignment after 4.3 update
-- Simplify tile fitter JS to speed up tile re-org when course index opened/closed
-
-4.3.0.44 (2024073130)
-=====================
 - Accessibility improvements
 - Code simplification (modals incl pluginfile URLs)
 - Allow tile fitter to work without JS nav being on

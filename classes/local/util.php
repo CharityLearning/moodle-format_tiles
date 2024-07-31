@@ -177,8 +177,22 @@ class util {
      * @return string|null
      */
     public static function get_mod_resource_type(string $modicon): ?string {
-        // Expect the mod icon string to be like f/pdf, f/video, f/html, f/audio.
-        return explode('/', $modicon)[1] ?? null;
+        // In Moodle 4.3+ we expect the mod icon string to be like f/pdf, f/video, f/html, f/audio.
+        // In Moodle 4.2- expect f/pdf-24, f/mpeg-24, f/mp3-24, f/powerpoint-24, f/document-24, f/spreadsheet-24, f/html-24.
+        $pattern = "/^f\/([a-z0-9]+)-24$/";
+        $matches = [];
+        preg_match($pattern, $modicon, $matches);
+        $icon = $matches[1] ?? null;
+        if (!$icon) {
+            return null;
+        }
+        $map = [
+            'pdf' => 'pdf', 'mpeg' => 'mp4',
+            'mp3' => 'mp3', 'powerpoint' => 'ppt',
+            'document' => 'doc', 'spreadsheet' => 'xls',
+            'html' => 'html',
+        ];
+        return $map[$icon] ?? $icon;
     }
 
     /**

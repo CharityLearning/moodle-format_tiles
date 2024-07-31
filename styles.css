@@ -1880,6 +1880,17 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     height: 45px;
 }
 
+/* Moodle 4.3+ does not need this but 4.1/4.2 do. If missing it prevents scrolling when tile open see issue 178. */
+.format-tiles.path-course-view #page {
+    overflow-y: auto;
+}
+
+.format-tiles .activityiconcontainer .activityicon.format-tiles-large-activity-icon {
+    font-size: 36px;
+    height: 36px;
+    width: 36px;
+}
+
 @media (min-width: 768px) {
     body.format-tiles.limitedwidth:not(.path-mod) #page.drawers .main-inner,
     .format-tiles .header-maxwidth {
