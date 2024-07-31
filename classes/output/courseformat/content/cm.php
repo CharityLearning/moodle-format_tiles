@@ -24,7 +24,6 @@
 
 namespace format_tiles\output\courseformat\content;
 
-use core_courseformat\base as course_format;
 use core_courseformat\output\local\content\cm as core_cm;
 
 /**

@@ -43,7 +43,6 @@ class util {
      * @throws \moodle_exception
      */
     public static function get_course_mod_info(int $courseid, int $cmid): ?object {
-        global $DB;
         $coursecontext = \context_course::instance($courseid);
         $modinfo = get_fast_modinfo($courseid);
         $cm = $modinfo->get_cm($cmid);
@@ -61,19 +60,9 @@ class util {
 
             if ($isresource) {
                 // If it's a resource, could be a file e.g. PDF/HTML or could be a URL activity.
-                $resourcetype = $cm->modname == 'url' ? 'url' : self::get_mod_resource_icon_name($cm->context->id);
+                $resourcetype = $cm->modname == 'url' ? 'url' : self::get_mod_resource_type($cm->icon);
             } else {
                 $resourcetype = '';
-            }
-
-            $modalallowed = \format_tiles\local\modal_helper::is_allowed_modal($cmrecord->modname, $resourcetype);
-
-            $pluginfileurl = $isresource ? \format_tiles\output\course_output::plugin_file_url($cm) : '';
-            if ($modalallowed && $cmrecord->modname === 'url') {
-                // Extra check that is set to embed.
-                $url = $DB->get_record('url', ['id' => $cm->instance], '*', MUST_EXIST);
-                $modifiedvideourl = \format_tiles\output\course_output::check_modify_embedded_url($url->externalurl);
-                $pluginfileurl = $modifiedvideourl ?: $url->externalurl;
             }
 
             return (object)[
@@ -91,8 +80,7 @@ class util {
                     ? 1 : 0,
                 'ismanualcompletion' => $cm->completion == COMPLETION_TRACKING_MANUAL,
                 'resourcetype' => $resourcetype,
-                'pluginfileurl' => $pluginfileurl,
-                'modalallowed' => $modalallowed,
+                'modalallowed' => \format_tiles\local\modal_helper::cm_has_modal($courseid, $cmrecord->id),
             ];
         }
         return null;
@@ -163,56 +151,14 @@ class util {
         return format_text($text, $record->contentformat, $formatoptions);
     }
 
-
     /**
-     * Get resource file type e.g. 'doc' from the icon URL e.g. 'document-24.png'
-     * So that we know which icon to display on sub-tiles.
-     *
-     * @param int $modcontextid the mod info object we are checking
-     * @return null|string the type e.g. 'doc'
+     * Get the mod resource type e.g. pdf, video, audio , html from the icon string.
+     * @param string $modicon
+     * @return string|null
      */
-    public static function get_mod_resource_icon_name(int $modcontextid): ?string {
-        $file = self::get_mod_resource_file($modcontextid);
-        if (!$file) {
-            return null;
-        }
-        $extensions = [
-            'powerpoint' => 'ppt',
-            'document' => 'doc',
-            'spreadsheet' => 'xls',
-            'archive' => 'zip',
-            'application/pdf' => 'pdf',
-            'mp3' => 'mp3',
-            'mpeg' => 'mp4',
-            'image/jpeg' => 'image',
-            'image/png' => 'image',
-            'image/gif' => 'image',
-            'image/svg+' => 'image',
-            'text/plain' => 'txt',
-            'text/html' => 'html',
-        ];
-        $extension = $extensions[$file->get_mimetype()] ?? pathinfo($file->get_filename(), PATHINFO_EXTENSION);
-        $extension = in_array($extension, ['docx', 'odf']) ? 'doc' : $extension;
-        $extension = in_array($extension, ['xlsx', 'ods']) ? 'xls' : $extension;
-        $extension = in_array($extension, ['pptx', 'odp']) ? 'ppt' : $extension;
-        return $extension;
-    }
-
-    /**
-     * Get the file relating to a resource course module from context ID.
-     * @param int $modcontextid
-     * @return \stored_file|null
-     * @throws \coding_exception
-     */
-    public static function get_mod_resource_file(int $modcontextid): ?\stored_file {
-        $fs = get_file_storage();
-        $files = $fs->get_area_files($modcontextid, 'mod_resource', 'content');
-        foreach ($files as $file) {
-            if ($file->get_filesize() && $file->get_filename() != '.' && $file->get_mimetype()) {
-                return $file;
-            }
-        }
-        return null;
+    public static function get_mod_resource_type(string $modicon): ?string {
+        // Expect the mod icon string to be like f/pdf, f/video, f/html, f/audio.
+        return explode('/', $modicon)[1] ?? null;
     }
 
     /**
@@ -312,10 +258,9 @@ class util {
                 'fitTilesToWidth' => self::using_tile_fitter(),
                 'enablecompletion' => $course->enablecompletion,
                 'usesubtiles' => get_config('format_tiles', 'allowsubtilesview') && $course->courseusesubtiles,
+                'courseContextId' => $contextid,
             ];
-            $PAGE->requires->js_call_amd(
-                'format_tiles/course', 'init', array_merge($jsparams, ['courseContextId' => $contextid])
-            );
+            $PAGE->requires->js_call_amd('format_tiles/course', 'init', $jsparams);
         } else {
             // Initialise JS for when editing mode is on.
             $editparams = [
@@ -348,7 +293,7 @@ class util {
             $modnames = array_merge($allowedmodals['modules'] ?? [], $allowedmodals['resources'] ?? []);
             $jsconfigvalues['modalAllowedModNames'] = json_encode($modnames);
             $jsconfigvalues['modalAllowedCmids'] = json_encode(
-                \format_tiles\local\modal_helper::get_modal_allowed_cmids($courseid, $modnames)
+                \format_tiles\local\modal_helper::get_modal_allowed_cm_ids($courseid, true)
             );
         }
 
