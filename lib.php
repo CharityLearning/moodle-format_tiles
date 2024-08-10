@@ -998,7 +998,7 @@ function format_tiles_output_fragment_get_cm_list(array $args): string {
  * @return string The HTML to add to page.
  */
 function format_tiles_output_fragment_get_cm_content(array $args): string {
-    global $DB, $CFG;
+    global $DB, $CFG, $PAGE;
     $modcontext = context::instance_by_id($args['contextid']);
     if ($modcontext->contextlevel !== CONTEXT_MODULE) {
         throw new invalid_parameter_exception(
@@ -1018,6 +1018,13 @@ function format_tiles_output_fragment_get_cm_content(array $args): string {
         }
         if (!$mod->uservisible) {
             require_capability('moodle/course:viewhiddenactivities', $modcontext);
+        }
+        try {
+            // Issue #153 avoid multiple glossary auto link JS onclick events.
+            $PAGE->requires->should_create_one_time_item_now('filter_glossary_autolinker');
+
+        } catch (\Exception $e) {
+            debugging('Could not set glossary autolink created', DEBUG_DEVELOPER);
         }
         if ($mod->modname == 'page') {
             // Record from the page table.
