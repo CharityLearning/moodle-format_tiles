@@ -64,6 +64,14 @@ class cmname extends \core_courseformat\output\local\content\cm\cmname {
                 // Remove nofilter class and add large icon class if needed.
                 $data['iconclass'] = $needslargeicon ? 'format-tiles-large-activity-icon' : '';
             }
+        } else if ($this->mod->modname == 'resource') {
+            // Use local tiles override icons if present.
+            $modresourcetype = \format_tiles\local\util::get_mod_resource_type($this->mod->icon);
+            $filepath = "$CFG->dirroot/course/format/tiles/pix/resource_subtile/$modresourcetype.svg";
+            if ($modresourcetype && file_exists($filepath)) {
+                $data['icon'] =
+                    $output->image_url("resource_subtile/$modresourcetype", 'format_tiles');
+            }
         }
         return $data;
     }

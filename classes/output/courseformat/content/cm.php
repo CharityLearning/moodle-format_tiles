@@ -45,6 +45,7 @@ class cm extends core_cm {
      */
     protected function add_format_data(\stdClass &$data, array $haspartials, \renderer_base $output): bool {
         $parentadded = parent::add_format_data($data, $haspartials, $output);
+        $data->cmtitle = $this->mod->get_name();
 
         // See also the higher level section where moodle release info is added e.g. ismoodle42minus.
         // I.e. format_tiles\output\courseformat\content\section.

@@ -475,3 +475,15 @@ Other
 - Accessibility improvements
 - Code simplification (modals incl pluginfile URLs)
 - Allow tile fitter to work without JS nav being on
+
+4.3.0.45 (2024073131)
+=====================
+- Fix issue #215 hidden mod titles
+
+4.3.0.46 (2024080931)
+=====================
+- Minor style adjustments including chrome long tile title padding
+- Course index - click on label opens section
+- Fix scroll on tile open
+- Dismiss dialogues (e.g. glossary entries) when tile is closed or changed
+- Avoid double glossary dialogue when autolink in page modal is clicked

@@ -26,7 +26,8 @@
     border-top-color: var(--format-tiles-colour-5);
     transition: border-top-color 0s, transform .2s ease-in-out;
 }
-.format-tiles ul.tiles .tile.selected {
+.format-tiles .course-content ul.tiles .tile.tilestyle-1.selected,
+.format-tiles .course-content ul.tiles .tile.tilestyle-2.selected {
     border-top-color: var(--format-tiles-colour-5);
 }
 .format-tiles .embed_cm_modal .modal-header {
@@ -532,7 +533,9 @@
     display: inline-block;
     /*z-index needs to be behind navigation-arrows as they may overlap*/
 }
-
+.format-tiles #single_section_tiles .pagesechead {
+    max-width: calc(100% - 175px);
+}
 .format-tiles .sectionbuttons {
     position: relative;
     right: 30px;
@@ -627,6 +630,9 @@
 .format-tiles .single-section {
     /* stylelint-disable-next-line declaration-no-important */
     margin-top: 0 !important;
+}
+.format-tiles .single-section h3.sectionname {
+    text-align: left;
 }
 
 .format-tiles #section-0 ul.section {
@@ -1640,6 +1646,8 @@ body.jsenabled.format-tiles #collapsiblesec0 {
 .format-tiles .course-content ul.tiles .tile.phototile.tilestyle-2 .photo-tile-text h3 {
     font-size: 20px;
     box-decoration-break: clone;
+    /*Chrome needs this*/
+    -webkit-box-decoration-break: clone;
 }
 .format-tiles ul.tiles .tile.phototile .tile-text {
     margin-top: 35px;
@@ -1848,9 +1856,6 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     top: 0;
     left: 0;
 }
-.format-tiles .moveablesection .availabilityinfo {
-    margin: 15px;
-}
 .format-tiles .moveablesection .availabilityinfo i {
     font-size: 1.2em;
 }
@@ -1909,6 +1914,9 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     }
     body.jsenabled.format-tiles .section-zero-empty .above-tiles-buttons {
         min-width: 50px;
+    }
+    .format-tiles #single_section_tiles .pagesechead {
+        max-width: calc(100% - 175px);
     }
 }
 

@@ -35,7 +35,6 @@
     {{#uservisible}}
         <div class="activity-icon activityiconcontainer smaller {{purpose}} courseicon align-self-start mr-2 {{formattilesclass}}"
             {{#showtooltip}}data-toggle="tooltip" title="{{{pluginname}}}" data-placement="top"{{/showtooltip}}
-            {{#hasModal}} data-action="launch-tiles-cm-modal"{{/hasModal}}
         >
             <img src="{{{icon}}}" class="activityicon {{iconclass}}"
                  alt="{{#ismoodle40}}{{{modname}}}{{/ismoodle40}}{{^ismoodle40}}{{#cleanstr}} activityicon, moodle, {{{pluginname}}} {{/cleanstr}}{{/ismoodle40}}"

@@ -45,45 +45,44 @@ class util {
     public static function get_course_mod_info(int $courseid, int $cmid): ?object {
         $coursecontext = \context_course::instance($courseid);
         $modinfo = get_fast_modinfo($courseid);
-        $cm = $modinfo->get_cm($cmid);
+        $cm = $modinfo->get_cms()[$cmid] ?? null;
+
+        if (!$cm || !$cm->uservisible) {
+            throw new \Exception("Not allowed");
+        }
+
         $cmrecord = $cm->get_course_module_record(true);
-
-        require_capability('mod/' . $cmrecord->modname . ':view', $coursecontext);
-
         $isresource = $cmrecord->modname == 'resource';
 
-        if ($cm->uservisible) {
-            $completioninfo = $cm->completion && !isguestuser()
-                ? (new \completion_info(get_course($courseid))) : null;
-            $completiondata = $completioninfo
-                && $completioninfo->is_enabled($cm) != COMPLETION_TRACKING_NONE ? $completioninfo->get_data($cm) : null;
+        $completioninfo = $cm->completion && !isguestuser()
+            ? (new \completion_info(get_course($courseid))) : null;
+        $completiondata = $completioninfo
+            && $completioninfo->is_enabled($cm) != COMPLETION_TRACKING_NONE ? $completioninfo->get_data($cm) : null;
 
-            if ($isresource) {
-                // If it's a resource, could be a file e.g. PDF/HTML or could be a URL activity.
-                $resourcetype = $cm->modname == 'url' ? 'url' : self::get_mod_resource_type($cm->icon);
-            } else {
-                $resourcetype = '';
-            }
-
-            return (object)[
-                'id' => $cm->id,
-                'courseid' => $courseid,
-                'modulecontextid' => $cm->context->id,
-                'coursecontextid' => $coursecontext->id,
-                'name' => $cm->name,
-                'modname' => $cm->modname,
-                'sectionnumber' => $cm->sectionnum,
-                'sectionid' => $cm->section,
-                'completionenabled' => (bool)$completiondata,
-                'completionstate' => $completiondata ? $completiondata->completionstate : null,
-                'iscomplete' => in_array($completiondata->completionstate ?? null, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS])
-                    ? 1 : 0,
-                'ismanualcompletion' => $cm->completion == COMPLETION_TRACKING_MANUAL,
-                'resourcetype' => $resourcetype,
-                'modalallowed' => \format_tiles\local\modal_helper::cm_has_modal($courseid, $cmrecord->id),
-            ];
+        if ($isresource) {
+            // If it's a resource, could be a file e.g. PDF/HTML or could be a URL activity.
+            $resourcetype = $cm->modname == 'url' ? 'url' : self::get_mod_resource_type($cm->icon);
+        } else {
+            $resourcetype = '';
         }
-        return null;
+
+        return (object)[
+            'id' => $cm->id,
+            'courseid' => $courseid,
+            'modulecontextid' => $cm->context->id,
+            'coursecontextid' => $coursecontext->id,
+            'name' => $cm->name,
+            'modname' => $cm->modname,
+            'sectionnumber' => $cm->sectionnum,
+            'sectionid' => $cm->section,
+            'completionenabled' => (bool)$completiondata,
+            'completionstate' => $completiondata ? $completiondata->completionstate : null,
+            'iscomplete' => in_array($completiondata->completionstate ?? null, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS])
+                ? 1 : 0,
+            'ismanualcompletion' => $cm->completion == COMPLETION_TRACKING_MANUAL,
+            'resourcetype' => $resourcetype,
+            'modalallowed' => \format_tiles\local\modal_helper::cm_has_modal($courseid, $cmrecord->id),
+        ];
     }
 
     /**
