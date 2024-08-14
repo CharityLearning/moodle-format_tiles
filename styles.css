@@ -1890,7 +1890,9 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     height: 36px;
     width: 36px;
 }
-
+.format-tiles .activity-item .afterlink {
+    margin-top: 0;
+}
 @media (min-width: 768px) {
     body.format-tiles.limitedwidth:not(.path-mod) #page.drawers .main-inner,
     .format-tiles .header-maxwidth {

@@ -99,26 +99,6 @@ class util {
     }
 
     /**
-     * Is this Moodle environment 4.0, 4.0.1 or 4.0.2?
-     * @return bool
-     */
-    public static function is_moodle_402_minus(): bool {
-        global $CFG;
-        $matches = [];
-        preg_match('/^(\d+)\.(\d+)(\.(\d+))?.*$/', $CFG->release, $matches);
-        $ismoodle40 = ($matches[1] ?? null) == 4 && ($matches[2] ?? null) == 0;
-        if ($ismoodle40 && !isset($matches[3])) {
-            // Is Moodle 4.0.
-            return true;
-        }
-        if ($ismoodle40 && in_array($matches[4], [0, 1, 2])) {
-            // Is Moodle 4.0.0, 4.0.1 or 4.0.2.
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Get the release details of this version of Tiles.
      * @return string
      */
@@ -344,5 +324,54 @@ class util {
         return $data;
     }
 
+    /**
+     * Get resource file type e.g. 'doc' from the icon URL e.g. 'document-24.png'
+     * So that we know which icon to display on sub-tiles.
+     *
+     * @param int $modcontextid the mod info object we are checking
+     * @return null|string the type e.g. 'doc'
+     */
+    public static function get_mod_resource_icon_name_legacy(int $modcontextid): ?string {
+        $file = self::get_mod_resource_file($modcontextid);
+        if (!$file) {
+            return null;
+        }
+        $extensions = [
+            'powerpoint' => 'ppt',
+            'document' => 'doc',
+            'spreadsheet' => 'xls',
+            'archive' => 'zip',
+            'application/pdf' => 'pdf',
+            'mp3' => 'mp3',
+            'mpeg' => 'mp4',
+            'image/jpeg' => 'image',
+            'image/png' => 'image',
+            'image/gif' => 'image',
+            'image/svg+' => 'image',
+            'text/plain' => 'txt',
+            'text/html' => 'html',
+        ];
+        $extension = $extensions[$file->get_mimetype()] ?? pathinfo($file->get_filename(), PATHINFO_EXTENSION);
+        $extension = in_array($extension, ['docx', 'odf']) ? 'doc' : $extension;
+        $extension = in_array($extension, ['xlsx', 'ods']) ? 'xls' : $extension;
+        $extension = in_array($extension, ['pptx', 'odp']) ? 'ppt' : $extension;
+        return $extension;
+    }
 
+    /**
+     * Get the file relating to a resource course module from context ID.
+     * @param int $modcontextid
+     * @return \stored_file|null
+     * @throws \coding_exception
+     */
+    public static function get_mod_resource_file(int $modcontextid): ?\stored_file {
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($modcontextid, 'mod_resource', 'content');
+        foreach ($files as $file) {
+            if ($file->get_filesize() && $file->get_filename() != '.' && $file->get_mimetype()) {
+                return $file;
+            }
+        }
+        return null;
+    }
 }

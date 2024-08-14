@@ -875,8 +875,13 @@ class course_output implements \renderable, \templatable {
         if (isset($mod->instance)) {
             $moduleobject['modinstance'] = $mod->instance;
         }
-        $moduleobject['modresourceicon'] = $mod->modname == 'resource'
-            ? \format_tiles\local\util::get_mod_resource_type($mod->icon) : null;
+        if ($mod->modname == 'resource') {
+            $moduleobject['modresourceicon'] = $this->moodlerelease == 4.0
+                ? \format_tiles\local\util::get_mod_resource_icon_name_legacy($mod->context->id)
+                : \format_tiles\local\util::get_mod_resource_type($mod->icon);
+        } else {
+            $moduleobject['modresourceicon'] = null;
+        }
 
         if (!$treataslabel && get_config('format_tiles', 'allowphototiles')) {
             $iconclass = '';
