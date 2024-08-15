@@ -61,7 +61,13 @@ class util {
 
         if ($isresource) {
             // If it's a resource, could be a file e.g. PDF/HTML or could be a URL activity.
-            $resourcetype = $cm->modname == 'url' ? 'url' : self::get_mod_resource_type($cm->icon);
+            if ($cm->modname == 'url') {
+                $resourcetype = 'url';
+            } else {
+                $resourcetype = self::get_moodle_release() == 4.0
+                    ? self::get_mod_resource_icon_name_legacy($cm->context->id)
+                    : self::get_mod_resource_type($cm->icon);
+            }
         } else {
             $resourcetype = '';
         }

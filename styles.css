@@ -1884,17 +1884,9 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     width: 45px;
     height: 45px;
 }
-/*If an activityiconcontainer has no "purpose" class (e.g. .content) give it the default course colour.*/
-/*Would generally expect these to be overridden*/
-.format-tiles .activityiconcontainer {
+.format-tiles .activityiconcontainer.other {
     background-color: var(--format-tiles-colour);
 }
-.format-tiles .activityiconcontainer .activityicon:not(.nofilter),
-.format-tiles .activityiconcontainer .icon:not(.nofilter) {
-    filter: brightness(0) invert(1);
-}
-
-
 /* Moodle 4.3+ does not need this but 4.1/4.2 do. If missing it prevents scrolling when tile open see issue 178. */
 .format-tiles.path-course-view #page {
     overflow-y: auto;
@@ -1908,6 +1900,7 @@ body.jsenabled.format-tiles #collapsiblesec0 {
 .format-tiles .activity-item .afterlink {
     margin-top: 0;
 }
+
 @media (min-width: 768px) {
     body.format-tiles.limitedwidth:not(.path-mod) #page.drawers .main-inner,
     .format-tiles .header-maxwidth {
