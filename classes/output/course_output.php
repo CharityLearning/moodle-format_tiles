@@ -64,7 +64,7 @@ class course_output implements \renderable, \templatable {
      * Course Module IDs for which modal windows should be used.
      * @var array of CM IDs
      */
-    private array $modalscmids;
+    private $modalscmids;
 
     /**
      * User's device type e.g. DEVICE_TYPE_MOBILE ('mobile')
