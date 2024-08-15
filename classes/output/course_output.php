@@ -26,6 +26,7 @@ namespace format_tiles\output;
 use format_tiles\local\format_option;
 use format_tiles\local\tile_photo;
 use format_tiles\local\filters;
+use format_tiles\local\util;
 
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
@@ -157,7 +158,8 @@ class course_output implements \renderable, \templatable {
         $this->completionenabled = $course->enablecompletion && !isguestuser();
         $this->courseformatoptions = $this->get_course_format_options($this->fromajax);
 
-        $this->moodlerelease = \format_tiles\local\util::get_moodle_release();
+        $this->moodlerelease = util::get_moodle_release();
+        $this->ismoodle402minus = $this->moodlerelease === 4.0 && util::is_moodle_402_minus();
     }
 
     /**
@@ -252,6 +254,7 @@ class course_output implements \renderable, \templatable {
                 'icon' => 'exclamation-triangle', 'class' => 'warning',
             ];
         }
+        $data['ismoodle42minus'] = $this->ismoodle402minus;
         return $data;
     }
 
@@ -877,13 +880,13 @@ class course_output implements \renderable, \templatable {
         }
         if ($mod->modname == 'resource') {
             $moduleobject['modresourceicon'] = $this->moodlerelease == 4.0
-                ? \format_tiles\local\util::get_mod_resource_icon_name_legacy($mod->context->id)
-                : \format_tiles\local\util::get_mod_resource_type($mod->icon);
+                ? util::get_mod_resource_icon_name_legacy($mod->context->id)
+                : util::get_mod_resource_type($mod->icon);
         } else {
             $moduleobject['modresourceicon'] = null;
         }
 
-        if (!$treataslabel && get_config('format_tiles', 'allowphototiles')) {
+        if (!$treataslabel) {
             $iconclass = '';
             if ($mod->modname == 'resource' && $this->moodlerelease <= 4.2) {
                 // We may want to use a specific icon instead like PDF.
@@ -915,6 +918,8 @@ class course_output implements \renderable, \templatable {
             } else {
                 $modiconurl = $mod->get_icon_url($output);
             }
+            $needslargeicon = in_array($moduleobject['modresourceicon'], ['pdf', 'doc', 'ppt', 'xls', 'html']);
+            $iconclass = $needslargeicon ? "$iconclass format-tiles-large-activity-icon" : $iconclass;
             $moduleobject['icon'] = ['url' => $modiconurl, 'label' => $mod->name, 'iconclass' => $iconclass];
             $moduleobject['tileicon'] = false; // Template is shared with top level tile, so avoiding inheriting parent icon.
             $moduleobject['purpose'] = plugin_supports('mod', $mod->modname, FEATURE_MOD_PURPOSE, MOD_PURPOSE_OTHER);
@@ -1039,6 +1044,17 @@ class course_output implements \renderable, \templatable {
                         $moduleobject['completionstring'] = get_string('completion-fail', 'core_completion', $mod->name);
                         $moduleobject['isfail'] = 1;
                         break;
+                }
+            }
+        }
+        if ($this->ismoodle402minus) {
+            // Convert the icon array into two separate props, if it's a non-sub-tile.
+            if (isset($moduleobject['icon'])) {
+                $issubtile = $this->courseformatoptions['courseusesubtiles']
+                    && ($section->section != 0 || $this->courseformatoptions['usesubtilesseczero']);
+                if (!$issubtile) {
+                    $moduleobject['iconclass'] = $moduleobject['icon']['iconclass'];
+                    $moduleobject['icon'] = $moduleobject['icon']['url'];
                 }
             }
         }

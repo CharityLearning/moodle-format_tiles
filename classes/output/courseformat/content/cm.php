@@ -25,6 +25,7 @@
 namespace format_tiles\output\courseformat\content;
 
 use core_courseformat\output\local\content\cm as core_cm;
+use format_tiles\local\util;
 
 /**
  * Class to render a course module inside a Tiles course format.
@@ -55,6 +56,7 @@ class cm extends core_cm {
         $data->ismoodle42minus = $moodlerelease <= 4.2;
         $data->ismoodle41minus = $moodlerelease <= 4.1;
         $data->ismoodle40 = $moodlerelease === 4.0;
+        $data->ismoodle402minus = $moodlerelease === 4.0 && util::is_moodle_402_minus();
         $data->modcontextid = $this->mod->context->id;
 
         $childadded = true; // We did add some data above.

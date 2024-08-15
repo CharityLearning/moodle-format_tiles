@@ -44,6 +44,8 @@ class cmname extends \core_courseformat\output\local\content\cm\cmname {
         $data = parent::export_for_template($output);
         $data['cmtitle'] = $this->mod->get_formatted_name();
         $data['is_label'] = $this->mod->modname === 'label';
+        // The icon overrides below will have no effect while editing in Moodle 4.0.2- but will for higher versions.
+        // This is because in Moodle 4.0.2- the icon is in the title class not this one.
         if ($this->mod->modname == 'url') {
             $externalurl = $DB->get_field('url', 'externalurl', ['id' => $this->mod->instance]);
             if (\format_tiles\output\course_output::is_video_url($externalurl)) {
@@ -63,14 +65,6 @@ class cmname extends \core_courseformat\output\local\content\cm\cmname {
                     $output->image_url("resource_subtile/$modresourcetype", 'format_tiles');
                 // Remove nofilter class and add large icon class if needed.
                 $data['iconclass'] = $needslargeicon ? 'format-tiles-large-activity-icon' : '';
-            }
-        } else if ($this->mod->modname == 'resource') {
-            // Use local tiles override icons if present.
-            $modresourcetype = \format_tiles\local\util::get_mod_resource_type($this->mod->icon);
-            $filepath = "$CFG->dirroot/course/format/tiles/pix/resource_subtile/$modresourcetype.svg";
-            if ($modresourcetype && file_exists($filepath)) {
-                $data['icon'] =
-                    $output->image_url("resource_subtile/$modresourcetype", 'format_tiles');
             }
         }
         return $data;

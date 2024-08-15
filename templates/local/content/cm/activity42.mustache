@@ -70,11 +70,22 @@
                 <div class="activity-instance d-flex flex-column">
                     <div class="activitytitle media {{textclasses}} modtype_{{modname}} position-relative align-self-start">
                         {{^is_label}}
-                            <div class="activityiconcontainer {{purpose}} courseicon align-self-start mr-3">
-                                <img src="{{{icon}}}" class="activityicon {{iconclass}}"
-                                     alt="{{#ismoodle40}}{{{modname}}}{{/ismoodle40}}{{^ismoodle40}}{{#cleanstr}} activityicon, moodle, {{{pluginname}}} {{/cleanstr}}{{/ismoodle40}}"
-                                >
-                            </div>
+                            {{^ismoodle42minus}}
+                                <div class="activityiconcontainer {{purpose}} courseicon align-self-start mr-3">
+                                    <img src="{{{icon}}}" class="activityicon {{iconclass}}"
+                                         alt="{{#ismoodle40}}{{{modname}}}{{/ismoodle40}}{{^ismoodle40}}{{#cleanstr}} activityicon, moodle, {{{pluginname}}} {{/cleanstr}}{{/ismoodle40}}"
+                                    >
+                                </div>
+                            {{/ismoodle42minus}}
+                            {{#ismoodle42minus}}{{^editing}}
+                                {{! In Moodle 4.0.0 - 4.0.2 the icon may be supplied by core as template was different }}
+                                {{! The "title" template was used }}
+                                <div class="activityiconcontainer {{purpose}} courseicon align-self-start mr-3">
+                                    <img src="{{{icon}}}" class="activityicon {{iconclass}}"
+                                         alt="{{{modname}}}"
+                                    >
+                                </div>
+                            {{/editing}}{{/ismoodle42minus}}
                         {{/is_label}}
                         <div class="media-body align-self-center">
                             {{#showpluginname}}
