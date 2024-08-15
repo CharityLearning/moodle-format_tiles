@@ -119,6 +119,12 @@ class course_output implements \renderable, \templatable {
      */
     private $moodlerelease;
 
+    /**
+     * Is this Moodle release 4.0.0 - 4.0.2?
+     * @var bool
+     */
+    private $ismoodle402minus;
+
 
     /**
      * Identifier of the standard tile style (see settings.php).
