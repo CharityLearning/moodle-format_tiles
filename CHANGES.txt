@@ -485,3 +485,7 @@ Other
 - Avoid double glossary dialogue when autolink in page modal is clicked
 - Avoid double non sub-tile activity icon in Moodle 4.0.2-
 - Fix modal bug where resource activity has multiple files
+
+4.1.1.15 (2024080914)
+=====================
+- Resolve PHP7.3 compatibility issue
