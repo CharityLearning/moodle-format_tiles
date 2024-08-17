@@ -1883,6 +1883,9 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     width: 45px;
     height: 45px;
 }
+.format-tiles .activityiconcontainer.other {
+    background-color: var(--format-tiles-colour);
+}
 
 /* Moodle 4.3+ does not need this but 4.1/4.2 do. If missing it prevents scrolling when tile open see issue 178. */
 .format-tiles.path-course-view #page {

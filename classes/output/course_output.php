@@ -878,7 +878,7 @@ class course_output implements \renderable, \templatable {
         $moduleobject['modresourceicon'] = $mod->modname == 'resource'
             ? \format_tiles\local\util::get_mod_resource_type($mod->icon) : null;
 
-        if (!$treataslabel && get_config('format_tiles', 'allowphototiles')) {
+        if (!$treataslabel) {
             $iconclass = '';
             if ($mod->modname == 'resource' && $this->moodlerelease <= 4.2) {
                 // We may want to use a specific icon instead like PDF.
