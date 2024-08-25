@@ -77,15 +77,26 @@
                                     >
                                 </div>
                             {{/ismoodle42minus}}
-                            {{#ismoodle42minus}}{{^editing}}
-                                {{! In Moodle 4.0.0 - 4.0.2 the icon may be supplied by core as template was different }}
-                                {{! The "title" template was used }}
-                                <div class="activityiconcontainer {{purpose}} courseicon align-self-start mr-3">
-                                    <img src="{{{icon}}}" class="activityicon {{iconclass}}"
-                                         alt="{{{modname}}}"
-                                    >
-                                </div>
-                            {{/editing}}{{/ismoodle42minus}}
+                            {{#ismoodle42minus}}
+                                {{^editing}}
+                                    <div class="activityiconcontainer {{purpose}} courseicon align-self-start mr-3">
+                                        <img src="{{{icon}}}" class="activityicon {{iconclass}}"
+                                             alt="{{{modname}}}"
+                                        >
+                                    </div>
+                                {{/editing}}
+                                {{#editing}}
+                                    {{^ismoodle402minus}}
+                                        {{! In Moodle 4.0.0 - 4.0.2 the icon may be supplied by core if editing as template was different }}
+                                        {{! The "title" template was used }}
+                                        <div class="activityiconcontainer {{purpose}} courseicon align-self-start mr-3">
+                                            <img src="{{{icon}}}" class="activityicon {{iconclass}}"
+                                                 alt="{{{modname}}}"
+                                            >
+                                        </div>
+                                    {{/ismoodle402minus}}
+                                {{/editing}}
+                            {{/ismoodle42minus}}
                         {{/is_label}}
                         <div class="media-body align-self-center">
                             {{#showpluginname}}
