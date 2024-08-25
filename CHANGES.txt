@@ -499,3 +499,7 @@ Other
 - Show description in PDF modal if set to display in course
 - When JS navigation is deactivated by user, alert no longer persists
 - Fix issue #217 cm list padding
+
+4.1.1.17 (2024082411)
+=====================
+- In Moodle 4.0, reinstate missing editing activity icon.
