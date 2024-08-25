@@ -860,6 +860,12 @@ class format_tiles extends core_courseformat\base {
                 if (!$existingstoppref) {
                     // Did not already have it disabled.
                     set_user_preference('format_tiles_stopjsnav', 1);
+                    $reenablelink = html_writer::link(
+                        new moodle_url('/course/view.php', ['id' => $page->course->id, 'stopjsnav' => 1]),
+                        get_string('reactivate', 'format_tiles'),
+                        ['class' => 'btn btn-secondary ml-3']
+                    );
+                    \core\notification::warning(get_string('jsdeactivated', 'format_tiles') . $reenablelink);
                 } else {
                     // User previously disabled it, but now is re-enabling.
                     unset_user_preference('format_tiles_stopjsnav');
@@ -1100,18 +1106,21 @@ function format_tiles_before_footer() {
         if (($oncourseviewpage && !$editing) || $modviewpageneedsjs) {
             // Course module modals.
             $launchmodalcmid = null;
-            if (!empty($allowedmodals['resources'] || !empty($allowedmodals['modules']))) {
-                // If we are on course/view.php, get details.
-                $launchmodalcmid = ($oncourseviewpage && !$editing) ? optional_param('cmid', null, PARAM_INT) : null;
+
+            // If we are on course/view.php, get details.
+            if ($oncourseviewpage && !$editing) {
+                $launchmodalcmid = optional_param('cmid', null, PARAM_INT);
                 if ($launchmodalcmid) {
                     // Need to check if this cm allowed a modal.
                     $modalallowed =
                         \format_tiles\local\modal_helper::cm_has_modal($PAGE->course->id, $launchmodalcmid);
                     if (!$modalallowed) {
+                        // Modal not allowed so unset.
                         $launchmodalcmid = null;
                     }
                 }
             }
+
             $PAGE->requires->js_call_amd(
                 'format_tiles/course_mod_modal', 'init',
                 [$PAGE->course->id, false, $PAGE->pagetype, $launchmodalcmid, \format_tiles\local\util::using_js_nav()]
