@@ -30,7 +30,7 @@ At the time of writing (August 2024) the following branches were being maintaine
 (*The moodle41 branch was being used for both Moodle 4.0 and 4.1)
 
 ## Compatibility and Support
-This version of the plugin is compatible with Moodle 4.4.  Other versions are available for prior versions of Moodle.
+This version of the plugin is compatible with Moodle 4.0/4.1.  Other versions are available for prior versions of Moodle.
 
 It supports the Privacy API.
 
