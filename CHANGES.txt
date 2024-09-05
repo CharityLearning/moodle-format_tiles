@@ -498,20 +498,11 @@ Other
 - When JS navigation is deactivated by user, alert no longer persists
 - Fix issue #217 cm list padding
 
-4.3.0.49 (2024081634)
+4.2.1.14 (2024090520)
 =====================
 - Modal cache efficiency improvement
-
-4.3.0.50 (2024081635)
-=====================
 - Modal cache clear bug fix
-
-4.3.0.51 (2024082430)
-=====================
 - Test return type
-
-4.3.0.52 (2024090532)
-=====================
 - Fix issue #219 filters not applying to non-subtile headings
 - Fix issue #221 unit test provider bug
 - Fix issue #222 safari PDF modal not displaying
