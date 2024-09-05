@@ -503,3 +503,10 @@ Other
 4.1.1.17 (2024082411)
 =====================
 - In Moodle 4.0, reinstate missing editing activity icon.
+
+4.3.0.52 (2024090532)
+=====================
+- Fix issue #219 filters not applying to non-subtile headings
+- Fix issue #221 unit test provider bug
+- Fix issue #222 safari PDF modal not displaying
+- Add behat test for filtering for tile names, activity names and content
