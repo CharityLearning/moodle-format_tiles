@@ -74,7 +74,7 @@ class util {
             'courseid' => $courseid,
             'modulecontextid' => $cm->context->id,
             'coursecontextid' => $coursecontext->id,
-            'name' => $cm->name,
+            'name' => $cm->get_formatted_name(),
             'modname' => $cm->modname,
             'sectionnumber' => $cm->sectionnum,
             'sectionid' => $cm->section,
