@@ -511,7 +511,7 @@ Other
 - Fix issue #222 safari PDF modal not displaying
 - Add behat test for filtering for tile names, activity names and content
 
-4.3.0.53 (2024091132)
+4.1.1.19 (2024091110)
 =====================
 - Fix issue with ampersand display on sub-tile title
 - Change format name to "Tiles" not "Tiles format" (consistent with core)
