@@ -168,7 +168,7 @@ define(["jquery", "core/modal_factory", "core/config", "core/templates", "core/n
                     if (template !== null) {
                         Templates.render(template, templateData).done(function (html) {
                             modal.setBody(html);
-                            modalRoot.find(Selector.modalBody).animate({"min-height": Math.round(win.height() - 120)}, "fast");
+                            modalRoot.find(Selector.modalBody).animate({"min-height": Math.round(win.height() + 20)}, "fast");
 
                             if (objectType === "html" || objectType === 'url') {
                                 // HTML files only - set widths to 100% since they may contain embedded videos etc.

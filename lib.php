@@ -968,6 +968,9 @@ function format_tiles_pluginfile($course, $cm, $context, $filearea, $args, $forc
     $filepath = '/' . $args[1] .'/';
     $filename = $args[2];
     $file = $fs->get_file($context->id, $fileapiparams['component'], $filearea, $sectionid, $filepath, $filename);
+    if (!$file) {
+        send_file_not_found();
+    }
     send_stored_file($file, 86400, 0, $forcedownload, $options);
 }
 

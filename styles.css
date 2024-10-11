@@ -729,7 +729,10 @@
 body.jsenabled.format-tiles .buttonhidesec0 {
     display: inline-block;
 }
-
+body#page-course-view-tiles.format-tiles {
+    /*Avoid layout changes in Chrome when tiles open/close and scrollbar appears/disappears.*/
+    overflow-y: scroll;
+}
 .format-tiles #collapsiblesec0 {
     display: block;
 }
@@ -2060,18 +2063,15 @@ body.jsenabled.format-tiles #collapsiblesec0 {
         /* stylelint-disable-next-line declaration-no-important */
         max-width: 44% !important;
     }
-    .format-tiles li.activity.subtile.spacer {
-        display: none;
-    }
     .format-tiles .clickable-region {
         /* stylelint-disable-next-line declaration-no-important */
         width: 100% !important;
     }
     .format-tiles li.subtile.spacer {
         /* stylelint-disable-next-line declaration-no-important */
-        flex-basis: 160px !important;
+        flex-basis: 130px !important;
         /* stylelint-disable-next-line declaration-no-important */
-        min-width: 160px !important;
+        min-width: 130px !important;
         display: none;
     }
     .format-tiles .section .activity.subtile .activityinstance {
