@@ -573,7 +573,7 @@ Other
 - Fix issue 223 custom certificate monologo
 - Fix issue 226 stop page modal when pop up set
 
-4.3.0.55 (2024100936)
+4.4.0.26 (2024100941)
 =====================
 - Reserve space for right scroll bar on tiles main screen
     (avoid layout change in Chrome when tiles open/close and scrollbar appears/disappears)
