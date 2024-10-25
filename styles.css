@@ -2149,8 +2149,11 @@ allow tiles to be taller and thinner so can fit two side by side in portrait on 
         flex-basis: 160px !important;
         position: relative;
         /* stylelint-disable-next-line declaration-no-important */
-        max-width: 45% !important;
+        max-width: calc(50% - 10px) !important;
         margin: 5px;
+    }
+    .format-tiles .course-content ul.tiles .tile-clickable:hover {
+        transform: none;
     }
     .format-tiles li.tile:not(.phototile) .availabilityinfo {
         bottom: unset;

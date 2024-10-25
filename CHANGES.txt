@@ -572,3 +572,13 @@ Other
 - Fix issue 222 Safari PDF modals
 - Fix issue 223 custom certificate monologo
 - Fix issue 226 stop page modal when pop up set
+
+4.3.0.55 (2024100936)
+=====================
+- Reserve space for right scroll bar on tiles main screen
+    (avoid layout change in Chrome when tiles open/close and scrollbar appears/disappears)
+- Mobile sub-tile layout adjustment
+- Fix missing section link in breadcrumb in activity
+- Fix new number picker button titles
+- Remove jquery from behat tests
+- Remove redundant local icons for resource subtiles in Moodle 4.3+
