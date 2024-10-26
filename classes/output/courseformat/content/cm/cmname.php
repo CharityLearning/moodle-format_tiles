@@ -64,7 +64,6 @@ class cmname extends \core_courseformat\output\local\content\cm\cmname {
         } else if ($this->mod->modname == 'bigbluebuttonbn') {
             $data['iconclass'] .= 'nofilter';
         }
-}
         return $data;
     }
 }
