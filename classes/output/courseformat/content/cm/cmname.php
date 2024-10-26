@@ -46,12 +46,12 @@ class cmname extends \core_courseformat\output\local\content\cm\cmname {
         if ($this->mod->modname == 'url') {
             $externalurl = $DB->get_field('url', 'externalurl', ['id' => $this->mod->instance]);
             if (\format_tiles\output\course_output::is_video_url($externalurl)) {
-                $data['icon'] = $output->image_url('resource_subtile/mp4', 'format_tiles');
+                $data['icon'] = $output->image_url('play', 'format_tiles');
                 $data['pluginname'] = get_string('displaytitle_mod_mp4', 'format_tiles');
                 $data['formattilesclass'] = 'format-tiles-video';
             }
         } else if ($this->mod->modname == 'resource') {
-            // Use local tiles override icons if present.
+            // Use local tiles override icons if present (Moodle 4.2- only).
             $modresourcetype = \format_tiles\local\util::get_mod_resource_type($this->mod->icon);
             $filepath = "$CFG->dirroot/course/format/tiles/pix/resource_subtile/$modresourcetype.svg";
             if ($modresourcetype && file_exists($filepath)) {
@@ -61,7 +61,10 @@ class cmname extends \core_courseformat\output\local\content\cm\cmname {
                 // Remove nofilter class and add large icon class if needed.
                 $data['iconclass'] = $needslargeicon ? 'format-tiles-large-activity-icon' : '';
             }
+        } else if ($this->mod->modname == 'bigbluebuttonbn') {
+            $data['iconclass'] .= 'nofilter';
         }
+}
         return $data;
     }
 }
