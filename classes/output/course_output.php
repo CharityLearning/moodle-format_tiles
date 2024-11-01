@@ -909,7 +909,25 @@ class course_output implements \renderable, \templatable {
         if (!$treataslabel) {
             $iconclass = '';
             $modiconurl = $mod->get_icon_url($output);
-            if (!\core_component::has_monologo_icon('mod', $mod->modname)) {
+            if ($mod->modname == 'resource' && $this->moodlerelease <= 4.2) {
+                // We may want to use a specific icon instead like PDF.
+                // In Moodle 4.3+ this is not needed as core does it.
+                $unknownicons = ['dat'];
+                if (in_array($moduleobject['modresourceicon'], $unknownicons)) {
+                    $moduleobject['modresourceicon'] = 'unknown';
+                }
+                $filepath = "$CFG->dirroot/course/format/tiles/pix/resource_subtile/"
+                    . $moduleobject['modresourceicon'] . ".svg";
+                if (file_exists($filepath)) {
+                    $modiconurl = $output->image_url(
+                        "resource_subtile/" . $moduleobject['modresourceicon'], 'format_tiles'
+                    );
+                } else {
+                    $modiconurl = $mod->get_icon_url($output);
+                    // Stop unsupported icons appearing as a white box.
+                    $iconclass = 'nofilter';
+                }
+            } else if (!\core_component::has_monologo_icon('mod', $mod->modname)) {
                 if ($mod->modname == 'customcert') {
                     // Temporary icon for mod_customcert where monologo not yet implemented (their issue #568).
                     $modiconurl = $output->image_url('tileicon/award-solid', 'format_tiles');
@@ -917,6 +935,12 @@ class course_output implements \renderable, \templatable {
                     // Use the mod's legacy icon but with no filtering.
                     $iconclass = 'nofilter';
                 }
+            } else if (in_array($moduleobject['modresourceicon'], ['video', 'audio'])) {
+                // Override icon with local version.
+                $modiconurl = $output->image_url(
+                    'resource_subtile/' . $moduleobject['modresourceicon'],
+                    'format_tiles'
+                );
             }
             $needslargeicon = in_array($moduleobject['modresourceicon'], ['pdf', 'doc', 'ppt', 'xls', 'html']);
             $iconclass = $needslargeicon ? "$iconclass format-tiles-large-activity-icon" : $iconclass;
