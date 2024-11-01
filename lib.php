@@ -94,12 +94,12 @@ class format_tiles extends core_courseformat\base {
     public function get_section_name($section) {
         global $PAGE;
         $section = $this->get_section($section);
-        if ((string)$section->name !== '') {
+        if (trim((string)$section->name) != '') {
             return format_string($section->name, true, ['context' => context_course::instance($this->courseid)]);
         } else if ($section->section == 0) {
-            return $PAGE->user_is_editing() ? get_string('section0name', 'format_tiles') : '';
+            return $PAGE->user_is_editing() ? self::get_default_section_name($section) : '';
         } else {
-            return get_string('sectionname', 'format_tiles') . ' ' . $section->section;
+            return self::get_default_section_name($section);
         }
     }
 
@@ -876,6 +876,15 @@ class format_tiles extends core_courseformat\base {
                 unset($SESSION->format_tiles_jssuccessfullyused);
             }
         }
+        // On a single section page in non JS mode, do not remove core limited page width.
+        if ($page->pagetype == 'course-view' && $page->state <= $page::STATE_BEFORE_HEADER) {
+            $requiresbodyclass = (optional_param('section', 0, PARAM_INT)
+                || optional_param('singlesec', 0, PARAM_INT))
+                && !\format_tiles\local\util::using_js_nav();
+            if ($requiresbodyclass) {
+                $page->add_body_class("format-tiles-single-sec");
+            }
+        }
     }
 
     /**
@@ -954,6 +963,9 @@ function format_tiles_pluginfile($course, $cm, $context, $filearea, $args, $forc
     $filepath = '/' . $args[1] .'/';
     $filename = $args[2];
     $file = $fs->get_file($context->id, $fileapiparams['component'], $filearea, $sectionid, $filepath, $filename);
+    if (!$file) {
+        send_file_not_found();
+    }
     send_stored_file($file, 86400, 0, $forcedownload, $options);
 }
 
