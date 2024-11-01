@@ -516,7 +516,7 @@ Other
 - Fix issue with ampersand display on sub-tile title
 - Change format name to "Tiles" not "Tiles format" (consistent with core)
 
-4.3.0.54 (2024100930)
+4.1.1.20 (2024100910)
 =====================
 - Improve tile number icons
     - add new tab to icon picker for tile numbers with numbers up to 20
@@ -530,9 +530,6 @@ Other
 - Fix issue 222 Safari PDF modals
 - Fix issue 223 custom certificate monologo
 - Fix issue 226 stop page modal when pop up set
-
-4.3.0.56 (2024100937)
-=====================
 - Reserve space for right scroll bar on tiles main screen
     (avoid layout change in Chrome when tiles open/close and scrollbar appears/disappears)
 - Mobile sub-tile layout adjustment
