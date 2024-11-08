@@ -927,7 +927,9 @@ class course_output implements \renderable, \templatable {
                     // Stop unsupported icons appearing as a white box.
                     $iconclass = 'nofilter';
                 }
-            } else if (!\core_component::has_monologo_icon('mod', $mod->modname)) {
+            } else if (!method_exists('core_component', 'has_monologo_icon')
+                || !\core_component::has_monologo_icon('mod', $mod->modname)) {
+                // Check method exists first - it won't in early minor versions of Moodle 4.0/4.1 which don't have commit 8812990c.
                 if ($mod->modname == 'customcert') {
                     // Temporary icon for mod_customcert where monologo not yet implemented (their issue #568).
                     $modiconurl = $output->image_url('tileicon/award-solid', 'format_tiles');
