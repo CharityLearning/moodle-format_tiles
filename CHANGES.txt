@@ -538,3 +538,7 @@ Other
 - Remove jquery from behat tests
 - Remove redundant local icons for resource subtiles in Moodle 4.3+
 - Improve appearance of bigbluebutton and Turnitin icons on sub-tiles
+
+4.1.1.21 (2024100911)
+=====================
+- Avoid monologo exception in early minor versions of Moodle 4.0/4.1 which are missing commit 8812990c
