@@ -542,3 +542,7 @@ Other
 4.1.1.21 (2024100911)
 =====================
 - Avoid monologo exception in early minor versions of Moodle 4.0/4.1 which are missing commit 8812990c
+
+4.1.1.22 (2024100912)
+=====================
+- Remove title link from label (Moodle 4.0 only)

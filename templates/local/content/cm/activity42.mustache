@@ -112,10 +112,10 @@
                                             {{> core/inplace_editable }}
                                         {{/ core/inplace_editable }}
                                     {{/editing}}
-                                    {{^editing}}
+                                    {{^editing}}{{^is_label}}
                                     {{! If user is not editing, we use this for non subtiles as we need to add data-action for modal launch}}
                                         <a href="{{url}}"{{#modalType}} data-action="launch-tiles-cm-modal"{{/modalType}} class="aalink stretched-link" onclick="{{onclick}}"><span class="instancename">{{{cmtitle}}}</span></a>
-                                    {{/editing}}
+                                    {{/is_label}}{{/editing}}
                                 {{/activityname}}
                             </div>
                         </div>
