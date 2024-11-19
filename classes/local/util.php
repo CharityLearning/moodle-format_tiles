@@ -183,10 +183,10 @@ class util {
      * @throws \dml_exception
      */
     public static function using_js_nav() {
-        $userstopjsnav = get_user_preferences('format_tiles_stopjsnav', 0);
-
         // JS navigation and modals in Internet Explorer are not supported by this plugin so we disable JS nav here.
-        return !$userstopjsnav && get_config('format_tiles', 'usejavascriptnav') && !\core_useragent::is_ie();
+        return get_config('format_tiles', 'usejavascriptnav')
+            && !get_user_preferences('format_tiles_stopjsnav', 0)
+            && !\core_useragent::is_ie();
     }
 
     /**
@@ -346,5 +346,14 @@ class util {
      */
     public static function get_icon_picker_max_number_icons() {
         return 20;
+    }
+
+    /**
+     * Does the user want high contrast mode?
+     * @return bool
+     */
+    public static function using_high_contrast(): bool {
+        return get_config('format_tiles', 'highcontrastmodeallow')
+            && get_user_preferences('format_tiles_high_contrast_mode', 0);
     }
 }
