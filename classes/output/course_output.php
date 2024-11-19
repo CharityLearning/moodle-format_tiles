@@ -1235,7 +1235,9 @@ class course_output implements \renderable, \templatable {
         if (get_config('format_tiles', 'highcontrastmodeallow')) {
             $usehighcontrast = \format_tiles\local\util::using_high_contrast();
             $controls[] = [
-                'url' => new \moodle_url($courseurl, array_merge($courseurlparams, ['format-tiles-action' => 'togglehighcontrast'])),
+                'url' => new \moodle_url(
+                    $courseurl, array_merge($courseurlparams, ['format-tiles-action' => 'togglehighcontrast'])
+                ),
                 'label' => get_string('highcontrastmode', 'format_tiles'),
                 'iconname' => $usehighcontrast ? 'toggle-on' : 'toggle-off',
                 'icontitle' => get_string($usehighcontrast ? 'on' : 'off', 'format_tiles'),

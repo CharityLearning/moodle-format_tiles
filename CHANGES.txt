@@ -584,6 +584,6 @@ Other
 - Remove redundant local icons for resource subtiles in Moodle 4.3+
 - Improve appearance of bigbluebutton and Turnitin icons on sub-tiles
 
-4.3.0.57 (2024111530)
+4.4.0.28 (2024111540)
 =====================
 - High contrast mode available (shown if activated by user preference)
