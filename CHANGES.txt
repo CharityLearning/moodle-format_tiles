@@ -547,21 +547,12 @@ Other
 =====================
 - Remove title link from label (Moodle 4.0 only)
 
-4.3.0.57 (2024111530)
+4.1.1.23 (2024120910)
 =====================
 - High contrast mode available (shown if activated by user preference)
-
-4.3.0.59 (2024120500)
-=====================
 - Simplify $displaysection
 - Improve scroll bar access when tile open (overlay in centre section only, exposing left and right drawers to user)
 - Include "General" heading (for section zero) at top of course index
 - In course index, clicks on section headings can open sections using JS nav (if enabled)
-
-4.3.0.60 (2024120930)
-=====================
 - Remove debug message
-
-4.3.0.61 (2024120931)
-=====================
 - Allow null displaysection on js init
