@@ -96,8 +96,6 @@ class format_tiles extends core_courseformat\base {
         $section = $this->get_section($section);
         if ((string)$section->name != '') {
             return format_string($section->name, true, ['context' => context_course::instance($this->courseid)]);
-        } else if ($section->section == 0) {
-            return $PAGE->user_is_editing() ? self::get_default_section_name($section) : '';
         } else {
             return self::get_default_section_name($section);
         }
@@ -1022,8 +1020,10 @@ function format_tiles_output_fragment_get_cm_list(array $args): string {
     // We don't need to check course context permission as fragment API does that.
     // But we should check that the user can see this specific section as may be hidden.
     $modinfo = get_fast_modinfo($course);
-    if (!$modinfo->get_section_info($section->section, MUST_EXIST)->uservisible) {
-        require_capability('moodle/course:viewhiddensections', context_course::instance($course->id));
+    $sectioninfo = $modinfo->get_section_info($section->section, MUST_EXIST);
+    if (!$sectioninfo->uservisible) {
+        $format = course_get_format($course);
+        throw new moodle_exception('notavailablecourse', '', '', $format->get_section_name($sectioninfo));
     }
 
     $renderer = $PAGE->get_renderer('format_tiles');

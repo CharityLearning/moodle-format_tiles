@@ -37,7 +37,6 @@ class observer {
      * @throws \dml_exception
      */
     public static function course_deleted(\core\event\course_deleted $event) {
-        global $DB;
         $courseid = $event->objectid;
         \format_tiles\local\tile_photo::delete_files_from_ids($courseid, -1);
         \format_tiles\local\format_option::unset_all_course($courseid);
