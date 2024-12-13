@@ -546,6 +546,6 @@ Other
 - Remove debug message
 - Allow null displaysection on js init
 
-4.3.0.62 (2024121230)
+4.2.1.18 (2024121220)
 =====================
 - Adjust tests
