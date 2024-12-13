@@ -189,7 +189,7 @@ class course_output implements \renderable, \templatable {
                 // Issue #153 avoid multiple glossary auto link JS onclick events.
                 $PAGE->requires->should_create_one_time_item_now('filter_glossary_autolinker');
 
-            } catch (\Exception $e) {
+            } catch (\Exception) {
                 debugging('Could not set glossary autolink created', DEBUG_DEVELOPER);
             }
         }
@@ -228,7 +228,7 @@ class course_output implements \renderable, \templatable {
         $data['ismobile'] = $this->devicetype == \core_useragent::DEVICETYPE_MOBILE;
         // If this session flag is set, user is being shown JS versions of pages.
         // Allow them to cancel the session var if they have no JS.
-        $data['showJScancelLink'] = isset($SESSION->format_tiles_jssuccessfullyused) ? 1 : 1;
+        $data['showJScancelLink'] = isset($SESSION->format_tiles_jssuccessfullyused) ? 1 : 0;
         $data['editing'] = $this->isediting;
         $data['sesskey'] = sesskey();
         $data['showinitialpageloadingicon'] = !$this->isediting

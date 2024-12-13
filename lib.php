@@ -92,7 +92,6 @@ class format_tiles extends core_courseformat\base {
      * @throws moodle_exception
      */
     public function get_section_name($section) {
-        global $PAGE;
         $section = $this->get_section($section);
         if ((string)$section->name != '') {
             return format_string($section->name, true, ['context' => context_course::instance($this->courseid)]);
