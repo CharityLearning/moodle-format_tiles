@@ -417,5 +417,3 @@ $string['suremigratelegacyoptions'] = 'Are you sure you want to migrate {$a} til
 $string['highcontrastmode'] = 'High contrast mode';
 $string['highcontrastmodeallow'] = 'Allow high contrast mode';
 $string['highcontrastmodeallow_desc'] = 'Allow users to set a user preference to show tiles courses with high contrast (teacher selected tile colours will be overridden with a dark colour)';
-$string['on'] = 'On';
-$string['off'] = 'Off';
