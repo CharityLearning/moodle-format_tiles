@@ -557,10 +557,7 @@ Other
 - Remove debug message
 - Allow null displaysection on js init
 
-4.3.0.62 (2024121230)
+4.1.1.24 (2024121210)
 =====================
 - Adjust tests
-
-4.3.0.63 (2024121231)
-=====================
 - Make user pref controls more obvious if on/off (use same switch as edit mode)
