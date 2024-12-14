@@ -371,7 +371,7 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                     $('#page-content').outerHeight() ?? 0
                 ];
                 contentArea.hide();
-                overlay.css('min-height', `${Math.ceil(Math.max(...heights)) +  footerHeight + 20}px`);
+                overlay.css('min-height', `${Math.ceil(Math.max(...heights)) + footerHeight + 20}px`);
             };
 
             var expandAndScroll = function () {
