@@ -562,6 +562,6 @@ Other
 - Adjust tests
 - Make user pref controls more obvious if on/off (use same switch as edit mode)
 
-4.3.0.64 (2024121233)
+4.1.1.25 (2024121212)
 =====================
 - Improve JS section load content error report notification
