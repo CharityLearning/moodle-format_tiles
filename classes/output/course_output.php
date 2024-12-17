@@ -1243,19 +1243,16 @@ class course_output implements \renderable, \templatable {
             $controls[] = [
                 'url' => new \moodle_url($courseurl, array_merge($courseurlparams, ['format-tiles-action' => 'toggleanimatednav'])),
                 'label' => get_string('jsactivate', 'format_tiles'),
-                'iconname' => $usingjsnav ? 'toggle-on' : 'toggle-off',
-                'icontitle' => get_string($usingjsnav ? 'on' : 'off', 'format_tiles'),
+                'checked' => $usingjsnav,
             ];
         }
         if (get_config('format_tiles', 'highcontrastmodeallow')) {
-            $usehighcontrast = \format_tiles\local\util::using_high_contrast();
             $controls[] = [
                 'url' => new \moodle_url(
                     $courseurl, array_merge($courseurlparams, ['format-tiles-action' => 'togglehighcontrast'])
                 ),
                 'label' => get_string('highcontrastmode', 'format_tiles'),
-                'iconname' => $usehighcontrast ? 'toggle-on' : 'toggle-off',
-                'icontitle' => get_string($usehighcontrast ? 'on' : 'off', 'format_tiles'),
+                'checked' => \format_tiles\local\util::using_high_contrast(),
             ];
         }
         return $controls;

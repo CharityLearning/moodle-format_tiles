@@ -485,24 +485,17 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
 
         var failedLoadSectionNotify = function(sectionNum, failResult, contentArea) {
             if (failResult) {
-                // Notify the user and invite them to refresh.  We did get a "failResult" from server,
-                // So it looks like we do have a connection and can launch this.
-                if (failResult.errorcode === 'notavailablecourse') {
+                if (failResult.errorcode === 'servicerequireslogin') {
+                    // Moodle may refresh the page here anyway but we do it if not.
+                    // Session may have expired and refresh will force new login.
+                    window.location.reload();
+                } else {
+                    // We did get a "failResult" from server.
+                    // So it looks like we do have a connection and can notify user this way.
                     Notification.confirm(
                         stringStore.sectionerrortitle,
                         failResult.message,
                         stringStore.continue
-                    );
-                } else {
-                    Notification.confirm(
-                        stringStore.sectionerrortitle,
-                        stringStore.sectionerrorstring,
-                        stringStore.refresh,
-                        stringStore.cancel,
-                        function () {
-                            window.location.reload();
-                        },
-                        null
                     );
                     require(["core/log"], function(log) {
                         log.debug(failResult);
@@ -598,6 +591,9 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                 // Still contact the server in case content has changed (e.g. restrictions now satisfied).
                 getSectionContentFromServer(courseContextId, sectionId).done(function (html, js) {
                     setCourseContentHTML(relatedContentArea, html, js);
+                }).fail(function (failResult) {
+                    failedLoadSectionNotify(sectionNumber, failResult, relatedContentArea);
+                    cancelTileSelections(sectionNumber);
                 });
             } else {
                 relatedContentArea.html(loadingIconHtml);
@@ -977,7 +973,6 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                     // E.g. after we lose connection and cannot display content on a user tile click.
                     var stringKeys = [
                         {key: "sectionerrortitle", component: "format_tiles"},
-                        {key: "sectionerrorstring", component: "format_tiles"},
                         {key: "refresh"},
                         {key: "cancel", component: "moodle"},
                         {key: "noconnectionerror", component: "format_tiles"},
