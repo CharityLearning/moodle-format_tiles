@@ -34,7 +34,6 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
         var isMobile;
         var loadingIconHtml;
         var stringStore = [];
-        var HEADER_BAR_HEIGHT = 60; // This varies by theme and version so will be reset once pages loads below.
         var reopenLastVisitedSection = false;
         var courseId;
         var courseContextId;
@@ -376,33 +375,20 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
 
             var expandAndScroll = function () {
                 // Scroll to the top of content bearing section
-                // we have to wait until possible reOrg and slide down totally before calling this, else co-ords are wrong.
-                var scrollTo = (tile.offset().top) - $('#section-zero-container').offset().top + HEADER_BAR_HEIGHT;
-                if (scrollTo === $(window).scrollTop) {
-                    // Scroll by at least one pixel otherwise z-index on selected tile is not changed.
-                    // Until mouse moves.
-                    scrollTo += 1;
+                // We have to wait until possible reOrg and slide down totally before calling this, else co-ords are wrong.
+                var scrollTo = tile.offset().top;
+                const MIN_SCROLL = 10;
+                if (Math.abs(scrollTo) > MIN_SCROLL) {
+                    if (scrollTo === $(window).scrollTop) {
+                        // Scroll by at least one pixel otherwise z-index on selected tile is not changed.
+                        // Until mouse moves.
+                        scrollTo += 1;
+                    }
+                    document.getElementById('page').scrollBy({top: scrollTo, left: 0, behavior: 'smooth'});
                 }
-
-                // If user tries to scroll during animation, stop animation.
-                var events = "mousedown wheel DOMMouseScroll mousewheel keyup touchmove";
-                const page = $("html, body");
-                page.on(events, function () {
-                    page.stop();
-                });
-
-                page.animate({scrollTop: scrollTo}, "slow", "swing", function () {
-                    // Animation complete, remove stop handler.
-                    page.off(events, function () {
-                        page.stop();
-                    });
-                    // For users with screen readers, move focus to the first item within the tile.
-                    contentArea.find(Selector.FOCUSABLE_ELEMS).eq(0).focus();
-                });
 
                 // For users with screen readers, move focus to the first item within the tile.
                 // Short timeout for this to allow for animation to finish.
-                // (Not relying on the animation callback alone for the delay as it's slightly too slow.)
                 setTimeout(() => {
                     contentArea.find(Selector.FOCUSABLE_ELEMS).eq(0).focus();
                 }, 300);
