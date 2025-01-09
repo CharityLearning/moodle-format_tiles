@@ -140,9 +140,11 @@ class content extends content_base {
     /**
      * Folders set to display inline will not work this format (if using subtiles).
      * Find any instance so we can warn editing user.
+     * @param int $courseid the course ID.
      */
     private function get_inline_folder_warning(int $courseid): ?string {
-        global $DB;
+        global $DB, $CFG;
+        require_once("$CFG->dirroot/mod/folder/lib.php");
         $inlinefolder = $DB->get_record_sql(
             "SELECT cm.id, f.name
             FROM {folder} f
