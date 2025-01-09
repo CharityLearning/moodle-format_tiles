@@ -122,7 +122,7 @@ $string['filenoshowtext'] = 'If file does not show here, please use the buttons 
 $string['filterboth'] = 'Show buttons based on tile numbers and course outcomes';
 $string['filternumbers'] = 'Show buttons based on tile numbers';
 $string['filteroutcomes'] = 'Show buttons based on course outcomes';
-$string['folderdisplayerror'] = 'Folders set to display content inline are not compatible with sub-tiles format.  This <a href="{$a}">folder</a> has therefore been changed to display on a separate page';
+$string['folderdisplayerror'] = 'Folders set to display content inline are not compatible with sub-tiles format.  For example the folder "{$a}" should be changed to display contents on a separate page';
 $string['guidance'] = 'Guidance';
 $string['hide'] = 'Hide';
 $string['hidefromothers'] = 'Hide tile';

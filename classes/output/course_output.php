@@ -842,7 +842,7 @@ class course_output implements \renderable, \templatable {
      * @throws \moodle_exception
      */
     private function course_module_data($mod, $section, $previouswaslabel, $isfirst, $output): array {
-        global $PAGE, $CFG, $DB;
+        global $CFG, $DB;
         $displayoptions = [];
         $obj = new \core_courseformat\output\local\content\section\cmitem($this->format, $section, $mod, $displayoptions);
         $moduleobject = (array)$obj->export_for_template($output);
@@ -984,21 +984,7 @@ class course_output implements \renderable, \templatable {
         }
 
         if ($mod->modname == 'folder') {
-            // Folders set to display inline will not work this theme.
-            // This is not a very elegant solution, but it will ensure that the URL is correctly shown.
-            // If the user is editing it will change the format of the folder.
-            // It will show on a separate page, and alert the editing user as to what it has done.
             $moduleobject['url'] = new \moodle_url('/mod/folder/view.php', ['id' => $mod->id]);
-            if ($PAGE->user_is_editing()) {
-                $folder = $DB->get_record('folder', ['id' => $mod->instance]);
-                if ($folder->display == FOLDER_DISPLAY_INLINE) {
-                    $DB->set_field('folder', 'display', FOLDER_DISPLAY_PAGE, ['id' => $folder->id]);
-                    \core\notification::info(
-                        get_string('folderdisplayerror', 'format_tiles', $moduleobject['url']->out())
-                    );
-                    rebuild_course_cache($mod->course, true);
-                }
-            }
         }
         if ($mod->modname == 'url') {
             $externalurl = $DB->get_field('url', 'externalurl', ['id' => $mod->instance]);
