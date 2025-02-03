@@ -21,3 +21,10 @@ pipelines:
              - git checkout moodle44
              - git pull    
              - git push --force sync moodle44
+      moodle45:
+        - step:
+           script:
+             - git remote add sync git@github.com:CharityLearning/moodle-format_tiles.git
+             - git checkout moodle45
+             - git pull    
+             - git push --force sync moodle45
