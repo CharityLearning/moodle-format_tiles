@@ -557,7 +557,7 @@ class course_output implements \renderable, \templatable {
 
             // If we have sections with numbers greater than the max allowed, do not show them unless teacher.
             // (Showing more to editors allows editor to fix them).
-            if ($countincludedsections > $maxallowedsections) {
+            if ($countincludedsections >= $maxallowedsections) {
                 if (!$data['canedit']) {
                     // Do not show them to students at all.
                     break;
@@ -566,8 +566,7 @@ class course_output implements \renderable, \templatable {
                         $a = new \stdClass();
                         $a->max = $maxallowedsections;
                         $a->tilename = $previoustiletitle;
-                        $button = \format_tiles\local\course_section_manager::get_schedule_button($this->course->id);
-                        \core\notification::error(get_string('coursetoomanysections', 'format_tiles', $a) . $button);
+                        \core\notification::error(get_string('coursetoomanysections', 'format_tiles', $a));
                         $sectioncountwarningissued = true;
                     }
                     if ($countincludedsections > $maxallowedsections * 2) {
@@ -694,7 +693,10 @@ class course_output implements \renderable, \templatable {
                     }
                 }
             }
-            $countincludedsections++;
+            // Check if it's a subsection and do not count if so as not a true section.
+            if ($sectionnum > 0 && !$section->is_delegated()) {
+                $countincludedsections++;
+            }
         }
 
         // Now the filter buttons (if used).
