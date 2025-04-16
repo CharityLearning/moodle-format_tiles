@@ -601,3 +601,10 @@ Other
 4.3.0.64 (2024121233)
 =====================
 - Improve JS section load content error report notification
+
+4.3.0.65 (2025041630)
+=====================
+- Remove registration form and contact links
+- Simplyfy page scroll
+- Inline folder warning
+- Refactor to video cm class
