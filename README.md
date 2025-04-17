@@ -17,7 +17,7 @@ Once installed:
 
 ## Branches
 
-At the time of writing (October 2024) the following branches were being maintained:
+At the time of writing (April 2025) the following branches were being maintained:
 
 | Moodle version | Tiles branch    |
 |----------------|-----------------|
@@ -26,7 +26,8 @@ At the time of writing (October 2024) the following branches were being maintain
 | 4.2            | moodle42b       |
 | 4.3            | moodle43        |
 | 4.4            | moodle44        |
-| 4.5            | master/moodle45 |
+| 4.5            | moodle45        |
+| 5.0            | master/moodle50 |
 
 (*The moodle41 branch was being used for both Moodle 4.0 and 4.1)
 

@@ -54,11 +54,11 @@ Feature: Users view subsections on course page in tiles format
     Then I should see "Subsection1" in the "region-main" "region"
     And I should not see "Page1 in Subsection1" in the "Subsection1" "activity"
     # Not yet clear why it is not recognising 'And I click on "Expand" "link" ...' so for now we do this.
-    And I click on "a[data-toggle='collapse']" "css_element" in the "Subsection1" "activity"
+    And I click on "a[data-bs-toggle='collapse']" "css_element" in the "Subsection1" "activity"
     And I should see "Page1 in Subsection1" in the "Subsection1" "activity"
-    And I click on "a[data-toggle='collapse']" "css_element" in the "Subsection1" "activity"
+    And I click on "a[data-bs-toggle='collapse']" "css_element" in the "Subsection1" "activity"
     And I should not see "Page1 in Subsection1" in the "Subsection1" "activity"
-    And I click on "a[data-toggle='collapse']" "css_element" in the "Subsection2" "activity"
+    And I click on "a[data-bs-toggle='collapse']" "css_element" in the "Subsection2" "activity"
     And I should see "Page2 in Subsection2" in the "Subsection2" "activity"
     And I should not see "Page1 in Subsection1" in the "Subsection1" "activity"
     And I should not see "Page1 in Subsection1" in the "Subsection2" "activity"
@@ -69,7 +69,7 @@ Feature: Users view subsections on course page in tiles format
     And I am on "Course 1" course homepage with editing mode on
     # Add an assignment to the top of Subsection1.
     # And I click on "Expand" "link" in the "Subsection1" "activity"
-    And I click on "a[data-toggle='collapse']" "css_element" in the "Subsection1" "activity"
+    And I click on "a[data-bs-toggle='collapse']" "css_element" in the "Subsection1" "activity"
     And I hover "Insert an activity or resource before 'Page1 in Subsection1'" "button"
     And I wait "1" seconds
     And I press "Insert an activity or resource before 'Page1 in Subsection1'"
@@ -77,12 +77,12 @@ Feature: Users view subsections on course page in tiles format
     And I set the following fields to these values:
       | Assignment name | Assignment1 in Subsection1 |
     And I press "Save and return to course"
-    And I click on "a[data-toggle='collapse']" "css_element" in the "Subsection1" "activity"
+    And I click on "a[data-bs-toggle='collapse']" "css_element" in the "Subsection1" "activity"
     Then I should see "Assignment1 in Subsection1" in the "Subsection1" "activity"
     # Add an assignment to the empty Subsection2.
     And I add an "assign" activity to course "Course 1" section "4" and I fill the form with:
       | Assignment name | Assignment1 in Subsection2 |
-    And I click on "a[data-toggle='collapse']" "css_element" in the "Subsection2" "activity"
+    And I click on "a[data-bs-toggle='collapse']" "css_element" in the "Subsection2" "activity"
     And I should see "Assignment1 in Subsection2" in the "Subsection2" "activity"
 
   @javascript

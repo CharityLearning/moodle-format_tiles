@@ -456,7 +456,7 @@ class behat_format_tiles extends behat_base {
     public function i_hide_tile($sectionnumber) {
         // Ensures the section exists.
         $xpath = $this->tile_exists($sectionnumber);
-        $this->i_show_hide($sectionnumber, 'hidefromothers', $xpath);
+        $this->i_show_hide($sectionnumber, 'hide', $xpath);
     }
 
     /**
@@ -485,7 +485,7 @@ class behat_format_tiles extends behat_base {
         // If javascript is on, link is inside a menu.
         if ($this->running_javascript()) {
             $fullxpath = $xpath
-                . "/descendant::div[contains(@class, 'section-actions')]/descendant::a[contains(@data-toggle, 'dropdown')]";
+                . "/descendant::div[contains(@class, 'section-actions')]/descendant::a[contains(@data-bs-toggle, 'dropdown')]";
             $exception = new \Behat\Mink\Exception\ExpectationException(
                 'Tile "' . $sectionnumber . '" edit menu was not found', $this->getSession()
             );

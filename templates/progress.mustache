@@ -112,7 +112,7 @@
         {{^showAsPercent}}
             <div class="progress-indic{{#isOverall}} overall-progress align-top{{/isOverall}} tiles-hide-if-complete" id="tileprogress-{{tileid}}"
                 data-numcomplete="{{numComplete}}" data-numoutof="{{numOutOf}}"
-                {{#usetooltips}} title="{{{progresstitle}}}" data-toggle="tooltip" data-html="true"{{/usetooltips}}
+                {{#usetooltips}} title="{{{progresstitle}}}" data-bs-toggle="tooltip" data-html="true"{{/usetooltips}}
                 {{^usetooltips}} title="{{{progresstitle}}}"{{/usetooltips}}
             >
                 {{#str}}progress, format_tiles{{/str}}:

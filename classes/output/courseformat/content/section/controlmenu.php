@@ -26,7 +26,10 @@ namespace format_tiles\output\courseformat\content\section;
 
 use context_course;
 use core_courseformat\output\local\content\section\controlmenu as controlmenu_base;
+use format_topics\output\courseformat\content\section\controlmenu as controlmenu_topics;
 use core_courseformat\base as course_format;
+use core\output\action_menu\link_secondary;
+use core\output\pix_icon;
 
 /**
  * Base class to render a course section menu.
@@ -35,7 +38,7 @@ use core_courseformat\base as course_format;
  * @copyright 2022 David Watson
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class controlmenu extends controlmenu_base {
+class controlmenu extends controlmenu_topics {
 
     /** @var course_format the course format class */
     protected $format;
@@ -75,42 +78,23 @@ class controlmenu extends controlmenu_base {
         $url->param('sesskey', sesskey());
 
         $controls = [];
-        $controls['setphoto'] = [
-            'url'   => new \moodle_url(
+
+        $controls['setphoto'] = new link_secondary(
+            url:  new \moodle_url(
                 '/course/format/tiles/editor/editimage.php',
                 ['sectionid' => $section->id]
             ),
-            'icon' => 'i/messagecontentimage',
-            'name' => get_string('setbackgroundphoto', 'format_tiles'),
-            'pixattr' => ['class' => ''],
-            'attr' => [
+            icon: new pix_icon('i/messagecontentimage', ''),
+            text: get_string('setbackgroundphoto', 'format_tiles'),
+            attributes: [
                 'class' => 'editing_update', 'data-tiles-action' => 'launch-tiles-icon-picker',
                 'data-section' => $section->section,
                 'data-true-sectionid' => $section->id,
             ],
-        ];
+        );
+
         if ($section->section && has_capability('moodle/course:setcurrentsection', $coursecontext)) {
-            if ($course->marker == $section->section) {  // Show the "light globe" on/off.
-                $url->param('marker', 0);
-                $highlightoff = get_string('highlightoff');
-                $controls['highlight'] = [
-                    'url' => $url,
-                    'icon' => 'i/marked',
-                    'name' => $highlightoff,
-                    'pixattr' => ['class' => ''],
-                    'attr' => ['class' => 'editing_highlight', 'data-action' => 'removemarker'],
-                ];
-            } else {
-                $url->param('marker', $section->section);
-                $highlight = get_string('highlight');
-                $controls['highlight'] = [
-                    'url' => $url,
-                    'icon' => 'i/marker',
-                    'name' => $highlight,
-                    'pixattr' => ['class' => ''],
-                    'attr' => ['class' => 'editing_highlight', 'data-action' => 'setmarker'],
-                ];
-            }
+            $controls['highlight'] = $this->get_section_highlight_item();
         }
 
         // If the edit key exists, we are going to insert our controls after it.

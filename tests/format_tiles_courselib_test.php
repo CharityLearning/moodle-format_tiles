@@ -33,6 +33,8 @@ require_once($CFG->dirroot . '/course/lib.php');
 require_once($CFG->dirroot . '/course/tests/fixtures/course_capability_assignment.php');
 require_once($CFG->dirroot . '/enrol/imsenterprise/tests/imsenterprise_test.php');
 
+use cache;
+
 /**
  * Class format_tiles_course_courselib_testcase
  *
@@ -207,13 +209,15 @@ final class format_tiles_courselib_test extends \advanced_testcase {
         rebuild_course_cache($course->id, true);
 
         // Create some cms for testing.
+        $mods = $DB->get_records('modules');
+        $mod = reset($mods);
         $cmids = [];
         for ($i = 0; $i < 4; $i++) {
-            $cmids[$i] = $DB->insert_record('course_modules', ['course' => $course->id]);
+            $cmids[$i] = $DB->insert_record('course_modules', ['course' => $course->id, 'module' => $mod->id]);
         }
 
         // Add it to section that exists.
-        course_add_cm_to_section($course, $cmids[0], 1);
+        course_add_cm_to_section($course, $cmids[0], 1, null, $mod->name);
 
         // Check it got added to sequence.
         $sequence = $DB->get_field('course_sections', 'sequence', ['course' => $course->id, 'section' => 1]);
@@ -221,22 +225,23 @@ final class format_tiles_courselib_test extends \advanced_testcase {
 
         // Add a second, this time using courseid variant of parameters.
         $coursecacherev = $DB->get_field('course', 'cacherev', ['id' => $course->id]);
-        course_add_cm_to_section($course->id, $cmids[1], 1);
+        course_add_cm_to_section($course->id, $cmids[1], 1, null, $mod->name);
         $sequence = $DB->get_field('course_sections', 'sequence', ['course' => $course->id, 'section' => 1]);
         $this->assertEquals($cmids[0] . ',' . $cmids[1], $sequence);
 
         // Check that modinfo cache was reset but not rebuilt (important for performance if calling repeatedly).
-        $this->assertGreaterThan($coursecacherev, $DB->get_field('course', 'cacherev', ['id' => $course->id]));
-        $this->assertEmpty(\cache::make('core', 'coursemodinfo')->get($course->id));
+        $newcacherev = $DB->get_field('course', 'cacherev', ['id' => $course->id]);
+        $this->assertGreaterThan($coursecacherev, $newcacherev);
+        $this->assertEmpty(cache::make('core', 'coursemodinfo')->get_versioned($course->id, $newcacherev));
 
         // Add one to section that doesn't exist (this might rebuild modinfo).
-        course_add_cm_to_section($course, $cmids[2], 2);
+        course_add_cm_to_section($course, $cmids[2], 2, null, $mod->name);
         $this->assertEquals(3, $DB->count_records('course_sections', ['course' => $course->id]));
         $sequence = $DB->get_field('course_sections', 'sequence', ['course' => $course->id, 'section' => 2]);
         $this->assertEquals($cmids[2], $sequence);
 
         // Add using the 'before' option.
-        course_add_cm_to_section($course, $cmids[3], 2, $cmids[2]);
+        course_add_cm_to_section($course, $cmids[3], 2, $cmids[2], $mod->name);
         $this->assertEquals(3, $DB->count_records('course_sections', ['course' => $course->id]));
         $sequence = $DB->get_field('course_sections', 'sequence', ['course' => $course->id, 'section' => 2]);
         $this->assertEquals($cmids[3] . ',' . $cmids[2], $sequence);

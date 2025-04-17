@@ -16,7 +16,7 @@ Feature: Sections can be edited and deleted in tiles format
       | assign   | Test assignment name | Test assignment description | C1     | assign1  | 0       |
       | forum    | Announcements Sec 0  | Test forum description      | C1     | forum1   | 0       |
       | book     | Test book name       | Test book description       | C1     | book1    | 1       |
-      | chat     | Test chat name       | Test chat description       | C1     | chat1    | 4       |
+      | book     | Test book name 2     | Test book  description 2    | C1     | book2    | 4       |
       | choice   | Test choice name     | Test choice description     | C1     | choice1  | 4       |
       | choice   | Test choice name 2   | Test choice description     | C1     | choice2  | 5       |
     And the following "course enrolments" exist:

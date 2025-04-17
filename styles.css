@@ -34,26 +34,14 @@
 .format-tiles.format-tiles-high-contrast .course-content ul.tiles .tile.tilestyle-2.selected {
     box-shadow: 0 0 20px 10px var(--format-tiles-high-contrast-black);
 }
-.format-tiles .embed_cm_modal .modal-header {
-    background-color: var(--format-tiles-colour);
-}
 .format-tiles ul.tiles .current .sectiontitle::after {
     background-color: red;
-}
-.format-tiles .embed_cm_modal .modal-header h5,
-.format-tiles .embed_cm_modal .modal-header h4 {
-    color: #fff;
-}
-.format-tiles .embed_cm_modal .modal-header .btn-close {
-    color: #fff;
-    opacity: 0.8;
 }
 .format-tiles .sectiontitle::after,
 .format-tiles .badge-info {
     background-color: var(--format-tiles-colour);
 }
-.format-tiles .course-content .single-section .navigation-arrows .navigation-arrow:not(.dimmed):hover,
-.format-tiles .embed_cm_modal .embed_file_button:hover {
+.format-tiles .course-content .single-section .navigation-arrows .navigation-arrow:not(.dimmed):hover {
     background-color: var(--format-tiles-colour-1);
 }
 
@@ -1146,7 +1134,10 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     border: 0;
 }
 .format-tiles .embed_cm_modal a {
-    color: #979797;
+    color: #696969;
+}
+.format-tiles .embed_cm_modal a:hover {
+    color: #000;
 }
 .format-tiles .embed_cm_modal .modal-body {
     max-height: 95%;
@@ -1178,6 +1169,7 @@ body.jsenabled.format-tiles #collapsiblesec0 {
 /*Different themes have these classes slightly differently so repeat some of these*/
 .format-tiles .embed_cm_modal .modal-header {
     padding: 5px 10px 5px 10px;
+    justify-content: space-between;
 }
 .format-tiles .modal-container.embed_cm_modal .modal .modal-header h3 {
     color: #fff;
@@ -1453,16 +1445,9 @@ body.jsenabled.format-tiles #collapsiblesec0 {
 .format-tiles .embed-module-buttons form:focus {
     outline: 1px dotted;
 }
-.format-tiles .embed-module-buttons .icon:hover,
-.format-tiles .embed-module-buttons img.icon:hover {
-    opacity: 0.7;
-}
 .format-tiles .embed-module-buttons .btn {
     box-shadow: none;
     margin-top: 2px;
-}
-.format-tiles .embed-module-buttons a .icon {
-    color: #fff;
 }
 .format-tiles .embed_cm_modal .embed-module-buttons .completioncheckbox .icon {
     padding: 0;

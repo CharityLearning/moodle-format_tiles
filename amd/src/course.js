@@ -211,11 +211,11 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                 subSections.each((i) => {
                     const subSection = $(subSections[i]);
                     if (subSection.find('.course-content-item-content.collapse').length) {
-                        const subSectionId = subSection.find('a[data-toggle="collapse"]').data('subSectionId');
+                        const subSectionId = subSection.find('a[data-bs-toggle="collapse"]').data('subSectionId');
                         // If the user has previously expanded the section, its ID will be in expandedSubSectionIds.
                         const shouldBeExpanded = expandedSubSectionIds[subSectionId] !== undefined;
                         if (shouldBeExpanded) {
-                            subSection.find('a[data-toggle="collapse"]')
+                            subSection.find('a[data-bs-toggle="collapse"]')
                                 .removeClass('collapsed').attr('aria-expanded', true);
                             subSection.find('.course-content-item-content')
                                 .addClass('show').addClass('collapse').removeClass('collapsing');
@@ -227,7 +227,7 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
 
                 // In the new content area, check for any expand or collapse of sub-sections.
                 // Keep a local record of which are expanded.
-                contentArea.find('li.modtype_subsection a[data-toggle="collapse"]').on(Event.CLICK, (e) => {
+                contentArea.find('li.modtype_subsection a[data-bs-toggle="collapse"]').on(Event.CLICK, (e) => {
                     const clickedButton = $(e.currentTarget);
                     const isCollapsed = clickedButton.hasClass('collapsed');
                     const subSectionId = clickedButton.data('subSectionId');
