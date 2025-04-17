@@ -28,8 +28,7 @@ use stdClass;
  * @copyright  2025 David Watson
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class stateactions extends stateactions_base
-{
+class stateactions extends stateactions_base {
 
     /**
      * Highlight course section.
@@ -46,8 +45,7 @@ class stateactions extends stateactions_base
         array        $ids = [],
         ?int         $targetsectionid = null,
         ?int         $targetcmid = null
-    ): void
-    {
+    ): void {
         $actions = new stateactions_topics();
         $actions->section_highlight(
             $updates, $course, $ids, $targetsectionid, $targetcmid

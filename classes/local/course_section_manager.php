@@ -71,21 +71,6 @@ class course_section_manager {
         }
         return $count;
     }
-    /**
-     * Count course sections excluding section zero and any sub-sections.
-     * @param int $courseid
-     */
-    public static function count_course_sections(int $courseid): int {
-        $count = 0;
-        $modinfo = get_fast_modinfo($courseid);
-        $secsall = $modinfo->get_section_info_all();
-        foreach ($secsall as $section) {
-            if ($section->section > 0 && !$section->is_delegated()) {
-                $count++;
-            }
-        }
-        return $count;
-    }
 
     /**
      * Get the section number of the highest non-subsection section in the course.
