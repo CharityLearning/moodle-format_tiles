@@ -639,7 +639,7 @@ class course_output implements \renderable, \templatable {
                 // Include completion tracking data for each tile (if used).
                 if ($section->visible && $this->completionenabled) {
                     if (isset($this->modinfo->sections[$sectionnum])) {
-                        $completionthistile = $this->section_progress($this->modinfo->sections[$sectionnum], $this->modinfo->cms);
+                        $completionthistile = $this->section_progress($sectionnum);
                         // Keep track of overall progress so we can show this too - add this tile's completion to the totals.
                         $data['overall_progress']['num_out_of'] += $completionthistile['outof'];
                         $data['overall_progress']['num_complete'] += $completionthistile['completed'];
@@ -686,7 +686,7 @@ class course_output implements \renderable, \templatable {
                 // Add in section zero completion data to overall completion count.
                 if ($section->visible && $this->completionenabled) {
                     if (isset($this->modinfo->sections[$sectionnum])) {
-                        $completionthistile = $this->section_progress($this->modinfo->sections[$sectionnum], $this->modinfo->cms);
+                        $completionthistile = $this->section_progress($sectionnum);
                         // Keep track of overall progress so we can show this too - add this tile's completion to the totals.
                         $data['overall_progress']['num_out_of'] += $completionthistile['outof'];
                         $data['overall_progress']['num_complete'] += $completionthistile['completed'];
@@ -736,17 +736,20 @@ class course_output implements \renderable, \templatable {
      * in this section, and the number which the student has completed
      * Exclude labels if we are using sub tiles, as these are not checkable
      * Also exclude items the user cannot see e.g. restricted
-     * @param array $sectioncmids the ids of course modules to count
-     * @param array $coursecms the course module objects for this course
+     * @param int $sectionnum the section number we want.
      * @return array with the completion data x items complete out of y
      */
-    public function section_progress($sectioncmids, $coursecms) {
+    public function section_progress(int $sectionnum): array {
         $completed = 0;
         $outof = 0;
+        $sectioncmids = $this->modinfo->sections[$sectionnum];
+        $coursecms = $this->modinfo->cms;
+        $includesubsectiondata = get_config('format_tiles', 'progressincludesubsections');
         foreach ($sectioncmids as $cmid) {
             $thismod = $coursecms[$cmid];
+            $issubsection = $thismod->modname === 'subsection';
             if ($thismod->uservisible && !$thismod->deletioninprogress) {
-                if ($this->completioninfo->is_enabled($thismod) != COMPLETION_TRACKING_NONE) {
+                if (!$issubsection && $this->completioninfo->is_enabled($thismod) != COMPLETION_TRACKING_NONE) {
                     $outof++;
                     $completiondata = $this->completioninfo->get_data($thismod, true);
                     if ($completiondata->completionstate == COMPLETION_COMPLETE ||
@@ -754,6 +757,12 @@ class course_output implements \renderable, \templatable {
                     ) {
                         $completed++;
                     }
+                } else if ($issubsection && $includesubsectiondata) {
+                    // Add completion data for the subsection to the parent section totals.
+                    $delegatedsectioninfo = $thismod->get_delegated_section_info();
+                    $delegatedsectiondata = $this->section_progress($delegatedsectioninfo->sectionnum);
+                    $completed += $delegatedsectiondata['completed'];
+                    $outof += $delegatedsectiondata['outof'];
                 }
             }
         }

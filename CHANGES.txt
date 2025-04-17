@@ -615,3 +615,8 @@ Other
 4.5.0.6 (2024121252)
 ====================
 - Add missing change to version.php
+
+4.5.0.7 (2025041650)
+====================
+- Simplify legacy checks for excess sections (detail now redundant)
+- Add setting to include sub-section progress data within on-tile progress indicator
