@@ -630,6 +630,6 @@ Other
 - Fix issue 252 section zero heading
 - Remove any queued adhoc tasks for deleted code
 
-5.0.0.0 (2025041700)
-====================
+5.0.0.0 & 5.0.0.1 (2025041700 & 2025041701)
+===========================================
 - Moodle 5.0 compatibility fixes
