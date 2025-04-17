@@ -604,7 +604,12 @@ Other
 
 4.3.0.65 (2025041630)
 =====================
-- Remove registration form and contact links
-- Simplyfy page scroll
+- Simplify page scroll
 - Inline folder warning
 - Refactor to video cm class
+- Remove registration form and contact links
+- Fix issue 252 section zero heading
+
+4.3.0.66 (2025041631)
+=====================
+- Remove any queued adhoc tasks for deleted code
