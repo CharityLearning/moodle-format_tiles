@@ -601,3 +601,12 @@ Other
 4.4.0.30 (2024121240)
 =====================
 - Adjust tests
+
+4.4.0.31 (2025041640)
+=====================
+- Make user pref controls more obvious if on/off (use same switch as edit mode)
+- Improve JS section load content error report notification
+- Remove registration form and contact links
+- Simplyfy page scroll
+- Inline folder warning
+- Refactor to video cm class
