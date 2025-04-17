@@ -48,7 +48,7 @@
                 data-bs-toggle="collapse"
                 data-for="sectiontoggler"
            href="#coursecontentcollapse{{num}}"
-           id="collapssesection{{num}}"
+           id="collapssesectionid{{num}}"
            aria-expanded="{{^contentcollapsed}}true{{/contentcollapsed}}{{#contentcollapsed}}false{{/contentcollapsed}}"
                 class="btn btn-icon me-1 icons-collapse-expand justify-content-center
                {{^editing}} stretched-link {{/editing}}
@@ -77,14 +77,14 @@
         {{#restrictionlock}}<i class="icon fa fa-lock fa-fw " aria-hidden="true"></i>{{/restrictionlock}}
     </div>
         {{#collapsemenu}}
-            <div class="flex-fill d-flex justify-content-end me-2 align-self-start mt-2">
+           <div class="flex-fill d-flex justify-content-end me-2 align-self-start mt-2">
                 <a
                         id="collapsesections"
                         class="section-collapsemenu"
                         href="#"
                         aria-expanded="true"
                         role="button"
-                        data-bs-toggle="toggleall"
+                        data-toggle="toggleall"
                 >
                     <span class="collapseall text-nowrap">{{#str}}collapseall{{/str}}</span>
                     <span class="expandall text-nowrap">{{#str}}expandall{{/str}}</span>

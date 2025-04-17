@@ -301,7 +301,7 @@ class behat_format_tiles extends behat_base {
      * @throws Exception
      */
     public function i_toggle_expand_collapse_section_for_edit($tileumber) {
-        $tileid = behat_context_helper::escape("collapssesection" . $tileumber);
+        $tileid = behat_context_helper::escape("collapssesectionid" . $tileumber);
 
         // Click the tile.
         $this->wait_for_pending_js();

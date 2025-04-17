@@ -1159,8 +1159,6 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     min-height: 23px;
 }
 .format-tiles .embed_cm_modal button[data-action="toggle-manual-completion"] {
-    color: #fff;
-    border-color: #fff;
     padding: 2px 5px 0 5px;
 }
 .format-tiles .modal-container .modal .modal-header.embed_cm_modal h3 {

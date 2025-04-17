@@ -63,7 +63,6 @@ Feature: Teacher can restrict course modules to groups
     #  We used to say "And I follow "Collapse all"" but course index includes that too we have to use element ID now.
     And I follow "collapsesections"
     And I toggle expand or collapse section "1" for edit
-
     And I open "I am a restricted label" actions menu
     And I click on "Edit settings" "link" in the "I am a restricted label" activity
     And I expand all fieldsets
