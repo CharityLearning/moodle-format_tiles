@@ -611,7 +611,4 @@ Other
 - Inline folder warning
 - Refactor to video cm class
 - Fix issue 252 section zero heading
-
-4.4.0.32 (2025041641)
-=====================
 - Remove any queued adhoc tasks for deleted code
