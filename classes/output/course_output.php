@@ -742,27 +742,30 @@ class course_output implements \renderable, \templatable {
     public function section_progress(int $sectionnum): array {
         $completed = 0;
         $outof = 0;
-        $sectioncmids = $this->modinfo->sections[$sectionnum];
-        $coursecms = $this->modinfo->cms;
-        $includesubsectiondata = get_config('format_tiles', 'progressincludesubsections');
-        foreach ($sectioncmids as $cmid) {
-            $thismod = $coursecms[$cmid];
-            $issubsection = $thismod->modname === 'subsection';
-            if ($thismod->uservisible && !$thismod->deletioninprogress) {
-                if (!$issubsection && $this->completioninfo->is_enabled($thismod) != COMPLETION_TRACKING_NONE) {
-                    $outof++;
-                    $completiondata = $this->completioninfo->get_data($thismod, true);
-                    if ($completiondata->completionstate == COMPLETION_COMPLETE ||
-                        $completiondata->completionstate == COMPLETION_COMPLETE_PASS
-                    ) {
-                        $completed++;
+        $sectioncmids = array_key_exists($sectionnum, $this->modinfo->sections)
+            ? $this->modinfo->sections[$sectionnum] : [];
+        if (!empty($sectioncmids)) {
+            $coursecms = $this->modinfo->cms;
+            $includesubsectiondata = get_config('format_tiles', 'progressincludesubsections');
+            foreach ($sectioncmids as $cmid) {
+                $thismod = $coursecms[$cmid];
+                $issubsection = $thismod->modname === 'subsection';
+                if ($thismod->uservisible && !$thismod->deletioninprogress) {
+                    if (!$issubsection && $this->completioninfo->is_enabled($thismod) != COMPLETION_TRACKING_NONE) {
+                        $outof++;
+                        $completiondata = $this->completioninfo->get_data($thismod, true);
+                        if ($completiondata->completionstate == COMPLETION_COMPLETE ||
+                            $completiondata->completionstate == COMPLETION_COMPLETE_PASS
+                        ) {
+                            $completed++;
+                        }
+                    } else if ($issubsection && $includesubsectiondata) {
+                        // Add completion data for the subsection to the parent section totals.
+                        $delegatedsectioninfo = $thismod->get_delegated_section_info();
+                        $delegatedsectiondata = $this->section_progress($delegatedsectioninfo->sectionnum);
+                        $completed += $delegatedsectiondata['completed'];
+                        $outof += $delegatedsectiondata['outof'];
                     }
-                } else if ($issubsection && $includesubsectiondata) {
-                    // Add completion data for the subsection to the parent section totals.
-                    $delegatedsectioninfo = $thismod->get_delegated_section_info();
-                    $delegatedsectiondata = $this->section_progress($delegatedsectioninfo->sectionnum);
-                    $completed += $delegatedsectiondata['completed'];
-                    $outof += $delegatedsectiondata['outof'];
                 }
             }
         }
