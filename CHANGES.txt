@@ -607,6 +607,11 @@ Other
 - Make user pref controls more obvious if on/off (use same switch as edit mode)
 - Improve JS section load content error report notification
 - Remove registration form and contact links
-- Simplyfy page scroll
+- Simplify page scroll
 - Inline folder warning
 - Refactor to video cm class
+- Fix issue 252 section zero heading
+
+4.4.0.32 (2025041641)
+=====================
+- Remove any queued adhoc tasks for deleted code
