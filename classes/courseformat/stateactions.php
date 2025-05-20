@@ -22,7 +22,7 @@ use format_topics\courseformat\stateactions as stateactions_topics;
 use stdClass;
 
 /**
- * Contains the core course state actions specific to topics format.
+ * Contains the core course state actions specific to tiles format.
  *
  * @package    format_tiles
  * @copyright  2025 David Watson
@@ -35,9 +35,9 @@ class stateactions extends stateactions_base {
      *
      * @param stateupdates $updates the affected course elements track
      * @param stdClass $course the course object
-     * @param int[] $ids section ids (only ther first one will be highlighted)
-     * @param int $targetsectionid not used
-     * @param int $targetcmid not used
+     * @param int[] $ids section ids (only the first one will be highlighted)
+     * @param ?int $targetsectionid not used
+     * @param ?int $targetcmid not used
      */
     public function section_highlight(
         stateupdates $updates,
@@ -53,13 +53,13 @@ class stateactions extends stateactions_base {
     }
 
     /**
-     * Remove highlight from a course sections.
+     * Remove highlight from a course section.
      *
      * @param stateupdates $updates the affected course elements track
      * @param stdClass $course the course object
      * @param int[] $ids optional extra section ids to refresh
-     * @param int $targetsectionid not used
-     * @param int $targetcmid not used
+     * @param ?int $targetsectionid not used
+     * @param ?int $targetcmid not used
      */
     public function section_unhighlight(
         stateupdates $updates,
