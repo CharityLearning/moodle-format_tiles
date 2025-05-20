@@ -343,4 +343,38 @@ class util {
         return get_config('format_tiles', 'highcontrastmodeallow')
             && get_user_preferences('format_tiles_high_contrast_mode', 0);
     }
+
+    /**
+     * We don't use the core function as we want to exclude icon.svg and icon.png files.
+     * We only want to return true if there is a monologo.svg or monologo.png.
+     * @see \core_component::has_monologo_icon() on which this is based.
+     * @return bool
+     */
+    public static function has_monologo_icon($plugintype, $pluginname): bool {
+        global $PAGE;
+        // Hard coded list of icons we do not want to filter (not ideal).
+        // E.g. these may have coloured icons which cannot be filtered.
+        $nofiltericons = ['bigbluebuttonbn', 'customcert'];
+        if (in_array($pluginname, $nofiltericons)) {
+            return false;
+        }
+
+        $plugindir = \core_component::get_plugin_directory($plugintype, $pluginname);
+        if ($plugindir === null) {
+            return false;
+        }
+        $theme = \theme_config::load($PAGE->theme->name);
+        $component = \core_component::normalize_componentname("{$plugintype}_{$pluginname}");
+        $svgmonologolocation = $theme->resolve_image_location('monologo', $component, true);
+        $pngmonologolocation = $theme->resolve_image_location('monologo', $component);
+        if ($svgmonologolocation === null && $pngmonologolocation === null) {
+            return false;
+        }
+        // The core method will return true for both icon and monologo, but we want to check for monlogo only.
+        $pattern = '/monologo\.(svg|png)$/i';
+        if (!preg_match($pattern, $svgmonologolocation) && !preg_match($pattern, $pngmonologolocation)) {
+            return false;
+        }
+        return true;
+    }
 }
