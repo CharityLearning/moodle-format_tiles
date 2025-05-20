@@ -1145,9 +1145,6 @@ body.jsenabled.format-tiles #collapsiblesec0 {
 .format-tiles .embed_cm_modal iframe {
     border: 0;
 }
-.format-tiles .embed_cm_modal a {
-    color: #979797;
-}
 .format-tiles .embed_cm_modal .modal-body {
     max-height: 95%;
     overflow-y: auto;

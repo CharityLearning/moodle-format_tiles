@@ -910,19 +910,8 @@ class course_output implements \renderable, \templatable {
         if (!$treataslabel) {
             $iconclass = '';
             $modiconurl = $mod->get_icon_url($output);
-            if (!\core_component::has_monologo_icon('mod', $mod->modname)) {
-                if ($mod->modname == 'customcert') {
-                    // Temporary icon for mod_customcert where monologo not yet implemented (their issue #568).
-                    $modiconurl = $output->image_url('tileicon/award-solid', 'format_tiles');
-                } else {
-                    // Use the mod's legacy icon but with no filtering.
-                    $iconclass = 'nofilter';
-                }
-            }
-
-            // No filter icons.  Big blue button has a coloured monologo which cannot be filtered.
-            $nofiltericons = ['bigbluebuttonbn'];
-            if (in_array($mod->modname, $nofiltericons)) {
+            if (!\format_tiles\local\util::has_monologo_icon('mod', $mod->modname)) {
+                // To use the mod's non-monologo icon we need no filtering.
                 $iconclass = 'nofilter';
             }
 

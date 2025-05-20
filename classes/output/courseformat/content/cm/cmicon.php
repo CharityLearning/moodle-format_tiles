@@ -47,7 +47,7 @@ class cmicon extends \core_courseformat\output\local\content\cm\cmicon {
                 $data['pluginname'] = get_string('displaytitle_mod_mp4', 'format_tiles');
                 $data['formattilesclass'] = 'format-tiles-video';
             }
-        } else if ($this->mod->modname == 'bigbluebuttonbn') {
+        } else if (!\format_tiles\local\util::has_monologo_icon('mod', $this->mod->modname)) {
             $data['iconclass'] .= 'nofilter';
         }
         return $data;
