@@ -630,3 +630,7 @@ Other
 - Fix issue 252 section zero heading
 - Remove any queued adhoc tasks for deleted code
 
+4.5.0.8 (2025052050)
+====================
+- Improve monologo icon check
+- Remove redundant language strings
