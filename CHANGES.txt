@@ -633,3 +633,8 @@ Other
 5.0.0.0 & 5.0.0.1 (2025041700 & 2025041701)
 ===========================================
 - Moodle 5.0 compatibility fixes
+
+5.0.0.2 (2025052060)
+====================
+- Improve monologo icon check
+- Remove redundant language strings
