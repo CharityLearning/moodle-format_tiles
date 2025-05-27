@@ -116,7 +116,6 @@ $string['expandtopsection'] = 'Expand top section';
 $string['expandall'] = 'Expand all';
 $string['expandsections'] = 'Reveal all activities (all sections)';
 $string['fileaddedtobottom'] = 'File added to bottom of section';
-$string['filenoshowtext'] = 'If file does not show here, please use the buttons on the right to download or view in new window';
 $string['filterboth'] = 'Show buttons based on tile numbers and course outcomes';
 $string['filternumbers'] = 'Show buttons based on tile numbers';
 $string['filteroutcomes'] = 'Show buttons based on course outcomes';
