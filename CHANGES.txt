@@ -613,3 +613,7 @@ Other
 4.3.0.66 (2025041631)
 =====================
 - Remove any queued adhoc tasks for deleted code
+
+4.3.0.67 (2025041632)
+=====================
+- Admin setting to prevent user collapsing section zero
