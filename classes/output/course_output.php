@@ -372,6 +372,7 @@ class course_output implements \renderable, \templatable {
             if ($seczero->summary || !empty($data['section_zero']['content']['course_modules'])) {
                 // We do have something to show, so need to show it.
                 $data['section_zero_show'] = 1;
+                $data['section_zero']['is_collapsible'] = get_config('format_tiles', 'seczerocollapsible');
             }
         }
         if ($this->courseformatoptions['courseusesubtiles'] && $this->courseformatoptions['usesubtilesseczero']) {

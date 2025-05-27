@@ -634,3 +634,7 @@ Other
 ====================
 - Improve monologo icon check
 - Remove redundant language strings
+
+4.3.0.67 (2025041632)
+=====================
+- Admin setting to prevent user collapsing section zero
