@@ -613,6 +613,7 @@ Other
 - Fix issue 252 section zero heading
 - Remove any queued adhoc tasks for deleted code
 
-4.3.0.67 (2025041632)
+4.4.0.32 (2025052740)
 =====================
-- Admin setting to prevent user collapsing section zero
+- Issue 270 - add admin setting to prevent user collapsing section zero
+- Issue 239 - fix "Show section zero at top of all sections" Setting Not Working
