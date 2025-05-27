@@ -612,3 +612,7 @@ Other
 - Refactor to video cm class
 - Fix issue 252 section zero heading
 - Remove any queued adhoc tasks for deleted code
+
+4.3.0.67 (2025041632)
+=====================
+- Admin setting to prevent user collapsing section zero
