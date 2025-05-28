@@ -217,11 +217,7 @@
 
 .format-tiles .navigation-arrows {
     min-width: 130px;
-    display: inline-block;
-    float: right;
     margin-right: 40px;
-    z-index: 2;
-    /*z-index needs to be on top of pagesechead*/
 }
 
 .format-tiles #page .course-content  ul li.section.main.current {
@@ -578,17 +574,6 @@
 .format-tiles .sectionbutton img.icon {
     width: 18px;
     height: 18px;
-}
-.format-tiles .pagesechead {
-    max-width: calc(100% - 115px);
-    min-height: 60px;
-    z-index: 1;
-    position: relative;
-    display: inline-block;
-    /*z-index needs to be behind navigation-arrows as they may overlap*/
-}
-.format-tiles #single_section_tiles .pagesechead {
-    max-width: calc(100% - 175px);
 }
 .format-tiles .sectionbuttons {
     position: relative;
@@ -967,7 +952,7 @@ body.jsenabled.format-tiles #collapsiblesec0 {
 }
 .format-tiles .sectiontitlecontainer {
     margin: 0 0 0.5em 0.5em;
-    display: inline-block;
+    min-width: 70%;
 }
 
 .format-tiles .sectiontitle {
@@ -1409,6 +1394,7 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     opacity: 0.9;
     text-align: center;
     box-shadow: none;
+    color: var(--bs-btn-close-color);
 }
 .format-tiles .modal-container .modal .modal-header button.btn-close {
     font-size: 1.8em;
@@ -2078,9 +2064,6 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     body.jsenabled.format-tiles .section-zero-empty .above-tiles-buttons {
         min-width: 50px;
     }
-    .format-tiles #single_section_tiles .pagesechead {
-        max-width: calc(100% - 175px);
-    }
 }
 
 @media screen and (max-width: 680px) {
@@ -2156,10 +2139,6 @@ allow tiles to be taller and thinner so can fit two side by side in portrait on 
     }
     .format-tiles .subtiles .course-content ul.section {
         padding: 0.5em 0.5em 0.5em 1em;
-    }
-    .format-tiles .pagesechead {
-        max-width: unset;
-        margin: 0 0 0 5px;
     }
     .format-tiles .sectiontitlecontainer {
         /* stylelint-disable-next-line declaration-no-important */
