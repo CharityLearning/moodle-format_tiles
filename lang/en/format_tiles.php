@@ -43,6 +43,7 @@ $string['basecolour'] = 'Colour for tiles';
 $string['basecolour_help'] = 'Colour set here will be applied to all tiles in the course.  (The available colours are determined by your site administrator through the Tiles plugin settings page).';
 $string['brandcolour'] = 'Brand colour';
 $string['cachedef_modalcmids'] = 'Course module IDs (by course) that need to be launched with a modal';
+$string['cachedef_videocmids'] = 'Course module IDs (by course) that are videos (URL activities pointing to YouTube or Vimeo)';
 $string['changedcolour'] = 'Tile colour reset to default for course {$a}';
 $string['checkforproblemcourses'] = 'Check for and fix problem courses';
 $string['clearphoto'] = 'Reset this tile';
