@@ -645,6 +645,7 @@ Other
 - Issue 239 - fix "Show section zero at top of all sections" Setting Not Working
 - Issue 263 - use iframe for PDF modal instead of object
 
-4.5.0.10 (2025052751)
+5.0.0.4 (2025052761)
 =====================
 - Issue 268 add missing cachedef string
+- Adjust section header layout
