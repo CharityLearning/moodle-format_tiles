@@ -622,3 +622,7 @@ Other
 =====================
 - Issue 263 - use iframe for PDF modal instead of object
 - Edit admin settings strings re animated navigation
+
+4.4.0.34 (2025052742)
+=====================
+- Remove duplicate lines in version.php (incorrect previous merge)
