@@ -31,21 +31,37 @@ class standard_head_html_prepend {
      * @param \core\hook\output\before_standard_head_html_generation $hook
      */
     public static function callback(\core\hook\output\before_standard_head_html_generation $hook): void {
-        global $PAGE;
+        global $PAGE, $CFG;
         if (($PAGE->course->format ?? null) !== 'tiles') {
             // This is called on every page so check that we are in a tiles course first.
             return;
         }
+        $debug = "Could not prepare format_tiles head data";
         try {
-            if (method_exists('format_tiles\local\dynamic_styles', 'get_tiles_dynamic_css')) {
-                // The method get_tiles_dynamic_css() will check that we are on a page that really needs it.
-                $dynamiccss = \format_tiles\local\dynamic_styles::get_tiles_dynamic_css();
-                if ($dynamiccss) {
-                    $hook->add_html("<style id=\"format-tiles-dynamic-css\">$dynamiccss</style>");
+            if (method_exists('format_tiles\local\dynamic_styles', 'page_needs_dynamic_css')) {
+                if (\format_tiles\local\dynamic_styles::page_needs_dynamic_css()) {
+                    $dynamiccss = \format_tiles\local\dynamic_styles::get_tiles_dynamic_css();
+                    if ($dynamiccss) {
+                        $hook->add_html("<style id=\"format-tiles-dynamic-css\">$dynamiccss</style>");
+                    }
                 }
+            } else {
+                debugging("$debug: class not found", DEBUG_DEVELOPER);
             }
         } catch (\Exception $e) {
-            debugging("Could not prepare format_tiles head data: " . $e->getMessage(), DEBUG_DEVELOPER);
+            debugging("$debug: " . $e->getMessage(), DEBUG_DEVELOPER);
+        }
+
+        try {
+            if (\core_useragent::is_safari()) {
+                // In Safari only, a core bug is making all activity icons black for Moodle 5.0.
+                // See https://tracker.moodle.org/browse/MDL-84630.
+                // Until that is resolved, temporarily we include a Safari specific style sheet.
+                $safaricss = file_get_contents("$CFG->dirroot/course/format/tiles/styles_safari.css");
+                $hook->add_html("<style id=\"format-tiles-safari-styles\">$safaricss</style>");
+            }
+        } catch (\Exception $e) {
+            debugging("$debug (Safari): " . $e->getMessage(), DEBUG_DEVELOPER);
         }
     }
 }

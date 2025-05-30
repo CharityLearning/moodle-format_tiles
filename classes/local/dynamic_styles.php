@@ -38,6 +38,27 @@ class dynamic_styles {
     const DEFAULT_COLOUR = '#1670CC';
 
     /**
+     * Check if we are on a page which needs dynamic CSS adding.
+     * @return bool
+     */
+    public static function page_needs_dynamic_css(): bool {
+        global $PAGE;
+        // Only need dynamic CSS if we are on /course/view.php or /course/section.php.
+        // (Will only be using /course/section.php in Moodle 4.4+ and if not using JS nav).
+        $allowedpagetypes = ['course-view-tiles', 'section-view-tiles', 'course-view-section-tiles'];
+        if (in_array($PAGE->pagetype, $allowedpagetypes)) {
+            return true;
+        }
+        if ($PAGE->url->compare(new \moodle_url('/course/view.php'), URL_MATCH_BASE)) {
+            return true;
+        }
+        if ($PAGE->url->compare(new \moodle_url('/course/section.php'), URL_MATCH_BASE)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Get the tiles dynamic course CSS to be added to <head>.
      * @return string
      * @throws \coding_exception
@@ -45,32 +66,14 @@ class dynamic_styles {
      * @throws \moodle_exception
      */
     public static function get_tiles_dynamic_css(): string {
-        global $CFG, $PAGE, $DB;
-        require_once("$CFG->dirroot/course/format/lib.php");
-        // Only need dynamic CSS if we are on /course/view.php or /course/section.php.
-        // (Will only be using /course/section.php in Moodle 4.4+ and if not using JS nav).
-        $allowedpagetypes = ['course-view-tiles', 'section-view-tiles', 'course-view-section-tiles'];
-        if (!in_array($PAGE->pagetype, $allowedpagetypes)) {
-            return '';
-        }
-        $iscourseviewpage = $PAGE->url->compare(new \moodle_url('/course/view.php'), URL_MATCH_BASE);
-        $issectionpage = $PAGE->url->compare(new \moodle_url('/course/section.php'), URL_MATCH_BASE);
-        if (!$iscourseviewpage && !$issectionpage) {
-            return '';
-        }
-        $idparam = optional_param('id', 0, PARAM_INT);
-        if ($idparam) {
-            $courseid = $iscourseviewpage ? $idparam : $DB->get_field('course_sections', 'course', ['id' => $idparam]);
-            if ($courseid) {
-                $data = self::data_for_template($courseid);
-                $m = new \Mustache_Engine;
-                return $m->render(
-                    file_get_contents("$CFG->dirroot/course/format/tiles/templates/dynamic_styles.mustache"),
-                    $data
-                );
-            }
-        }
-        return '';
+        global $CFG, $PAGE;
+        $courseid = $PAGE->course->id ?? 0;
+        $data = self::data_for_template($courseid);
+        $m = new \Mustache_Engine;
+        return $m->render(
+            file_get_contents("$CFG->dirroot/course/format/tiles/templates/dynamic_styles.mustache"),
+            $data
+        );
     }
 
     /**
@@ -82,9 +85,16 @@ class dynamic_styles {
      * @throws \moodle_exception
      */
     public static function data_for_template(int $courseid): array {
-        $format = course_get_format($courseid);
-        $course = $courseid ? $format->get_course() : null;
-        $basecolourhex = !$course ? self::DEFAULT_COLOUR : self::get_tile_base_colour($course->basecolour ?? '');
+        global $CFG;
+        if ($courseid) {
+            require_once("$CFG->dirroot/course/format/lib.php");
+            $format = course_get_format($courseid);
+            $course = $format->get_course();
+            $basecolourhex = self::get_tile_base_colour($course->basecolour ?? '');
+        } else {
+            $basecolourhex = self::DEFAULT_COLOUR;
+        }
+
         $tilestyle = get_config('format_tiles', 'tilestyle') ?? \format_tiles\output\course_output::TILE_STYLE_STANDARD;
         $usinghighcontrast = \format_tiles\local\util::using_high_contrast();
 
@@ -97,7 +107,8 @@ class dynamic_styles {
             'usesubtiles' => $course->courseusesubtiles ?? false,
             // Shade heading bar will be 1 (used) or 0 (not used) now.
             // (Legacy values could be 'standard' for not used, or a colour for used, but in that case treat as 'used').
-            'shade_heading_bar' => $course->courseusebarforheadings != 0 && $course->courseusebarforheadings != 'standard'
+            'shade_heading_bar' => isset($course->courseusebarforheadings)
+                && $course->courseusebarforheadings != 0 && $course->courseusebarforheadings != 'standard'
                 ? 1 : 0,
             // Site admin may have added additional CSS via the plugin settings.
             'pluginconfigcss' => trim(get_config('format_tiles', 'customcss') ?? ''),
