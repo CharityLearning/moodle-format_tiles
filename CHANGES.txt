@@ -617,3 +617,8 @@ Other
 4.3.0.67 (2025041632)
 =====================
 - Admin setting to prevent user collapsing section zero
+
+4.3.0.68 (2025052730)
+=====================
+- Issue 263 - use iframe for PDF modal instead of object
+- Edit admin settings strings re animated navigation
