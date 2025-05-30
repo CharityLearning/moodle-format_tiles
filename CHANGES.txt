@@ -662,3 +662,7 @@ Other
 5.0.0.7 (2025052764)
 =====================
 - Extend workaround for core bug Safari black activity icons to iOS Safari
+
+4.5.0.13 (2025052754)
+=====================
+- Remove redundant behat test steps
