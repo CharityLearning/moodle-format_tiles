@@ -648,3 +648,7 @@ Other
 4.5.0.11 (2025052752)
 =====================
 - Edit admin settings strings re animated navigation
+
+4.5.0.12 (2025052753)
+=====================
+- Remove format.js deprecated since 4.0 - see https://tracker.moodle.org/browse/MDL-74778.
