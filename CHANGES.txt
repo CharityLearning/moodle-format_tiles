@@ -653,7 +653,12 @@ Other
 5.0.0.5 (2025052762)
 =====================
 - Edit admin settings strings re animated navigation
+- Add workaround for core bug Safari black activity icons - see https://tracker.moodle.org/browse/MDL-84630.
 
 5.0.0.6 (2025052763)
 =====================
 - Remove format.js deprecated since 4.0 - see https://tracker.moodle.org/browse/MDL-74778.
+
+5.0.0.7 (2025052764)
+=====================
+- Extend workaround for core bug Safari black activity icons to iOS Safari

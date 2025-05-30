@@ -53,7 +53,7 @@ class standard_head_html_prepend {
         }
 
         try {
-            if (\core_useragent::is_safari()) {
+            if (\core_useragent::is_safari() || \core_useragent::is_safari_ios()) {
                 // In Safari only, a core bug is making all activity icons black for Moodle 5.0.
                 // See https://tracker.moodle.org/browse/MDL-84630.
                 // Until that is resolved, temporarily we include a Safari specific style sheet.
