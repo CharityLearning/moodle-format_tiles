@@ -644,3 +644,8 @@ Other
 4.5.0.10 (2025052751)
 =====================
 - Issue 268 add missing cachedef string
+
+4.3.0.68 (2025052730)
+=====================
+- Issue 263 - use iframe for PDF modal instead of object
+- Edit admin settings strings re animated navigation
