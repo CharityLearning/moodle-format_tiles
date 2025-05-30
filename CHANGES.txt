@@ -618,7 +618,7 @@ Other
 - Issue 270 - add admin setting to prevent user collapsing section zero
 - Issue 239 - fix "Show section zero at top of all sections" Setting Not Working
 
-4.3.0.68 (2025052730)
+4.4.0.33 (2025052741)
 =====================
 - Issue 263 - use iframe for PDF modal instead of object
 - Edit admin settings strings re animated navigation
