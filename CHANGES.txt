@@ -649,3 +649,7 @@ Other
 =====================
 - Issue 268 add missing cachedef string
 - Adjust section header layout
+
+4.5.0.11 (2025052752)
+=====================
+- Edit admin settings strings re animated navigation
