@@ -630,3 +630,7 @@ Other
 4.4.0.35 (2025052743)
 =====================
 - Remove format.js deprecated since 4.0 - see https://tracker.moodle.org/browse/MDL-74778.
+
+4.4.0.36 (2025052744)
+=====================
+- Remove redundant behat test steps
