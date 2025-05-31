@@ -656,3 +656,7 @@ Other
 4.5.0.13 (2025052754)
 =====================
 - Remove redundant behat test steps
+
+4.5.0.14 (2025052755)
+=====================
+- Fix issue when clicking sub-section headings in course index
