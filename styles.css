@@ -1069,6 +1069,9 @@ body.jsenabled.format-tiles #collapsiblesec0 {
 .format-tiles.editing .section .mod-indent-outer {
     max-width: calc(100% - 100px);
 }
+.format-tiles .section .activity-wrapper .activity-item {
+    width: 100%;
+}
 .format-tiles.editing .tile-icon i {
     margin-right: 0;
 }
