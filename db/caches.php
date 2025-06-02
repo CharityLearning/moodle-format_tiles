@@ -34,7 +34,7 @@ $definitions = [
     'modalcmids' => [
         'mode' => cache_store::MODE_APPLICATION,
         'simplekeys' => true,
-        'simpledata' => false,
+        'simpledata' => true,
         'staticacceleration' => true,
         'staticaccelerationsize' => 30,
         'invalidationevents' => [
@@ -45,7 +45,7 @@ $definitions = [
     'videocmids' => [
         'mode' => cache_store::MODE_APPLICATION,
         'simplekeys' => true,
-        'simpledata' => false,
+        'simpledata' => true,
         'staticacceleration' => true,
         'staticaccelerationsize' => 30,
     ],
