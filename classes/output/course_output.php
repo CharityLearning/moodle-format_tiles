@@ -516,8 +516,8 @@ class course_output implements \renderable, \templatable {
         if ($allowedphototiles) {
             $data['allowphototiles'] = 1;
             $data['showprogressphototiles'] = get_config('format_tiles', 'showprogresssphototiles');
-            $phototileids = array_keys(
-                format_option::get_multiple($this->course->id, format_option::OPTION_SECTION_PHOTO)
+            $phototileids = format_option::get_element_ids_having_options(
+                $this->course->id, format_option::OPTION_SECTION_PHOTO
             );
             $phototileextraclasses = 'phototile';
         } else {

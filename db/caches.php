@@ -49,4 +49,23 @@ $definitions = [
         'staticacceleration' => true,
         'staticaccelerationsize' => 30,
     ],
+    // Simple array of element IDs which have format options set e.g. course section IDs which have photos.
+    // Key is {courseId}_{elementId} e.g. 3_10.
+    'formatoptionelementids' => [
+        'mode' => cache_store::MODE_APPLICATION,
+        'simplekeys' => true,
+        'simpledata' => true,
+        'staticacceleration' => true,
+        'staticaccelerationsize' => 30,
+    ],
+    // Array of values of course format options by element ID.
+    // E.g. photo filenames by course section ID.
+    // Key is {courseId}_{optionType}_{elementId} e.g. 3_10.
+    'formatoptions' => [
+        'mode' => cache_store::MODE_APPLICATION,
+        'simplekeys' => true,
+        'simpledata' => false,
+        'staticacceleration' => true,
+        'staticaccelerationsize' => 30,
+    ],
 ];
