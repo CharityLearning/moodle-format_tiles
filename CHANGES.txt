@@ -661,6 +661,6 @@ Other
 =====================
 - Fix issue when clicking sub-section headings in course index
 
-4.3.0.69 (2025060230)
+4.5.0.15 (2025060252)
 =====================
 - Introduce cache for tiles format options
