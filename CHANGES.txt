@@ -626,3 +626,7 @@ Other
 4.3.0.69 (2025060230)
 =====================
 - Introduce cache for tiles format options
+
+4.3.0.70 (2025060231)
+=====================
+- Adjust/improve new code for cache for tiles format options from 4.3.0.69
