@@ -136,36 +136,21 @@ class format_option {
      * Clear caches for a given course ID and option type.
      * @param int $courseid
      * @param int $optiontype
-     * @param ?int $elementid (optional)
      */
-    public static function clear_caches(int $courseid, int $optiontype, ?int $elementid = null) {
+    public static function clear_caches(int $courseid, int $optiontype) {
         $cacheids = \cache::make('format_tiles', 'formatoptionelementids');
         $cacheidskey = $courseid . "_" . $optiontype;
 
         $cacheoptions = \cache::make('format_tiles', 'formatoptions');
-        if ($elementid) {
-            $cacheoptions->delete($courseid . "_" . $optiontype . "_" . $elementid);
-            $cacheidvalues = $cacheids->get($cacheidskey);
-            if (!empty($cacheidvalues)) {
-                $index = array_search($elementid, $cacheidvalues);
-                if ($index !== false) {
-                    unset($cacheidvalues[$index]);
-                    sort($cacheidvalues);
-                    $cacheids->set($cacheidskey, $cacheidvalues);
-                }
-            }
-        } else {
-            $ids = $cacheids->get($cacheidskey);
-            if (empty($ids)) {
-                return;
-            }
-
-            foreach ($ids as $id) {
-                $cacheoptionskey = $courseid . "_" . $optiontype . "_" . $id;
-                $cacheoptions->delete($cacheoptionskey);
-            }
-            $cacheids->delete($cacheidskey);
+        $ids = $cacheids->get($cacheidskey);
+        if (empty($ids)) {
+            return;
         }
+        foreach ($ids as $id) {
+            $cacheoptionskey = $courseid . "_" . $optiontype . "_" . $id;
+            $cacheoptions->delete($cacheoptionskey);
+        }
+        $cacheids->delete($cacheidskey);
     }
 
     /**
@@ -180,7 +165,10 @@ class format_option {
         $cacheidskey = $courseid . "_" . $optiontype;
         $cachedvalueids = $cacheids->get($cacheidskey);
         if ($cachedvalueids === false) {
-            self::fill_caches($courseid, $optiontype);
+            $cachedvalueids = self::fill_caches($courseid, $optiontype);
+        }
+        if (!$cachedvalueids || !in_array($elementid, $cachedvalueids)) {
+            return null;
         }
         $cache = \cache::make('format_tiles', 'formatoptions');
         $cachekey = $courseid . "_" . $optiontype . "_" . $elementid;
@@ -256,7 +244,7 @@ class format_option {
         try {
             $record = self::get_db_record($courseid, $optiontype, $elementid);
             if ($record) {
-                self::clear_caches($courseid, $optiontype, $elementid);
+                self::clear_caches($courseid, $optiontype);
                 return $DB->delete_records('format_tiles_tile_options', ['id' => $record->id]);
             }
         } catch (\Exception $e) {
@@ -280,7 +268,7 @@ class format_option {
             $params = ['courseid' => $courseid, 'elementid' => $elementid, 'optiontype' => $optiontype];
             if ($DB->delete_records('format_tiles_tile_options', $params)) {
                 // Do not limit the cache clear here to an element ID.
-                // Otherwise on restore we have a problem when checking if a photo exists before writing a duplicate icon to same section.
+                // Otherwise, on restore we have a problem when checking if photo exists before writing duplicate icon to same sec.
                 self::clear_caches($courseid, $optiontype);
                 $result = true;
             }
@@ -335,7 +323,10 @@ class format_option {
                 'courseid' => $courseid, 'elementid' => $elementid,
                 'optiontype' => $optiontype, 'optionvalue' => $optionvalue,
             ];
-            return (bool)$DB->insert_record('format_tiles_tile_options', $record);
+            if ($DB->insert_record('format_tiles_tile_options', $record)) {
+                self::clear_caches($courseid, $optiontype);
+                return true;
+            }
         }
         return true;
     }
@@ -486,20 +477,30 @@ class format_option {
      * @throws \dml_exception
      */
     public static function needs_migration_incomplete_warning(int $courseid): bool {
-        global $DB;
-        $haslegacyoptions = $DB->record_exists_sql(
-            "SELECT id FROM {course_format_options}
-                WHERE courseid = ? and format = 'tiles' AND name IN ('tilephoto', 'tileicon')",
-            [$courseid]
-        );
-        if (!$haslegacyoptions) {
+        global $DB, $SESSION;
+        $key = "tiles-migr-warn-$courseid";
+        if (($SESSION->$key ?? null) === false) {
+            // No need to check this again - if was once false, will always be.
             return false;
         }
         $hasmigratedoptions = $DB->record_exists_sql(
             "SELECT id FROM {format_tiles_tile_options} WHERE courseid = ? AND optiontype IN (?, ?)",
             [$courseid, self::OPTION_SECTION_PHOTO, self::OPTION_SECTION_ICON]
         );
-        return !$hasmigratedoptions;
+        if ($hasmigratedoptions) {
+            $SESSION->$key = false;
+            return false;
+        }
+        $haslegacyoptions = $DB->record_exists_sql(
+            "SELECT id FROM {course_format_options}
+                WHERE courseid = ? and format = 'tiles' AND name IN ('tilephoto', 'tileicon')",
+            [$courseid]
+        );
+        if (!$haslegacyoptions) {
+            $SESSION->$key = false;
+            return false;
+        }
+        return true;
     }
 
     /**

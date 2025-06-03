@@ -60,7 +60,7 @@ $definitions = [
     ],
     // Array of values of course format options by element ID.
     // E.g. photo filenames by course section ID.
-    // Key is {courseId}_{optionType}_{elementId} e.g. 3_10.
+    // Key is {courseId}_{optionType}_{elementId} e.g. 3_10_12.
     'formatoptions' => [
         'mode' => cache_store::MODE_APPLICATION,
         'simplekeys' => true,

@@ -389,7 +389,7 @@ $string['tilestyle_desc'] = 'Style 1 = photo tiles will show the title at the to
 $string['cachedef_modalcmids'] = 'Course module IDs (by course) that need to be launched with a modal';
 $string['cachedef_videocmids'] = 'Course module IDs (by course) that are videos (URL activities pointing to YouTube or Vimeo)';
 $string['cachedef_formatoptionelementids'] = 'Simple array of element IDs which have format options set e.g. course section IDs which have photos.';
-$string['cachedef_formatoptionelementids'] = 'Array of values of course format options by element ID. E.g. photo filenames by course section ID.';
+$string['cachedef_formatoptions'] = 'Array of values of course format options by element ID. E.g. photo filenames by course section ID.';
 $string['migratecoursedata'] = 'Migrate course data';
 $string['coursephotomigrationincomplete'] = 'Tile icons and photos have not yet been migrated following a system upgrade.  Missing items should appear within a few hours of the upgrade.';
 $string['migratedcourseid'] = 'Migrated course ID {$a}';
