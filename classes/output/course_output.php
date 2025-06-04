@@ -473,10 +473,20 @@ class course_output implements \renderable, \templatable {
         if (strlen('single_sec_content') > $longsectionlength) {
             $data['single_sec_content_is_long'] = true;
         }
+        $isdelegatedsection = $this->moodlerelease >= 4.5 && ($thissection->is_delegated() ?? false);
         if (!$data['usingjsnav']) {
-            $previousnext = $this->get_previous_next_section_numbers($thissection->section);
-            $data['previous_tile_id'] = $previousnext['previous'];
-            $data['next_tile_id'] = $previousnext['next'];
+            if ($isdelegatedsection) {
+                $parentcm = $thissection->get_component_instance();
+                $parentsection = $parentcm->get_parent_section();
+                $data['parent_tile'] = [
+                    'id' => $parentsection->id,
+                    'title' => $this->format->get_section_name($parentsection)
+                ];
+            } else {
+                $previousnext = $this->get_previous_next_section_numbers($thissection->section);
+                $data['previous_tile_id'] = $previousnext['previous'];
+                $data['next_tile_id'] = $previousnext['next'];
+            }
         }
 
         $data['visible'] = $thissection->visible;
@@ -484,7 +494,7 @@ class course_output implements \renderable, \templatable {
         if ($this->canviewhidden) {
             $data['availabilitymessage'] = self::temp_section_availability_message($thissection);
         }
-        if ($this->moodlerelease >= 4.5 && ($thissection->is_delegated() ?? false)) {
+        if ($isdelegatedsection) {
             $data['isdelegatedsection'] = true;
             $data['contentcollapsed'] = true;
         }
