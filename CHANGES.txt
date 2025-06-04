@@ -674,3 +674,7 @@ Other
 5.0.0.10 (2025060260)
 =====================
 - Introduce cache for tiles format options
+
+5.0.0.11 (2025060261)
+=====================
+- Issue 272 - fix nav arrows in subsection accessed from course index when animated navigation is off
