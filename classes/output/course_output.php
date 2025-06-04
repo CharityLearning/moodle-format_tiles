@@ -480,7 +480,7 @@ class course_output implements \renderable, \templatable {
                 $parentsection = $parentcm->get_parent_section();
                 $data['parent_tile'] = [
                     'id' => $parentsection->id,
-                    'title' => $this->format->get_section_name($parentsection)
+                    'title' => $this->format->get_section_name($parentsection),
                 ];
             } else {
                 $previousnext = $this->get_previous_next_section_ids($thissection->section);

@@ -678,3 +678,7 @@ Other
 5.0.0.11 (2025060261)
 =====================
 - Issue 272 - fix nav arrows in subsection accessed from course index when animated navigation is off
+
+5.0.0.12 (2025060262)
+=====================
+- Use section.php page to show single section when animated navigation is off
