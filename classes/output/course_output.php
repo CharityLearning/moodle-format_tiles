@@ -473,10 +473,20 @@ class course_output implements \renderable, \templatable {
         if (strlen('single_sec_content') > $longsectionlength) {
             $data['single_sec_content_is_long'] = true;
         }
+        $isdelegatedsection = $this->moodlerelease >= 4.5 && ($thissection->is_delegated() ?? false);
         if (!$data['usingjsnav']) {
-            $previousnext = $this->get_previous_next_section_numbers($thissection->section);
-            $data['previous_tile_id'] = $previousnext['previous'];
-            $data['next_tile_id'] = $previousnext['next'];
+            if ($isdelegatedsection) {
+                $parentcm = $thissection->get_component_instance();
+                $parentsection = $parentcm->get_parent_section();
+                $data['parent_tile'] = [
+                    'id' => $parentsection->id,
+                    'title' => $this->format->get_section_name($parentsection)
+                ];
+            } else {
+                $previousnext = $this->get_previous_next_section_ids($thissection->section);
+                $data['previous_tile_id'] = $previousnext['previous'];
+                $data['next_tile_id'] = $previousnext['next'];
+            }
         }
 
         $data['visible'] = $thissection->visible;
@@ -484,7 +494,7 @@ class course_output implements \renderable, \templatable {
         if ($this->canviewhidden) {
             $data['availabilitymessage'] = self::temp_section_availability_message($thissection);
         }
-        if ($this->moodlerelease >= 4.5 && ($thissection->is_delegated() ?? false)) {
+        if ($isdelegatedsection) {
             $data['isdelegatedsection'] = true;
             $data['contentcollapsed'] = true;
         }
@@ -1072,19 +1082,19 @@ class course_output implements \renderable, \templatable {
     }
 
     /**
-     * For the legacy navigation arrows, establish the section number of the next and previous sections.
+     * For the legacy navigation arrows, establish the section ID of the next and previous sections.
      * @param int $currentsectionnum the section number of the section we are in.
      * @return array previous and next section numbers.
      */
-    private function get_previous_next_section_numbers(int $currentsectionnum): array {
-        $visiblesectionnums = [];
+    private function get_previous_next_section_ids(int $currentsectionnum): array {
+        $visiblesectionids = [];
         $currentsectionarrayindex = -1;
         foreach ($this->modinfo->get_section_info_all() as $section) {
             if ($section->section == 0 || ($this->moodlerelease >= 4.5 && $section->is_delegated())) {
                 continue;
             }
             if ($section->uservisible) {
-                $visiblesectionnums[] = $section->section;
+                $visiblesectionids[] = $section->id;
                 if ($section->section <= $currentsectionnum) {
                     $currentsectionarrayindex++;
                 }
@@ -1092,10 +1102,10 @@ class course_output implements \renderable, \templatable {
         }
 
         // If $currentsectionarrayindex is zero, this means we are on the first available section so there is no "previous".
-        $previous = $currentsectionarrayindex == 0 ? 0 : $visiblesectionnums[$currentsectionarrayindex - 1];
+        $previous = $currentsectionarrayindex == 0 ? 0 : $visiblesectionids[$currentsectionarrayindex - 1];
 
         // If there is no item at the next index, there is no "next" (so set next to zero).
-        $next = $visiblesectionnums[$currentsectionarrayindex + 1] ?? 0;
+        $next = $visiblesectionids[$currentsectionarrayindex + 1] ?? 0;
 
         return ['previous' => $previous, 'next' => $next];
     }

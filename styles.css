@@ -48,7 +48,6 @@
     color: #fff;
     opacity: 0.8;
 }
-.format-tiles .sectiontitle::after,
 .format-tiles .badge-info {
     background-color: var(--format-tiles-colour);
 }
@@ -989,12 +988,12 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     padding-right: 7px;
 }
 .format-tiles .sectiontitle::after,
-.format-tiles .sectiontitle::after {
+.format-tiles.path-course-view-section .page-header-headings h1::after {
     content: "";
     display: block;
     height: 4px;
+    background-color: var(--format-tiles-colour);
 }
-
 .format-tiles .sectiontitle h2 {
     font-weight: 600;
     color: #666;
