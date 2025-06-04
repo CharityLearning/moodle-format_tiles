@@ -44,11 +44,11 @@
         "next_tile_id": 5
         }
 }}
-<div class="navigation-arrows">
+<div class="navigation-arrows pe-2 float-end">
     {{^isdelegatedsection}}
         {{#previous_tile_id}}
             <a class="navigation-arrow"
-               href="{{{ config.wwwroot }}}/course/view.php?id={{courseid}}&section={{previous_tile_id}}&singlesec={{previous_tile_id}}">
+               href="{{{ config.wwwroot }}}/course/section.php?id={{previous_tile_id}}&singlesec={{previous_tile_id}}">
             <span class="dir-rtl-hide">{{#pix}}chevron-left, format_tiles, {{#str}}previoustopic, format_tiles{{/str}}{{/pix}}</span>
             {{#is-rtl}}
                 <span class="dir-ltr-hide">{{#pix}}chevron-right, format_tiles, {{#str}}previoustopic, format_tiles{{/str}}{{/pix}}</span>
@@ -66,7 +66,7 @@
 
         {{#next_tile_id}}
             <a class="navigation-arrow"
-               href="{{{ config.wwwroot }}}/course/view.php?id={{courseid}}&section={{next_tile_id}}&singlesec={{next_tile_id}}">
+               href="{{{ config.wwwroot }}}/course/section.php?id={{next_tile_id}}">
             <span class="dir-rtl-hide">{{#pix}}chevron-right, format_tiles, {{#str}}nexttopic, format_tiles{{/str}}{{/pix}}</span>
             {{#is-rtl}}
                 <span class="dir-ltr-hide">{{#pix}}chevron-left, format_tiles, {{#str}}nexttopic, format_tiles{{/str}}{{/pix}}</span>
@@ -83,7 +83,7 @@
         {{/next_tile_id}}
     {{/isdelegatedsection}}
     {{#isdelegatedsection}}
-        <a class="navigation-arrow d-inline-block align-top" href="{{{ config.wwwroot }}}/course/view.php?id={{courseid}}&section={{parent_tile.id}}&singlesec={{parent_tile.id}}" title="{{parent_tile.title}}">
+        <a class="navigation-arrow d-inline-block align-top" href="{{{ config.wwwroot }}}/course/section.php?id={{parent_tile.id}}" title="{{parent_tile.title}}">
             {{#pix}}chevron-up, format_tiles, {{parent_tile.title}}{{/pix}}</a>
     {{/isdelegatedsection}}
     <a class="navigation-arrow" href="{{{ config.wwwroot }}}/course/view.php?id={{courseid}}">
