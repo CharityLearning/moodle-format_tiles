@@ -688,3 +688,9 @@ Other
 - More adaptation to use section.php for single section when animated nav is off.
     - Move sec zero and arrows to top
     - Tidy appearance
+
+5.0.0.14 (2025060264)
+=====================
+- Run grunt AMD missing from last version
+
+
