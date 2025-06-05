@@ -55,6 +55,9 @@
 .format-tiles .embed_cm_modal .embed_file_button:hover {
     background-color: var(--format-tiles-colour-1);
 }
+.format-tiles.single-section-page #course-header {
+    width: 100%;
+}
 
 .format-tiles .filterbutton:hover,
 .format-tiles .sectionbutton:hover {
@@ -583,6 +586,9 @@
     width: 20px;
     height: 20px;
 }
+.format-tiles .sectionbutton .icon.fa-home {
+    font-size: 1.3em;
+}
 .format-tiles a.sectionbutton:hover {
     text-decoration: none;
 }
@@ -909,7 +915,7 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     width: 100%;
 }
 .format-tiles #abovetiles.sec-zero-closed {
-    width: calc(100% - 80px);
+    width: calc(100% - 95px);
 }
 .format-tiles #abovetiles.section-zero-empty {
     width: calc(100% - 40px);
@@ -1954,6 +1960,9 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     z-index: 2;
 }
 .format-tiles .moveablesection {
+    z-index: 3;
+}
+.format-tiles .drawer-toggles .drawer-toggler {
     z-index: 3;
 }
 .format-tiles .tile:not(.phototile) {

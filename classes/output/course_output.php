@@ -43,70 +43,70 @@ class course_output implements \renderable, \templatable {
      * Course object for this class
      * @var \stdClass
      */
-    private $course;
+    protected $course;
     /**
      * Whether this class is called from fragment API
      * @var bool
      */
-    private $fromajax;
+    protected $fromajax;
     /**
      * The section number of the section we want to display
      * @var int
      */
-    private $sectionnum;
+    protected $sectionnum;
     /**
      * The course renderer object
      * @var \renderer_base
      */
-    private $courserenderer;
+    protected $courserenderer;
 
     /**
      * Course Module IDs for which modal windows should be used.
      * @var array of CM IDs
      */
-    private array $modalscmids;
+    protected array $modalscmids;
 
     /**
      * User's device type e.g. DEVICE_TYPE_MOBILE ('mobile')
      * @var string
      */
-    private $devicetype;
+    protected $devicetype;
 
     /**
      * The course format.
      * @var string
      */
-    private $format;
+    protected $format;
 
     /**
      * @var \course_modinfo|null
      */
-    private $modinfo;
+    protected $modinfo;
 
     /**
      * @var bool
      */
-    private $isediting;
+    protected $isediting;
 
     /**
      * @var bool
      */
-    private $canviewhidden;
+    protected $canviewhidden;
 
     /**
      * @var \context_course
      */
-    private $coursecontext;
+    protected $coursecontext;
 
     /**
      * @var \completion_info
      */
-    private $completioninfo;
+    protected $completioninfo;
 
     /**
      * @var bool
      */
-    private $completionenabled;
+    protected $completionenabled;
 
     /**
      * @var mixed
@@ -117,13 +117,13 @@ class course_output implements \renderable, \templatable {
      * Sometimes to avoid having multiple versions of this plugin we need to know current moodle release e.g. 4.3
      * @var float
      */
-    private $moodlerelease;
+    protected $moodlerelease;
 
     /**
      * Whether we are using javascript animated navigation.
      * @var bool
      */
-    private $usingjsnav;
+    protected $usingjsnav;
 
     /**
      * Identifier of the standard tile style (see settings.php).
@@ -220,7 +220,7 @@ class course_output implements \renderable, \templatable {
      * @throws \coding_exception
      * @throws \dml_exception
      */
-    private function get_basic_data() {
+    protected function get_basic_data() {
         global $SESSION, $USER;
         $data = ['editorwarnings' => []];
         $data['canedit'] = has_capability('moodle/course:update', $this->coursecontext);
@@ -275,7 +275,7 @@ class course_output implements \renderable, \templatable {
      * @param object $section
      * @return string
      */
-    private function temp_format_summary_text($section) {
+    protected function temp_format_summary_text($section) {
         $summarytext = file_rewrite_pluginfile_urls($section->summary, 'pluginfile.php',
             $this->coursecontext->id, 'course', 'section', $section->id);
 
@@ -291,7 +291,7 @@ class course_output implements \renderable, \templatable {
      * @return string|null
      * @throws \coding_exception
      */
-    private function temp_section_activity_summary($section): ?string {
+    protected function temp_section_activity_summary($section): ?string {
         $widgetclass = $this->format->get_output_classname('content\\section\\cmsummary');
         $widget = new $widgetclass($this->format, $section);
         $result = $this->courserenderer->render($widget);
@@ -304,7 +304,7 @@ class course_output implements \renderable, \templatable {
      * @return string|null
      * @throws \coding_exception
      */
-    private function temp_section_availability_message($section): ?string {
+    protected function temp_section_availability_message($section): ?string {
         $widgetclass = $this->format->get_output_classname('content\\section\\availability');
         $widget = new $widgetclass($this->format, $section);
         $result = $this->courserenderer->render($widget);
@@ -317,7 +317,7 @@ class course_output implements \renderable, \templatable {
      * @return bool|string
      * @throws \coding_exception
      */
-    private function temp_course_section_cm_availability($mod) {
+    protected function temp_course_section_cm_availability($mod) {
         if ($this->courseformatoptions['courseusesubtiles']) {
             // Subtiles show a badge on the tile with a tool tip including full info.
             // This needs not to be truncated, whereas core $availabilityclass below will truncate it.
@@ -352,7 +352,7 @@ class course_output implements \renderable, \templatable {
      * @throws \dml_exception
      * @throws \moodle_exception
      */
-    private function append_section_zero_data($data, $output) {
+    protected function append_section_zero_data($data, $output) {
         $seczero = $this->modinfo->get_section_info(0);
         $coursemods = $this->section_course_mods($seczero, $output);
         $sectioninfo = $this->modinfo->get_section_info(0);
@@ -383,7 +383,7 @@ class course_output implements \renderable, \templatable {
      * @param bool $fromajax is this request from AJAX.
      * @return array
      */
-    private function get_course_format_options($fromajax) {
+    protected function get_course_format_options($fromajax) {
         // Custom course settings not in course object if called from AJAX, so make sure we get them.
         $options = [
             'defaulttileicon', 'basecolour', 'courseusesubtiles', 'courseshowtileprogress',
@@ -416,8 +416,9 @@ class course_output implements \renderable, \templatable {
      * @throws \dml_exception
      * @throws \moodle_exception
      */
-    private function append_single_section_page_data($output, $data) {
+    protected function append_single_section_page_data($output, $data) {
         // If we have nothing to output, don't.
+        $data['is_single_section'] = true;
         if (!($thissection = $this->modinfo->get_section_info($this->sectionnum))) {
             // This section doesn't exist.
             debugging('Unknown course section ' . $this->sectionnum, DEBUG_DEVELOPER);
@@ -511,7 +512,7 @@ class course_output implements \renderable, \templatable {
      * @throws \dml_exception
      * @throws \moodle_exception
      */
-    private function append_multi_section_page_data($data) {
+    protected function append_multi_section_page_data($data) {
         $data['is_multi_section'] = true;
         $data['tiles'] = [];
 
@@ -783,7 +784,7 @@ class course_output implements \renderable, \templatable {
      * @param string $title to truncated
      * @return string truncated
      */
-    private function truncate_title($title) {
+    protected function truncate_title($title) {
         $maxtitlelength = 75;
         if (strlen($title) >= $maxtitlelength) {
             $lastspace = strripos(substr($title, 0, $maxtitlelength), ' ');
@@ -800,7 +801,7 @@ class course_output implements \renderable, \templatable {
      * @param bool $remove if we want just to remove the flag (no need to line break), pass true.
      * @return string
      */
-    private function apply_linebreak_filter(string $text, $remove = false) {
+    protected function apply_linebreak_filter(string $text, $remove = false) {
         $zerowidthspace = '&#8288;';
         $maxwidthfortilechars = 15;
         if (!$remove && strlen($text) > $maxwidthfortilechars) {
@@ -825,7 +826,7 @@ class course_output implements \renderable, \templatable {
      * @throws \dml_exception
      * @throws \moodle_exception
      */
-    private function section_course_mods($section, $output): object {
+    protected function section_course_mods($section, $output): object {
         $result = (object)['mods' => [], 'jsfooter' => ''];
         if (!isset($section->section)) {
             debugging("section->section is not set", DEBUG_DEVELOPER);
@@ -873,7 +874,7 @@ class course_output implements \renderable, \templatable {
      * @throws \dml_exception
      * @throws \moodle_exception
      */
-    private function course_module_data($mod, $section, $previouswaslabel, $isfirst, $output): array {
+    protected function course_module_data($mod, $section, $previouswaslabel, $isfirst, $output): array {
         global $CFG, $DB;
         $displayoptions = [];
         $obj = new \core_courseformat\output\local\content\section\cmitem($this->format, $section, $mod, $displayoptions);
@@ -1086,7 +1087,7 @@ class course_output implements \renderable, \templatable {
      * @param int $currentsectionnum the section number of the section we are in.
      * @return array previous and next section numbers.
      */
-    private function get_previous_next_section_ids(int $currentsectionnum): array {
+    protected function get_previous_next_section_ids(int $currentsectionnum): array {
         $visiblesectionids = [];
         $currentsectionarrayindex = -1;
         foreach ($this->modinfo->get_section_info_all() as $section) {

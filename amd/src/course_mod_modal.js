@@ -43,7 +43,7 @@ define(["jquery", "core/modal_factory", "core/config", "core/templates", "core/n
             modalDialog: ".modal-dialog",
             modalBody: ".modal-body",
             sectionMain: ".section.main",
-            pageContent: "#page-content",
+            pageContent: "#page",
             regionMain: "#region-main",
             completionState: "#completion-check-",
             cmModal: ".embed_cm_modal",
