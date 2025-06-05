@@ -682,3 +682,9 @@ Other
 5.0.0.12 (2025060262)
 =====================
 - Use section.php page to show single section when animated navigation is off
+
+5.0.0.13 (2025060263)
+=====================
+- More adaptation to use section.php for single section when animated nav is off.
+    - Move sec zero and arrows to top
+    - Tidy appearance
