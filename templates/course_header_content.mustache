@@ -31,10 +31,10 @@
     <div class="d-none d-sm-block">
 
     </div>
-    <div class="w-100"></div>
-    <div id="section-zero-container" class="w-100 {{^usingjsnav}}format-tiles-no-js{{/usingjsnav}}{{^section_zero_show}} section-zero-empty{{/section_zero_show}}">
-        <div class="row">
-            <div class="col-sm-11">{{> format_tiles/section_zero}}</div>
+    {{#section_zero_show}}
+        <div class="w-100"></div>
+        <div id="section-zero-container" class="w-100 {{^usingjsnav}}format-tiles-no-js{{/usingjsnav}}{{^section_zero_show}} section-zero-empty{{/section_zero_show}}">
+            {{> format_tiles/section_zero}}
         </div>
-    </div>
+    {{/section_zero_show}}
 </div>
