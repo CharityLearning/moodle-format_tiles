@@ -42,6 +42,12 @@ $context = context_course::instance($course->id);
 // Variable $displaysection should already be set from course/view.php but we override anyway.
 $displaysection = optional_param('section', 0, PARAM_INT);
 if (!empty($displaysection)) {
+    if ($PAGE->url->compare(new \moodle_url('/course/view.php'), URL_MATCH_BASE)) {
+        debugging(
+            'Passing section param to course.view.php is deprecated.  Use /course/section.php?id={sectionid} instead',
+            DEBUG_DEVELOPER
+        );
+    }
     $format->set_sectionnum($displaysection);
 }
 
