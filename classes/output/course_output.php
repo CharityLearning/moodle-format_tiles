@@ -198,7 +198,7 @@ class course_output implements \renderable, \templatable {
         // Now we can go off and get the specific data for the single or multiple page as required.
 
         // Only show section zero if we need it.
-        $onmultisectionpage = !($this->sectionnum ?? false);
+        $onmultisectionpage = $this->sectionnum === null;
         $processsectionzero = $onmultisectionpage || get_config('format_tiles', 'showseczerocoursewide');
         if ($processsectionzero) {
             // Only show section 0 on multi section page, or single sec page with admin setting to show course wide.
@@ -1103,7 +1103,7 @@ class course_output implements \renderable, \templatable {
         }
 
         // If $currentsectionarrayindex is zero, this means we are on the first available section so there is no "previous".
-        $previous = $currentsectionarrayindex == 0 ? 0 : $visiblesectionids[$currentsectionarrayindex - 1];
+        $previous = $currentsectionarrayindex <= 0 ? 0 : $visiblesectionids[$currentsectionarrayindex - 1];
 
         // If there is no item at the next index, there is no "next" (so set next to zero).
         $next = $visiblesectionids[$currentsectionarrayindex + 1] ?? 0;

@@ -229,15 +229,6 @@
     display: none;
 }
 
-.format-tiles .navigation-arrows {
-    min-width: 130px;
-    display: inline-block;
-    float: right;
-    margin-right: 40px;
-    z-index: 2;
-    /*z-index needs to be on top of pagesechead*/
-}
-
 .format-tiles #page .course-content  ul li.section.main.current {
     background-color: inherit;
 }
@@ -671,30 +662,6 @@
 .format-tiles .single-section  .navigation-arrow:not(.dimmed):hover {
     transition: all 0.2s ease-in-out;
     transform: scale(1.05, 1.05);
-}
-
-.format-tiles .single-section .navigation-arrow,
-.format-tiles  .single-section .navigation-arrow img {
-    width: 40px;
-    height: 40px;
-    background-repeat: no-repeat;
-    display: inline-block;
-    text-align: center;
-}
-.format-tiles .single-section .navigation-arrow .icon {
-    font-size: 30px;
-    height: 35px;
-    width: 35px;
-    padding: 2px 3px 2px 3px;
-}
-.format-tiles .single-section .navigation-arrow.dimmed {
-    opacity: 0.5;
-}
-.format-tiles .navigation-arrows .navigation-arrow.dimmed:hover {
-    background-color: inherit;
-}
-.format-tiles .single-section .navigation-arrow {
-    color: grey;
 }
 
 /* the following items are to avoid lots of padding under section 0 in single section view */
@@ -1502,12 +1469,14 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     padding-top: 3px;
     padding-bottom: 3px;
 }
-.format-tiles .above-tiles-buttons a.dropdown-item .custom-switch.checked .custom-control-label::before {
+.format-tiles .above-tiles-buttons a.dropdown-item .custom-switch.checked .custom-control-label::before,
+.format-tiles .navigation-arrows a.dropdown-item .custom-switch.checked .custom-control-label::before {
     color: #fff;
     border-color: #0f6cbf;
     background-color: #0f6cbf;
 }
-.format-tiles .above-tiles-buttons a.dropdown-item .custom-switch.checked .custom-control-label::after {
+.format-tiles .above-tiles-buttons a.dropdown-item .custom-switch.checked .custom-control-label::after,
+.format-tiles .navigation-arrows a.dropdown-item .custom-switch.checked .custom-control-label::after {
     background-color: #fff;
     left: -1.75rem;
 }
