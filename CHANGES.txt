@@ -682,3 +682,7 @@ On section.php:
     - Fix section zero reduced width
     - Fix animated nav toggle colour
     - Respect setting to show section 0 course wide
+
+4.5.0.19 (2025060256)
+=====================
+- Adjust modal cm JS for section.php
