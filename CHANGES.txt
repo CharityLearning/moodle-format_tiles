@@ -693,4 +693,11 @@ Other
 =====================
 - Run grunt AMD missing from last version
 
-
+5.0.0.15 (2025060265)
+=====================
+- More adaptation to use section.php for single section when animated nav is off.
+    - Move sec zero and arrows to top
+    - Tidy appearance
+    - Fix section zero reduced width
+    - Fix animated nav toggle colour
+    - Respect setting to show section 0 course wide
