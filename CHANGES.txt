@@ -675,3 +675,10 @@ Other
 - More adaptation to use section.php for single section when animated nav is off.
     - Move sec zero and arrows to top
     - Tidy appearance
+
+4.5.0.18 (2025060255)
+=====================
+On section.php:
+    - Fix section zero reduced width
+    - Fix animated nav toggle colour
+    - Respect setting to show section 0 course wide
