@@ -707,3 +707,11 @@ Other
 - If user is editing, ignore setting to show sec zero at top of every section.php page
 - If user requests course/view.php?section=xx, redirect to course/section.php
 - Improve modal JS on section.php page
+
+5.0.0.17 (2025060267)
+=====================
+- Admin setting to include subsection data in tile progress indicator - set to on.
+  (Was initially off by default to follow core, but seems illogical in the context of tiles so changing.)
+  (Admins can set this back to off if they prefer.)
+- Remove activity summary tooltip
+- Update Moodle docs link for activity completion settings
