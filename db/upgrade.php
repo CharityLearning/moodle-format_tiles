@@ -226,5 +226,13 @@ function xmldb_format_tiles_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2025041631, 'format', 'tiles');
     }
 
+    // Admin setting to include subsection data in tile progress indicator - set to on.
+    // Was initially off by default to follow core, but seems illogical in the context of tiles so changing.
+    // Setting was introduced in 2025052752.
+    if ($oldversion >= 2025052752 && $oldversion < 2025060267) {
+        set_config('progressincludesubsections', 1, 'format_tiles');
+        upgrade_plugin_savepoint(true, 2025060267, 'format', 'tiles');
+    }
+
     return true;
 }
