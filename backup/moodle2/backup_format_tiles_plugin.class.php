@@ -147,7 +147,7 @@ class backup_format_tiles_plugin extends backup_format_plugin {
 
         if (\format_tiles\local\course_section_manager::course_section_count_exceeds($courseid, $maxallowed * 5)) {
             // Course has a very high number of sections, so fail early, as probably en error and we avoid further work.
-            // This is a legacy check, included in 2020 to protect against issue 45 and should be very unlikely to happen now.
+            // Legacy check, included in 2020 to protect against issue 45 and should be very unlikely to happen now.
             // Check can probably be removed soon.
             \core\notification::error(get_string('restoretoomanysections', 'format_tiles', $maxallowed) . $admintoolsbutton);
             throw new moodle_exception('backupfailed', 'format_tiles', $admintoolsurl);
@@ -169,9 +169,11 @@ class backup_format_tiles_plugin extends backup_format_plugin {
                 $totalincluded++;
                 if ($totalincluded > $maxallowed * 5) {
                     // Allowing this section to go in the backup would mean we have too many secs - disallow.
-                    // This is a legacy check, included in 2020 to protect against issue 45 and should be very unlikely to happen now.
+                    // Legacy check, included in 2020 to protect against issue 45 and should be very unlikely to happen now.
                     // Check can probably be removed soon.
-                    \core\notification::error(get_string('restoretoomanysections', 'format_tiles', $maxsectionsconfig) . $admintoolsbutton);
+                    \core\notification::error(
+                        get_string('restoretoomanysections', 'format_tiles', $maxsectionsconfig) . $admintoolsbutton
+                    );
                     throw new moodle_exception('backupfailed', 'format_tiles', $admintoolsurl);
                 }
             }
