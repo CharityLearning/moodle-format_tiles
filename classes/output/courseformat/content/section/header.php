@@ -90,7 +90,7 @@ class header extends \core_courseformat\output\local\content\section\header {
 
         $data->ismoodle42minus = $moodlerelease <= 4.2;
         $data->ismoodle41minus = $moodlerelease <= 4.1;
-
+        $data->isdelegatedsection = $section->is_delegated() ?? false;
         return $data;
     }
 }
