@@ -757,9 +757,11 @@ class course_output implements \renderable, \templatable {
                     } else if ($issubsection && $includesubsectiondata) {
                         // Add completion data for the subsection to the parent section totals.
                         $delegatedsectioninfo = $thismod->get_delegated_section_info();
-                        $delegatedsectiondata = $this->section_progress($delegatedsectioninfo->sectionnum);
-                        $completed += $delegatedsectiondata['completed'];
-                        $outof += $delegatedsectiondata['outof'];
+                        if ($delegatedsectioninfo !== null && ($delegatedsectioninfo->sectionnum ?? null)) {
+                            $delegatedsectiondata = $this->section_progress($delegatedsectioninfo->sectionnum);
+                            $completed += $delegatedsectiondata['completed'];
+                            $outof += $delegatedsectiondata['outof'];
+                        }
                     }
                 }
             }
