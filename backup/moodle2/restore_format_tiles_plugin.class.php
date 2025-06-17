@@ -432,7 +432,7 @@ class restore_format_tiles_plugin extends restore_format_plugin {
                 $totalincluded++;
                 if ($totalincluded > ($maxallowed + 1) * 5) {
                     // Allowing this section would mean we have too many secs - disallow.
-                    // This is a legacy check, included in 2020 to protect against issue 45 and should be very unlikely to happen now.
+                    // Legacy check, included in 2020 to protect against issue 45 and should be very unlikely to happen now.
                     // Check can probably be removed soon.
                     \core\notification::error(get_string('restoretoomanysections', 'format_tiles', $maxallowed));
                     throw new moodle_exception('restoretoomanysections', 'format_tiles', '', $maxallowed);

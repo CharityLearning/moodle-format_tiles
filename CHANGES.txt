@@ -713,5 +713,11 @@ Other
 - Admin setting to include subsection data in tile progress indicator - set to on.
   (Was initially off by default to follow core, but seems illogical in the context of tiles so changing.)
   (Admins can set this back to off if they prefer.)
-- Remove activity summary tooltip
+- Issue 274 remove tooltip for activity summary
 - Update Moodle docs link for activity completion settings
+
+5.0.0.18 (2025060268)
+=====================
+- Issue 277 fix progress count error where no subsection data
+- Issue 276 remove subsection icon in edit mode
+- Simplify legacy excess sections check
