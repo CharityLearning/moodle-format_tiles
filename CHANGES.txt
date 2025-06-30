@@ -699,3 +699,7 @@ On section.php:
 - Issue 277 fix progress count error where no subsection data
 - Issue 276 remove subsection icon in edit mode
 - Simplify legacy excess sections check
+
+4.5.0.22 (2025060259)
+=====================
+- Fix missing activity description in modal for non-subtile activities
