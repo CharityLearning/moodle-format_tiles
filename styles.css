@@ -1826,12 +1826,6 @@ body.jsenabled.format-tiles #collapsiblesec0 {
     color: #0c0c0c;
     text-decoration: none;
 }
-
-#page-admin-setting-formatsettingtiles #docsbuttons {
-    float: right;
-    transform: translateY(-50px);
-    height: 0;
-}
 .format-tiles .course-content li.section .summary ul {
     list-style: disc;
 }
