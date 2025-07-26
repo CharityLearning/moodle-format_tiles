@@ -294,10 +294,16 @@ class course_output implements \renderable, \templatable {
      * @throws \coding_exception
      */
     protected function temp_section_availability_message($section): ?string {
-        $widgetclass = $this->format->get_output_classname('content\\section\\availability');
-        $widget = new $widgetclass($this->format, $section);
-        $result = $this->courserenderer->render($widget);
-        return trim(strip_tags($result)) ? $result : null;
+        $availabilityclass = $this->format->get_output_classname('content\\section\\availability');
+        $availability = new $availabilityclass($this->format, $section);
+        // If item is restricted, user needs to know why.
+        if ($availability->has_availability($this->courserenderer)) {
+            // We use strip_tags as we display the HTML in a title attribute.
+            $availabilitymessage = trim(strip_tags($this->courserenderer->render($availability)));
+            return $availabilitymessage ? $availabilitymessage : null;
+        } else if (!$section->visible) {
+            return get_string('hiddenfromstudents');
+        }
     }
 
     /**
@@ -308,20 +314,13 @@ class course_output implements \renderable, \templatable {
      */
     protected function temp_course_section_cm_availability($mod) {
         if ($this->courseformatoptions['courseusesubtiles']) {
-            // Subtiles show a badge on the tile with a tool tip including full info.
+            // Subtiles show a badge on the tile including full info.
             // This needs not to be truncated, whereas core $availabilityclass below will truncate it.
             // If there are multiple restrictions the tooltip on the subtile then shows them all.
             $ci = new \core_availability\info_module($mod);
             $fullinfo = $ci->get_full_information();
-            $description = \core_availability\info::format_info($fullinfo, $this->course);
-            if ($this->moodlerelease == 4.1) {
-                // In Moodle 4.1 activities with multiple restrictions are shown with a show more link.
-                // As that approach now deprecated, this is a quick/sub-optimal fix to remove "show more" link and un-hide items.
-                $description = str_replace('d-none', '', $description);
-                return str_replace('d-block showmore', 'd-none', $description);
-            } else {
-                return $description;
-            }
+            // We use strip_tags as we display the HTML in a title attribute.
+            return strip_tags(\core_availability\info::format_info($fullinfo, $this->course));
         }
         $availabilityclass = $this->format->get_output_classname('content\\cm\\availability');
         $availability = new $availabilityclass(
@@ -483,6 +482,7 @@ class course_output implements \renderable, \templatable {
         // If user can view hidden items, include the explanation as to why an item is hidden.
         if ($this->canviewhidden) {
             $data['availabilitymessage'] = self::temp_section_availability_message($thissection);
+            $data['hasavailability'] = $data['availabilitymessage'] !== null;
         }
         if ($isdelegatedsection) {
             $data['isdelegatedsection'] = true;
@@ -653,15 +653,8 @@ class course_output implements \renderable, \templatable {
                     }
                 }
                 if ($section->availability || !$section->visible) {
-                    $availabilityclass = $this->format->get_output_classname('content\\section\\availability');
-                    $availability = new $availabilityclass($this->format, $section);
-                    // If item is restricted, user needs to know why.
-                    if ($availability->has_availability($this->courserenderer)) {
-                        $newtile['hasavailability'] = true;
-                        $newtile['availabilitymessage'] = $this->courserenderer->render($availability);
-                    } else if (!$section->visible) {
-                        $newtile['availabilitymessage'] = get_string('hiddenfromstudents');
-                    }
+                    $newtile['availabilitymessage'] = self::temp_section_availability_message($section);
+                    $newtile['hasavailability'] = $newtile['availabilitymessage'] !== null;
                 }
                 if ($usingoutcomesfilter) {
                     $newtile['tileoutcomeid'] = $section->tileoutcomeid;
