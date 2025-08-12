@@ -42,6 +42,6 @@
 }}
 <div class="availabilityinfo isrestricted isfullinfo">
     <span class="badge rounded-pill bg-secondary text-dark" {{#visible}}
-        {{#availabilitymessage}}title="{{availabilitymessage}}"{{/availabilitymessage}}
+        {{#availabilitymessage}}title="{{availabilitymessage}}" data-bs-html="true" data-bs-toggle="tooltip"{{/availabilitymessage}}
     {{/visible}}>{{^visible}}{{#str}}hiddenfromstudents{{/str}}{{/visible}}{{#visible}}{{#str}}restricted{{/str}}{{/visible}}</span>
 </div>

@@ -291,11 +291,11 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                 }
 
                 if (!isMobile) {
-                    // Activate tooltips for completion toggle and any "restricted" items in this content.
+                    // Activate tooltips for any "restricted" items in this content.
                     setTimeout(function () {
                         // Manual forms, auto icons and "Restricted until ..." etc.
                         try {
-                            const tooltipItems = contentArea.find(".badge-info");
+                            const tooltipItems = contentArea.find(".availabilityinfo .badge");
                             if (tooltipItems.length > 0 && typeof tooltipItems.tooltip == 'function') {
                                 tooltipItems.tooltip();
                             }

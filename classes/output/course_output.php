@@ -294,16 +294,10 @@ class course_output implements \renderable, \templatable {
      * @throws \coding_exception
      */
     protected function temp_section_availability_message($section): ?string {
-        $availabilityclass = $this->format->get_output_classname('content\\section\\availability');
-        $availability = new $availabilityclass($this->format, $section);
-        // If item is restricted, user needs to know why.
-        if ($availability->has_availability($this->courserenderer)) {
-            // We use strip_tags as we display the HTML in a title attribute.
-            $availabilitymessage = trim(strip_tags($this->courserenderer->render($availability)));
-            return $availabilitymessage ? $availabilitymessage : null;
-        } else if (!$section->visible) {
-            return get_string('hiddenfromstudents');
-        }
+        $widgetclass = $this->format->get_output_classname('content\\section\\availability');
+        $widget = new $widgetclass($this->format, $section);
+        $result = $this->courserenderer->render($widget);
+        return trim(strip_tags($result)) ? $result : null;
     }
 
     /**
@@ -319,8 +313,7 @@ class course_output implements \renderable, \templatable {
             // If there are multiple restrictions the tooltip on the subtile then shows them all.
             $ci = new \core_availability\info_module($mod);
             $fullinfo = $ci->get_full_information();
-            // We use strip_tags as we display the HTML in a title attribute.
-            return strip_tags(\core_availability\info::format_info($fullinfo, $this->course));
+            return \core_availability\info::format_info($fullinfo, $this->course);
         }
         $availabilityclass = $this->format->get_output_classname('content\\cm\\availability');
         $availability = new $availabilityclass(
@@ -653,8 +646,15 @@ class course_output implements \renderable, \templatable {
                     }
                 }
                 if ($section->availability || !$section->visible) {
-                    $newtile['availabilitymessage'] = self::temp_section_availability_message($section);
-                    $newtile['hasavailability'] = $newtile['availabilitymessage'] !== null;
+                    $availabilityclass = $this->format->get_output_classname('content\\section\\availability');
+                    $availability = new $availabilityclass($this->format, $section);
+                    // If item is restricted, user needs to know why.
+                    if ($availability->has_availability($this->courserenderer)) {
+                        $newtile['hasavailability'] = true;
+                        $newtile['availabilitymessage'] = $this->courserenderer->render($availability);
+                    } else if (!$section->visible) {
+                        $newtile['availabilitymessage'] = get_string('hiddenfromstudents');
+                    }
                 }
                 if ($usingoutcomesfilter) {
                     $newtile['tileoutcomeid'] = $section->tileoutcomeid;
