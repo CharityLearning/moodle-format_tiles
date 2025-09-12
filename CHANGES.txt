@@ -712,3 +712,7 @@ On section.php:
 4.5.0.24 (2025070351)
 =====================
 - Issue 289 fix page not scrolling when open tile
+
+4.5.0.25 (2025070352)
+=====================
+- Avoid deprecation warning
