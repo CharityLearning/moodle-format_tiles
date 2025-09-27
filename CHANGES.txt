@@ -716,3 +716,7 @@ On section.php:
 4.5.0.25 (2025070352)
 =====================
 - Avoid deprecation warning
+
+4.5.0.26 (2025070353)
+=====================
+- Issue 291 and 292 fix malfunctioning modal iframe URL for file activities
