@@ -66,6 +66,7 @@ Feature: Sections can be edited and deleted in tiles format
     And I delete section "5"
     Then I should see section confirm delete message for "Tile 5"
     And I click on "Delete" "button" in the ".modal" "css_element"
+    And I am on "Edit Delete Secs Course" course homepage
     And I should not see "Tile 5"
     And I should see "Tile 4"
 
@@ -73,6 +74,7 @@ Feature: Sections can be edited and deleted in tiles format
     And I wait "1" seconds
     And I delete section "4"
     And I click on "Delete" "button" in the ".modal" "css_element"
+    And I am on "Edit Delete Secs Course" course homepage
     Then I should not see "Tile 5"
     And I should see "Tile 4"
 

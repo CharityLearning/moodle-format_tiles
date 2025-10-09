@@ -17,12 +17,13 @@ Once installed:
 
 ## Branches
 
-At the time of writing (July 2025) the following branches were being maintained:
+At the time of writing (October 2025) the following branches were being maintained:
 
 | Moodle version | Tiles branch    |
 |----------------|-----------------|
 | 4.5 LTS        | moodle45        |
-| 5.0            | master/moodle50 |
+| 5.0            | moodle50        |
+| 5.1            | master/moodle51 |
 
 The following branches are in the repo but are no longer receiving updates:
 

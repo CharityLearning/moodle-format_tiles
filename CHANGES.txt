@@ -745,3 +745,7 @@ Other
 5.0.0.23 (2025070364)
 =====================
 - Issue 291 and 292 fix malfunctioning modal iframe URL for file activities
+
+5.1.0.0 (2025100900)
+====================
+- Moodle 5.1 compatibility

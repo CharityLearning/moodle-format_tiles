@@ -451,6 +451,8 @@
     border-radius: 100%;
     width: 105px;
     height: 105px;
+    max-width: 105px;
+    max-height: 105px;
     text-align: center;
     margin-top: 25px;
 }

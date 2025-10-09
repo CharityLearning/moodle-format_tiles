@@ -523,10 +523,6 @@ class course_output implements \renderable, \templatable {
             $phototileextraclasses = '';
         }
 
-        $maxallowedsections = $this->format->get_max_sections();
-        $sectioncountwarningissued = false;
-
-        $previoustiletitle = '';
         $countincludedsections = 0;
         $uselinebreakfilter = get_config('format_tiles', 'enablelinebreakfilter');
         $secsall = $this->modinfo->get_section_info_all();
@@ -543,28 +539,6 @@ class course_output implements \renderable, \templatable {
             // Show the section if the user is permitted to access it, OR if it's not available
             // but there is some available info text which explains the reason & should display,
             // OR it is hidden but the course has a setting to display hidden sections as unavilable.
-
-            // If we have sections with numbers greater than the max allowed, do not show them unless teacher.
-            // (Showing more to editors allows editor to fix them).
-            if ($countincludedsections >= $maxallowedsections) {
-                if (!$data['canedit']) {
-                    // Do not show them to students at all.
-                    break;
-                } else {
-                    if (!$sectioncountwarningissued) {
-                        $a = new \stdClass();
-                        $a->max = $maxallowedsections;
-                        $a->tilename = $previoustiletitle;
-                        \core\notification::error(get_string('coursetoomanysections', 'format_tiles', $a));
-                        $sectioncountwarningissued = true;
-                    }
-                    if ($countincludedsections > $maxallowedsections * 2) {
-                        // Even if the user is editing, if we have a *very* large number of sections, we only show 2 x that number.
-                        $data['showsectioncountwarning'] = true;
-                        break;
-                    }
-                }
-            }
 
             $isphototile = $allowedphototiles && in_array($section->id, $phototileids);
             $showsection = $section->uservisible ||
@@ -661,15 +635,14 @@ class course_output implements \renderable, \templatable {
                 }
                 // See below about when "hide add cm control" is true.
                 $newtile['hideaddcmcontrol'] = false;
-                $newtile['single_sec_add_cm_control_html'] = $this->courserenderer->course_section_add_cm_control(
-                    $this->course, $section->section, 0
+                $newtile['single_sec_add_cm_control_html'] = $this->courserenderer->section_add_cm_controls(
+                    $this->format, $section
                 );
 
                 $newtile['is_expanded'] = false;
 
                 // Finally add tile we constructed to the array.
                 $data['tiles'][] = $newtile;
-                $previoustiletitle = $title;
             } else if ($sectionnum == 0) {
                 // Add in section zero completion data to overall completion count.
                 if ($section->visible && $this->completionenabled) {
@@ -704,7 +677,7 @@ class course_output implements \renderable, \templatable {
         }
         $data['has_filter_buttons'] = !empty($data['filternumberedbuttons']) || !empty($data['filteroutcomebuttons']);
 
-        $data['section_zero_add_cm_control_html'] = $this->courserenderer->course_section_add_cm_control($this->course, 0, 0);
+        $data['section_zero_add_cm_control_html'] = $this->courserenderer->section_add_cm_controls($this->format, $secsall[0]);
         if ($this->completionenabled && $data['overall_progress']['num_out_of'] > 0) {
             if (get_config('format_tiles', 'showoverallprogress')) {
                 $data['overall_progress_indicator'] = $this->completion_indicator(

@@ -345,7 +345,7 @@ final class format_tiles_test extends \advanced_testcase {
             'filename' => basename('test.txt'), 'filepath' => '/',
         ];
         $fs = get_file_storage();
-        $fs->create_file_from_pathname($filerecord, $textfilepath);
+        $fs->create_file_from_pathname($filerecord, "$CFG->dirroot/$textfilepath");
 
         // At this point we added the HTML file so the PDF should still be the main file so it's still a modal activity.
         $this->assertEquals(
@@ -359,7 +359,7 @@ final class format_tiles_test extends \advanced_testcase {
             'filename' => basename('test2.pdf'), 'filepath' => '/',
         ];
         $fs = get_file_storage();
-        $fs->create_file_from_pathname($filerecord, $pdffilepath);
+        $fs->create_file_from_pathname($filerecord, "$CFG->dirroot/$pdffilepath");
 
         // At this point we added a text file and another PDF.
         // The original PDF should still be the main file so it's still a modal activity.
