@@ -835,7 +835,10 @@ class course_output implements \renderable, \templatable {
         $displayoptions = [];
         $obj = new \core_courseformat\output\local\content\section\cmitem($this->format, $section, $mod, $displayoptions);
         $moduleobject = (array)$obj->export_for_template($output);
-        if ($this->canviewhidden) {
+        if (!$mod->is_of_type_that_can_display()) {
+            $moduleobject['uservisible'] = false;
+            $moduleobject['clickable'] = false;
+        } else if ($this->canviewhidden) {
             $moduleobject['uservisible'] = true;
             $moduleobject['clickable'] = true;
         } else if (!$mod->uservisible && $mod->is_visible_on_course_page() && $mod->availableinfo && $mod->visible) {
