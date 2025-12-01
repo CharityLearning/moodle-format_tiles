@@ -27,8 +27,8 @@
  */
 
 define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
-        "core/notification", "core/str", "format_tiles/tile_fitter", 'core/fragment'],
-    function ($, Templates, ajax, browserStorage, Notification, str, tileFitter, Fragment) {
+        "core/notification", "core/str", "format_tiles/tile_fitter", 'core/fragment', 'core_filters/events'],
+    function ($, Templates, ajax, browserStorage, Notification, str, tileFitter, Fragment, FilterEvents) {
         "use strict";
 
         var isMobile;
@@ -320,6 +320,8 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                         }
                     });
                 }, 100);
+
+                FilterEvents.notifyFilterContentUpdated(contentArea);
             }
             setTimeout(() => {
                 if (js) {
@@ -334,8 +336,6 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                         Templates.runTemplateJS(js);
                     }
                 }
-
-                applyMathJax(contentArea);
 
                 const moodleVideos = contentArea.find(Selector.MOODLE_VIDEO);
                 if (moodleVideos.length > 0) {
@@ -366,26 +366,6 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
             });
         };
 
-        /**
-         * Find Mathjax equations in a content area and queue them for processing.
-         * @param {Object} contentArea the jquery object for the content area
-         */
-        const applyMathJax = function(contentArea) {
-            if (typeof window.MathJax !== "undefined") {
-                try {
-                    const mathJaxElems = contentArea.find(Selector.MATHJAX_EQUATION);
-                    if (mathJaxElems.length) {
-                        mathJaxElems.each((i, node) => {
-                            window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, node]);
-                        });
-                    }
-                } catch (err) {
-                    require(["core/log"], function (log) {
-                        log.debug(err);
-                    });
-                }
-            }
-        };
 
         /**
          * Expand a content containing section (e.g. on tile click)
