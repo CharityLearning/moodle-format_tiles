@@ -745,3 +745,7 @@ Other
 5.0.0.23 (2025070364)
 =====================
 - Issue 291 and 292 fix malfunctioning modal iframe URL for file activities
+
+5.0.0.24 (2025120160)
+=====================
+- Issue 91 Mathjax not loading in labels (on section re-open)
