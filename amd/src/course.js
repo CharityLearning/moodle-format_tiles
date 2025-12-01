@@ -328,9 +328,7 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
                     // User may be opening same section multiple times so avoid adding same script again.
                     const head = $('head');
                     const existingScripts = head.find('script').filter(
-                        (index, script) => {
-                            return $(script).html() === js;
-                        }
+                        (index, script) => {return $(script).html() === js;}
                     );
                     if (existingScripts.length === 0) {
                         Templates.runTemplateJS(js);
@@ -339,11 +337,6 @@ define(["jquery", "core/templates", "core/ajax", "format_tiles/browser_storage",
 
                 const moodleVideos = contentArea.find(Selector.MOODLE_VIDEO);
                 if (moodleVideos.length > 0) {
-                    // This already happens once on page load, but we repeat since reloaded HTML containing lazy load videos.
-                    require(["media_videojs/loader"], function (videoJS) {
-                        videoJS.setUp();
-                    });
-
                     // Issue 87 - If video fullscreen button is pressed, temporarily disable tile re-orgs on screen resize.
                     const fsEvents = ['fullscreenchange', 'webkitfullscreenchang', 'mozfullscreenchange', 'msfullscreenchange'];
                     fsEvents.forEach(function (ev) {
